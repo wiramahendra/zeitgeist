@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0",
+  "incident": {
+    "schemaVersion": "1.0",
+    "id": "synthetic-checkout-timeout",
+    "startedAt": "2026-08-01T02:40:00Z",
+    "signal": "checkout request error rate above 10%",
+    "affectedService": "checkout-api",
+    "environment": "synthetic-test",
+    "synthetic": "SYNTHETIC_TEST_ONLY"
+  },
+  "facts": [
+    {
+      "id": "fact-errors",
+      "kind": "error-summary",
+      "subject": "checkout-api",
+      "summary": "83 upstream timeouts reference inventory-api in the observed window.",
+      "attributes": {
+        "count": 83
+      },
+      "evidenceIds": ["ev-error-001"]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-08-01T02:39:12Z",
+      "eventType": "deployment-started",
+      "subject": "checkout-api-v184",
+      "evidenceIds": ["ev-deploy-001"]
+    },
+    {
+      "timestamp": "2026-08-01T02:40:05Z",
+      "eventType": "error-observed",
+      "subject": "checkout-api",
+      "evidenceIds": ["ev-error-001"]
+    }
+  ],
+  "recentChanges": [
+    {
+      "id": "change-deploy",
+      "kind": "deployment",
+      "subject": "checkout-api-v184",
+      "summary": "Deployment checkout-api-v184 began before the incident signal.",
+      "attributes": {
+        "commit": "abc123"
+      },
+      "evidenceIds": ["ev-deploy-001"]
+    }
+  ],
+  "errors": [
+    {
+      "id": "error-upstream-timeout",
+      "kind": "error-summary",
+      "subject": "checkout-api",
+      "summary": "Observed UpstreamTimeout errors name inventory-api.",
+      "attributes": {
+        "errorClass": "UpstreamTimeout"
+      },
+      "evidenceIds": ["ev-error-001"]
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "dependency-inventory",
+      "from": "checkout-api",
+      "to": "inventory-api",
+      "relationship": "observed-upstream-name",
+      "evidenceIds": ["ev-error-001"]
+    }
+  ],
+  "evidenceReferences": ["ev-deploy-001", "ev-error-001"]
+}

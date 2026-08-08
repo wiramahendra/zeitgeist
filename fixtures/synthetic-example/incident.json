@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "id": "synthetic-checkout-timeout",
+  "startedAt": "2026-08-01T02:40:00Z",
+  "signal": "checkout request error rate above 10%",
+  "affectedService": "checkout-api",
+  "environment": "synthetic-test",
+  "synthetic": "SYNTHETIC_TEST_ONLY"
+}

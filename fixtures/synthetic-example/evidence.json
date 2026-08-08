@@ -1,0 +1,35 @@
+[
+  {
+    "id": "ev-deploy-001",
+    "source": "synthetic-deployment-log",
+    "type": "deployment",
+    "timestamp": "2026-08-01T02:39:12Z",
+    "subject": "checkout-api-v184",
+    "attributes": {
+      "commit": "abc123",
+      "image": "checkout-api:test-v184"
+    },
+    "sourceReference": {
+      "uri": "fixture://synthetic-example/deployment/checkout-api-v184",
+      "locator": "record-1",
+      "capturedAt": "2026-08-01T03:30:00Z"
+    }
+  },
+  {
+    "id": "ev-error-001",
+    "source": "synthetic-log-export",
+    "type": "error-summary",
+    "timestamp": "2026-08-01T02:40:05Z",
+    "subject": "checkout-api",
+    "attributes": {
+      "errorClass": "UpstreamTimeout",
+      "upstream": "inventory-api",
+      "count": 83
+    },
+    "sourceReference": {
+      "uri": "fixture://synthetic-example/logs/summary",
+      "locator": "window-0240-0245",
+      "capturedAt": "2026-08-01T03:30:00Z"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0",
+  "rootCauseCategory": "upstream-timeout",
+  "affectedComponents": ["checkout-api"],
+  "triggerEntities": ["inventory-api"],
+  "acceptableDiagnoses": [
+    {
+      "id": "diagnosis-inventory-timeout",
+      "text": "checkout-api failed while waiting for inventory-api",
+      "deterministicTerms": ["checkout-api", "inventory-api", "timeout"]
+    }
+  ],
+  "requiredEvidence": ["ev-error-001"],
+  "acceptableRemediations": ["rollback-checkout-v184", "restore-inventory-capacity"]
+}

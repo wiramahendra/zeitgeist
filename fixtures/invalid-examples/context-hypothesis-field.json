@@ -1,0 +1,5 @@
+{
+  "schemaVersion": "1.0",
+  "synthetic": "SYNTHETIC_TEST_ONLY",
+  "hypothesis": "This forbidden field is present only to exercise fail-closed validation."
+}

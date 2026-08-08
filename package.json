@@ -1,0 +1,32 @@
+{
+  "name": "zeitgeist",
+  "version": "0.0.0-gate0a",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "bin": {
+    "zeitgeist": "./dist/cli/root.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "zeitgeist": "tsx src/cli/root.ts"
+  },
+  "dependencies": {
+    "@effect/cli": "0.77.0",
+    "@effect/platform": "0.97.1",
+    "@effect/platform-node": "0.108.1",
+    "effect": "3.22.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3",
+    "@types/ws": "8.18.1",
+    "tsx": "4.23.10",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10"
+  },
+  "packageManager": "pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee"
+}
