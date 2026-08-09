@@ -1,7 +1,7 @@
 import { Effect } from "effect"
 import type { Evidence } from "../domain/Evidence.js"
 import { IncidentContext, type IncidentContext as IncidentContextType } from "../domain/IncidentContext.js"
-import { decodePersisted } from "../domain/Common.js"
+import { decodePersistedFile } from "../domain/Common.js"
 import { ContextContainsHypothesis, ContextEvidenceReferenceMissing } from "../errors/ContextErrors.js"
 import { SchemaValidationFailed } from "../errors/DatasetErrors.js"
 import { contextByteSize, validateContextBudget } from "./ContextBudget.js"
@@ -31,8 +31,11 @@ export const decodeContext = (raw: unknown, path = "context.json") => {
   return Effect.gen(function* () {
     const forbiddenPath = findForbiddenInferencePath(raw)
     if (forbiddenPath !== undefined) yield* Effect.fail(new ContextContainsHypothesis({ path: forbiddenPath }))
-    return yield* decodePersisted(IncidentContext)(raw).pipe(
-      Effect.mapError(() => new SchemaValidationFailed({ path, reason: "Input does not match the strict IncidentContext contract" }))
+    return yield* decodePersistedFile(
+      IncidentContext,
+      raw,
+      path,
+      "Input does not match the strict IncidentContext contract"
     )
   })
 }

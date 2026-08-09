@@ -1,4 +1,6 @@
+import { Effect } from "effect"
 import * as Schema from "effect/Schema"
+import { SchemaValidationFailed } from "../errors/DatasetErrors.js"
 
 const rfc3339 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?Z$/
 
@@ -35,3 +37,13 @@ export const StringArray = Schema.Array(NonEmptyString)
 
 export const decodePersisted = <A, I, R>(schema: Schema.Schema<A, I, R>) =>
   Schema.decodeUnknown(schema, { onExcessProperty: "error" })
+
+export const decodePersistedFile = <A, I, R>(
+  schema: Schema.Schema<A, I, R>,
+  raw: unknown,
+  path: string,
+  reason = "Input does not match its strict persisted artifact contract"
+) =>
+  decodePersisted(schema)(raw).pipe(
+    Effect.mapError(() => new SchemaValidationFailed({ path, reason }))
+  )

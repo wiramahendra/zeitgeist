@@ -1,11 +1,11 @@
 import { FileSystem } from "@effect/platform"
-import { Effect, Schema } from "effect"
+import { Effect } from "effect"
 import { EvidenceCollection, type Evidence } from "../domain/Evidence.js"
 import { ExpectedOutcome, type ExpectedOutcome as ExpectedOutcomeType } from "../domain/ExpectedOutcome.js"
 import { Incident, type Incident as IncidentType } from "../domain/Incident.js"
-import { decodePersisted } from "../domain/Common.js"
+import { decodePersistedFile } from "../domain/Common.js"
 import type { IncidentContext } from "../domain/IncidentContext.js"
-import { DatasetMalformed, DatasetNotFound, SchemaValidationFailed } from "../errors/DatasetErrors.js"
+import { DatasetMalformed, DatasetNotFound } from "../errors/DatasetErrors.js"
 import { decodeContext } from "../context/ContextValidator.js"
 
 export interface IncidentDataset {
@@ -31,11 +31,6 @@ const readJson = (path: string) =>
     })
   })
 
-const decode = <A, I>(schema: Schema.Schema<A, I>, raw: unknown, path: string) =>
-  decodePersisted(schema)(raw).pipe(
-    Effect.mapError(() => new SchemaValidationFailed({ path, reason: "Input does not match its strict persisted artifact contract" }))
-  )
-
 export const loadIncidentDataset = (directory: string) =>
   Effect.gen(function* () {
     const incidentPath = `${directory}/incident.json`
@@ -47,10 +42,10 @@ export const loadIncidentDataset = (directory: string) =>
       { concurrency: 4 }
     )
     const [incident, evidence, context, expected] = yield* Effect.all([
-      decode(Incident, incidentRaw, incidentPath),
-      decode(EvidenceCollection, evidenceRaw, evidencePath),
+      decodePersistedFile(Incident, incidentRaw, incidentPath),
+      decodePersistedFile(EvidenceCollection, evidenceRaw, evidencePath),
       decodeContext(contextRaw, contextPath),
-      decode(ExpectedOutcome, expectedRaw, expectedPath)
+      decodePersistedFile(ExpectedOutcome, expectedRaw, expectedPath)
     ])
     return { directory, incident, evidence, context, expected, rawContext: contextRaw } satisfies IncidentDataset
   })
