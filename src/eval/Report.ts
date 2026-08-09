@@ -107,6 +107,12 @@ export const buildReport = (results: ReadonlyArray<EvaluationResult>): Evaluatio
 
 const display = (value: number | null): string => value === null ? "unavailable" : String(value)
 
+
+export const summarizeConditionDelta = (_control: ConditionMetrics, _manual: ConditionMetrics): string => {
+  // EXP-005 stub — incomplete
+  return ""
+}
+
 export const renderReportMarkdown = (report: EvaluationReport): string => `# Zeitgeist Gate 0 Evaluation Report
 
 Experiment status: **${report.experimentStatus}**
