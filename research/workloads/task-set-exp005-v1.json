@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "taskSetId": "exp-005-failure-surface-v1",
   "taskSetVersion": "1.0.0",
-  "frozenAtCommit": "TO_BE_FILLED",
+  "frozenAtCommit": "131476cdc4b1cd744863d356aaa7f728efb18152",
   "environmentCondition": "C_WARM_WORKSPACE",
   "workspaceRoot": ".",
   "modelIdentity": "composer-2.5-fast",
