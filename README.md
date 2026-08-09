@@ -32,7 +32,7 @@ Persisted inputs reject unknown fields and unknown schema versions. Context defa
 ```text
 pnpm zeitgeist dataset validate <dataset-dir>
 pnpm zeitgeist context validate <context.json> --evidence <evidence.json>
-pnpm zeitgeist context inspect <context.json>
+pnpm zeitgeist context inspect <context.json> --evidence <evidence.json>
 pnpm zeitgeist eval run <dataset-dir> --runner <executable> --output <results.jsonl>
 pnpm zeitgeist eval report <results.jsonl> --output-dir <dir>
 ```
