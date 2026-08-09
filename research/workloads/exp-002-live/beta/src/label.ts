@@ -1,3 +1,6 @@
-export const formatLabel = (_label: string, _value: string): string => {
-  throw new Error("not implemented")
+export const formatLabel = (label: string, value: string): string => {
+  if (label === "") {
+    return value
+  }
+  return `[${label}]: ${value}`
 }
