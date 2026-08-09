@@ -78,7 +78,10 @@ describe("evaluation core", () => {
     const loaded = await dataset()
     const runner = makeFakeRunner("fake-v1", () => correctResult)
     const result = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
-    expect(buildReport([result])).toEqual(buildReport([result]))
+    const first = buildReport([result])
+    const second = buildReport([result])
+    expect({ ...first, generatedAt: null }).toEqual({ ...second, generatedAt: null })
+    expect(first.generatedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/)
   })
 
   it("renders total evaluations as the sum of control and manual-context runs", async () => {
@@ -108,6 +111,7 @@ describe("evaluation core", () => {
     const report: EvaluationReport = {
       schemaVersion: "1.0",
       generatedFrom: "results.jsonl",
+      generatedAt: "2026-08-09T08:00:00.000Z",
       experimentStatus: "INCOMPLETE",
       completenessReasons: [],
       distinctResearchIncidents: 0,
