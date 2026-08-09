@@ -91,6 +91,19 @@ describe("evaluation core", () => {
     expect(markdown).toContain(`Total evaluations: ${report.control.runCount + report.manualContext.runCount}`)
   })
 
+  it("uses a configurable minimum incident count for completeness", async () => {
+    const loaded = await dataset()
+    const runner = makeFakeRunner("fake-v1", () => correctResult)
+    const result = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
+    expect(buildReport([result]).completenessReasons).toContain("Fewer than 10 distinct real incident results")
+    expect(buildReport([result], { minIncidents: 0 }).completenessReasons).not.toContain(
+      "Fewer than 0 distinct real incident results"
+    )
+    expect(buildReport([result], { minIncidents: 1 }).completenessReasons).toContain(
+      "Fewer than 1 distinct real incident results"
+    )
+  })
+
   it("shows needs human adjudication counts in report markdown", () => {
     const emptyMetrics = {
       runCount: 0,
