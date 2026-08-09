@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-004",
+  "frozenRepositoryCommit": "db5a57b",
+  "environmentCondition": "C_WARM_WORKSPACE",
+  "transcriptRunDirectory": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0",
+  "runs": [
+    {
+      "taskId": "real-alpha-scorer-tests",
+      "taskClass": "test_addition",
+      "runIndex": 0,
+      "cloudAgentBcId": "bc-67372411-e9ae-56f5-9d93-912ebfc4a6ff",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-67372411-e9ae-56f5-9d93-912ebfc4a6ff/transcript.json"
+    },
+    {
+      "taskId": "real-beta-timeline-tests",
+      "taskClass": "test_addition",
+      "runIndex": 1,
+      "cloudAgentBcId": "bc-e4cf0f9e-1ade-5756-9570-15bc39c01613",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-e4cf0f9e-1ade-5756-9570-15bc39c01613/transcript.json"
+    },
+    {
+      "taskId": "real-gamma-timeline-compare",
+      "taskClass": "refactor",
+      "runIndex": 2,
+      "cloudAgentBcId": "bc-d8487062-990f-5799-a830-21258403c672",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-d8487062-990f-5799-a830-21258403c672/transcript.json"
+    },
+    {
+      "taskId": "real-delta-canonical-edge",
+      "taskClass": "test_addition",
+      "runIndex": 3,
+      "cloudAgentBcId": "bc-cd716e02-1ac1-519b-a1a1-1e503745ddaf",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-cd716e02-1ac1-519b-a1a1-1e503745ddaf/transcript.json"
+    },
+    {
+      "taskId": "real-epsilon-reduction-metrics",
+      "taskClass": "test_addition",
+      "runIndex": 4,
+      "cloudAgentBcId": "bc-4fbe32dc-9da9-5473-8cb7-097ad39485a0",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-4fbe32dc-9da9-5473-8cb7-097ad39485a0/transcript.json"
+    },
+    {
+      "taskId": "real-zeta-report-total",
+      "taskClass": "feature_addition",
+      "runIndex": 5,
+      "cloudAgentBcId": "bc-6f507223-6032-54c6-af38-20a159d51988",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-6f507223-6032-54c6-af38-20a159d51988/transcript.json"
+    },
+    {
+      "taskId": "real-eta-inspect-unique",
+      "taskClass": "cross_cutting",
+      "runIndex": 6,
+      "cloudAgentBcId": "bc-9ca30023-3e9f-50d0-a912-b69fb0d300c1",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-9ca30023-3e9f-50d0-a912-b69fb0d300c1/transcript.json"
+    },
+    {
+      "taskId": "real-theta-budget-bytes",
+      "taskClass": "bug_fix",
+      "runIndex": 7,
+      "cloudAgentBcId": "bc-f0cb7d3d-e428-5af5-a6ec-2fd7b02c38c7",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-f0cb7d3d-e428-5af5-a6ec-2fd7b02c38c7/transcript.json"
+    },
+    {
+      "taskId": "real-iota-secret-message",
+      "taskClass": "validation_change",
+      "runIndex": 8,
+      "cloudAgentBcId": "bc-68ed70dc-102d-5e24-8339-f68ea70c92de",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-68ed70dc-102d-5e24-8339-f68ea70c92de/transcript.json"
+    },
+    {
+      "taskId": "real-kappa-report-adjudication",
+      "taskClass": "feature_addition",
+      "runIndex": 9,
+      "cloudAgentBcId": "bc-c180a419-9a1d-5c89-bff5-e06d0a7415c6",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-54-36Z-fcf0/bc-c180a419-9a1d-5c89-bff5-e06d0a7415c6/transcript.json"
+    }
+  ]
+}

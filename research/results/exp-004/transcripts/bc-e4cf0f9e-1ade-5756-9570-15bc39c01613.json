@@ -1,0 +1,868 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "text": "Coding agent in /workspace, branch cursor/exp-004-time-attribution-1db1.\n\nEnvironment: C_WARM_WORKSPACE — full Zeitgeist monorepo with dependencies already installed.\n\nWork in the repository root (/workspace).\n\nTask: In the Zeitgeist repository root, create test/unit/timeline.test.ts verifying sortTimeline in src/domain/Timeline.ts orders events by timestamp, then eventType, then subject. Run pnpm test to verify.\n\nWork naturally. Run pnpm test (and pnpm typecheck if you change types). Commit: exp-004: real-beta-timeline-tests\n\nReturn: tests passed yes/no, commit hash, brief summary."
+    },
+    {
+      "role": "assistant",
+      "thinking": "Creating a unit test for `sortTimeline` in `src/domain/Timeline.ts` to verify sorting by timestamp, then eventType, then subject.\n\nExploring the repository structure and existing test patterns before writing the test file."
+    },
+    {
+      "role": "assistant",
+      "text": "I'll inspect `sortTimeline` and existing test patterns, then add the unit test and run the suite.\n"
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:2:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/src/domain/Timeline.ts"
+          },
+          "started_at_ms": 1786261893393,
+          "completed_at_ms": 1786261893492,
+          "duration_ms": 99
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:2:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/src/domain/Timeline.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import * as Schema from \"effect/Schema\"\nimport { NonEmptyString, StringArray, Timestamp } from \"./Common.js\"\n\nexport const TimelineEvent = Schema.Struct({\n  timestamp: Timestamp,\n  eventType: NonEmptyString,\n  subject: NonEmptyString,\n  evidenceIds: StringArray.pipe(Schema.minItems(1))\n})\n\nexport type TimelineEvent = typeof TimelineEvent.Type\n\nexport const sortTimeline = <T extends { readonly timestamp: string; readonly eventType: string; readonly subject: string }>(\n  events: ReadonlyArray<T>\n): ReadonlyArray<T> =>\n  [...events].sort(\n    (left, right) =>\n      left.timestamp.localeCompare(right.timestamp) ||\n      left.eventType.localeCompare(right.eventType) ||\n      left.subject.localeCompare(right.subject)\n  )\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 22,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261893393,
+      "completed_at_ms": 1786261893492,
+      "duration_ms": 99
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:3:tool",
+          "tool_name": "glob_file_search",
+          "started_at_ms": 1786261893393,
+          "completed_at_ms": 1786261893462,
+          "duration_ms": 69
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:3:tool",
+      "tool_name": "glob_file_search",
+      "tool_result": {
+        "resultType": "globFileSearchResult",
+        "value": {
+          "directories": [
+            {
+              "absPath": "/workspace",
+              "files": [
+                {
+                  "relPath": "test/research/exp-002.test.ts"
+                },
+                {
+                  "relPath": "test/research/exp-001.test.ts"
+                },
+                {
+                  "relPath": "test/research/exp-003.test.ts"
+                },
+                {
+                  "relPath": "test/research/exp-004.test.ts"
+                },
+                {
+                  "relPath": "test/unit/schemas.test.ts"
+                },
+                {
+                  "relPath": "test/unit/result-store.test.ts"
+                },
+                {
+                  "relPath": "test/unit/evaluation.test.ts"
+                },
+                {
+                  "relPath": "test/unit/canonical.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/beta/src/label.test.ts"
+                },
+                {
+                  "relPath": "test/integration/external-runner.test.ts"
+                },
+                {
+                  "relPath": "test/integration/dataset.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/gamma/src/document.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/alpha/src/ratio.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/epsilon/src/name.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/delta/src/slugify.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/beta/src/label.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/delta/src/slugify.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/gamma/src/document.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/zeta/src/record.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/alpha/src/ratio.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/epsilon/src/name.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-07-test-addition/src/slugify.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-09-cross-cutting-logging/src/logging.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-05-dependency-upgrade/src/adder.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-03-refactor-extract-parser/src/csv.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-04-schema-add-field/src/record.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-01-bug-fix-median/src/median.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-08-test-failure-diagnosis/src/timezone.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-02-feature-add-cli-flag/src/cli.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-06-validation-tighten/src/record.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-10-doc-alignment/src/cli.test.ts"
+                }
+              ],
+              "totalFiles": 31,
+              "ripgrepTruncated": false
+            }
+          ]
+        }
+      },
+      "started_at_ms": 1786261893393,
+      "completed_at_ms": 1786261893462,
+      "duration_ms": 69
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:4:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "git branch --show-current && git status -sb",
+            "is_background": false
+          },
+          "started_at_ms": 1786261893394,
+          "completed_at_ms": 1786261893692,
+          "duration_ms": 298
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:4:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "git branch --show-current && git status -sb",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "cursor/exp-004-time-attribution-1db1\n## cursor/exp-004-time-attribution-1db1\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261893394,
+      "completed_at_ms": 1786261893692,
+      "duration_ms": 298
+    },
+    {
+      "role": "assistant",
+      "thinking": "Reviewing existing unit tests to understand repository patterns. Checking for an existing timeline test file."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:6:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/test/unit/canonical.test.ts"
+          },
+          "started_at_ms": 1786261895068,
+          "completed_at_ms": 1786261895119,
+          "duration_ms": 51
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:6:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/test/unit/canonical.test.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import { mkdtemp, readFile } from \"node:fs/promises\"\nimport { tmpdir } from \"node:os\"\nimport { join } from \"node:path\"\nimport { describe, expect, it } from \"vitest\"\nimport { Effect } from \"effect\"\nimport { atomicWrite, canonicalDigest, canonicalize } from \"../../src/context/Canonicalize.js\"\n\ndescribe(\"canonical artifacts\", () => {\n  it(\"serializes semantically equivalent key orders identically\", () => {\n    expect(canonicalize({ z: 1, a: { y: 2, x: 3 } })).toBe(canonicalize({ a: { x: 3, y: 2 }, z: 1 }))\n  })\n\n  it(\"produces stable digests\", () => {\n    expect(canonicalDigest({ b: true, a: [1, 2] })).toBe(canonicalDigest({ a: [1, 2], b: true }))\n  })\n\n  it(\"changes the digest when semantic data changes\", () => {\n    expect(canonicalDigest({ value: 1 })).not.toBe(canonicalDigest({ value: 2 }))\n  })\n\n  it(\"atomically writes stable UTF-8 bytes\", async () => {\n    const directory = await mkdtemp(join(tmpdir(), \"zeitgeist-canonical-\"))\n    const path = join(directory, \"artifact.json\")\n    await Effect.runPromise(atomicWrite(path, canonicalize({ text: \"Bali ✓\" })))\n    expect(await readFile(path, \"utf8\")).toBe(\"{\\\"text\\\":\\\"Bali ✓\\\"}\\n\")\n  })\n})\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 28,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261895068,
+      "completed_at_ms": 1786261895119,
+      "duration_ms": 51
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:7:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/test/research/exp-004.test.ts"
+          },
+          "started_at_ms": 1786261895069,
+          "completed_at_ms": 1786261895146,
+          "duration_ms": 77
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:7:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/test/research/exp-004.test.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import { describe, expect, it } from \"vitest\"\nimport type { RawAgentRun } from \"../../research/harness/AgentRun.js\"\nimport {\n  buildAttributionRecords,\n  computeInterToolGaps,\n  computeTimeAttribution,\n  decideExp004,\n  detectRecurringPatterns\n} from \"../../research/harness/TimeAttribution.js\"\nimport { normalizeAgentRun } from \"../../research/harness/TraceNormalizer.js\"\n\nconst baseRun = (toolCalls: RawAgentRun[\"toolCalls\"]): RawAgentRun => ({\n  schemaVersion: \"1.0\",\n  experimentId: \"EXP-004\",\n  experimentVersion: \"1.0.0\",\n  repositoryCommit: \"abc\",\n  taskSetDigest: \"digest\",\n  runnerIdentity: \"cloud-transcript-adapter/v1\",\n  runnerConfigDigest: \"cfg\",\n  taskId: \"real-alpha-scorer-tests\",\n  runIndex: 0,\n  runIdentity: \"run\",\n  taskClass: \"test_addition\",\n  startedAt: \"2026-01-01T00:00:00.000Z\",\n  completedAt: \"2026-01-01T00:00:10.000Z\",\n  durationMs: 10000,\n  finalStatus: \"SUCCESS\",\n  modelIdentity: \"composer-2.5-fast\",\n  modelTurnCount: 1,\n  inputTokens: null,\n  outputTokens: null,\n  modelRequestDurationMs: null,\n  toolCalls,\n  unavailableMetrics: [\"input_tokens\", \"output_tokens\", \"model_request_duration_ms\"],\n  notes: []\n})\n\ndescribe(\"time attribution\", () => {\n  it(\"computes inter-tool gaps between consecutive calls\", () => {\n    const gaps = computeInterToolGaps([\n      { callIndex: 0, startedAtMs: 0, endedAtMs: 100 },\n      { callIndex: 1, startedAtMs: 250, endedAtMs: 400 }\n    ])\n    expect(gaps).toEqual([{ afterCallIndex: 0, durationMs: 150 }])\n  })\n\n  it(\"partitions wall-clock into tool, gap, and unattributed components\", () => {\n    const run = normalizeAgentRun(\n      baseRun([\n        {\n          callIndex: 0,\n          toolName: \"Read\",\n          category: \"file_read\",\n          startedAtMs: 0,\n          endedAtMs: 100,\n          durationMs: 100,\n          exitStatus: null,\n          command: \"read:src/a.ts\",\n          filesRead: [\"src/a.ts\"],\n          filesWritten: [],\n          stdoutBytes: null,\n          stderrBytes: null,\n          failed: false,\n          retried: false\n        },\n        {\n          callIndex: 1,\n          toolName: \"Shell\",\n          category: \"test\",\n          startedAtMs: 300,\n          endedAtMs: 800,\n          durationMs: 500,\n          exitStatus: 0,\n          command: \"pnpm test\",\n          filesRead: [],\n          filesWritten: [],\n          stdoutBytes: 10,\n          stderrBytes: null,\n          failed: false,\n          retried: false\n        }\n      ])\n    )\n    run.durationMs = 900\n    const attribution = computeTimeAttribution(run)\n    expect(attribution.deterministicToolMs).toBe(600)\n    expect(attribution.interToolGapMs).toBe(200)\n    expect(attribution.unattributedMs).toBe(100)\n    expect(attribution.verificationMs).toBe(500)\n  })\n\n  it(\"detects recurring exploration pattern across runs\", () => {\n    const makeRecord = (taskClass: string, explorationMs: number, wallMs: number) => {\n      const run = baseRun([\n        {\n          callIndex: 0,\n          toolName: \"Read\",\n          category: \"file_read\",\n          startedAtMs: 0,\n          endedAtMs: explorationMs,\n          durationMs: explorationMs,\n          exitStatus: null,\n          command: \"read:src/a.ts\",\n          filesRead: [\"src/a.ts\"],\n          filesWritten: [],\n          stdoutBytes: null,\n          stderrBytes: null,\n          failed: false,\n          retried: false\n        }\n      ])\n      run.taskClass = taskClass\n      run.durationMs = wallMs\n      return buildAttributionRecords([run])[0]!\n    }\n    const records = [\n      makeRecord(\"test_addition\", 4000, 5000),\n      makeRecord(\"refactor\", 4000, 5000),\n      makeRecord(\"bug_fix\", 4000, 5000),\n      makeRecord(\"feature_addition\", 4000, 5000),\n      makeRecord(\"validation_change\", 4000, 5000),\n      makeRecord(\"cross_cutting\", 4000, 5000)\n    ]\n    const patterns = detectRecurringPatterns(records, {\n      minRuns: 5,\n      minTaskClasses: 3,\n      minWallShare: 0.2,\n      minToolShare: 0.25\n    })\n    expect(patterns.some((pattern) => pattern.pattern === \"exploration_overhead\")).toBe(true)\n    expect(decideExp004(records, 6, patterns, { minWallShare: 0.2, minToolShare: 0.25 })).toBe(\"STRONG_SIGNAL\")\n  })\n})\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 134,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261895069,
+      "completed_at_ms": 1786261895146,
+      "duration_ms": 77
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:8:tool",
+          "tool_name": "grep",
+          "started_at_ms": 1786261895069,
+          "completed_at_ms": 1786261895128,
+          "duration_ms": 59
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:8:tool",
+      "tool_name": "grep",
+      "tool_result": {
+        "resultType": "ripgrepSearchResult",
+        "value": {
+          "internal": {
+            "results": [
+              {
+                "resource": "./src/domain/IncidentContext.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 26,
+                            "startColumn": 0,
+                            "endLineNumber": 26,
+                            "endColumn": 40
+                          }
+                        }
+                      ],
+                      "previewText": "  timeline: Schema.Array(TimelineEvent),"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "./research/experiments/exp-001-agent-work-profile/report.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 138,
+                            "startColumn": 0,
+                            "endLineNumber": 138,
+                            "endColumn": 368
+                          }
+                        }
+                      ],
+                      "previewText": "Smoke run completed with ${input.aggregate.runCount}/${input.expectedTaskCount} tasks. Deterministic subprocess instrumentation captured tool timelines for realistic repository workloads. Model/provider timing and token usage remain unavailable. Top deterministic category by total duration: **${input.ranked[0]?.category ?? \"none\"}**. Decision: **${input.decision}**."
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "./research/workloads/task-set-exp004-v1.json",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 16,
+                            "startColumn": 0,
+                            "endLineNumber": 16,
+                            "endColumn": 43
+                          }
+                        }
+                      ],
+                      "previewText": "      \"taskId\": \"real-beta-timeline-tests\","
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 19,
+                            "startColumn": 0,
+                            "endLineNumber": 19,
+                            "endColumn": 223
+                          }
+                        }
+                      ],
+                      "previewText": "      \"description\": \"In the Zeitgeist repository root, create test/unit/timeline.test.ts verifying sortTimeline in src/domain/Timeline.ts orders events by timestamp, then eventType, then subject. Run pnpm test to verify.\","
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 23,
+                            "startColumn": 0,
+                            "endLineNumber": 23,
+                            "endColumn": 46
+                          }
+                        }
+                      ],
+                      "previewText": "      \"taskId\": \"real-gamma-timeline-compare\","
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 25,
+                            "startColumn": 0,
+                            "endLineNumber": 25,
+                            "endColumn": 49
+                          }
+                        }
+                      ],
+                      "previewText": "      \"title\": \"Extract timeline compare helper\","
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 26,
+                            "startColumn": 0,
+                            "endLineNumber": 26,
+                            "endColumn": 222
+                          }
+                        }
+                      ],
+                      "previewText": "      \"description\": \"In src/domain/Timeline.ts, extract the sort comparator into an exported timelineCompare function and use it from sortTimeline without changing sort behavior. Add or extend tests, then run pnpm test.\","
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 53,
+                            "startColumn": 0,
+                            "endLineNumber": 53,
+                            "endColumn": 62
+                          }
+                        }
+                      ],
+                      "previewText": "      \"title\": \"Show unique timeline evidence IDs in inspect\","
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 54,
+                            "startColumn": 0,
+                            "endLineNumber": 54,
+                            "endColumn": 248
+                          }
+                        }
+                      ],
+                      "previewText": "      \"description\": \"Update inspectContext in src/context/ContextValidator.ts to include a line reporting the count of unique evidence IDs referenced by timeline events (deduplicated across the timeline). Add or extend tests, then run pnpm test.\","
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "./fixtures/synthetic-example/context.json",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 23,
+                            "startColumn": 0,
+                            "endLineNumber": 23,
+                            "endColumn": 15
+                          }
+                        }
+                      ],
+                      "previewText": "  \"timeline\": ["
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "./src/context/ContextValidator.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 41,
+                            "startColumn": 0,
+                            "endLineNumber": 41,
+                            "endColumn": 133
+                          }
+                        }
+                      ],
+                      "previewText": "  for (const item of [...context.facts, ...context.recentChanges, ...context.errors, ...context.timeline, ...context.dependencies]) {"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 59,
+                            "startColumn": 0,
+                            "endLineNumber": 59,
+                            "endColumn": 126
+                          }
+                        }
+                      ],
+                      "previewText": "    for (const collection of [context.facts, context.recentChanges, context.errors, context.timeline, context.dependencies]) {"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 77,
+                            "startColumn": 0,
+                            "endLineNumber": 77,
+                            "endColumn": 50
+                          }
+                        }
+                      ],
+                      "previewText": "    `Timeline events: ${context.timeline.length}`,"
+                    }
+                  }
+                ]
+              }
+            ],
+            "limitHit": false,
+            "messages": []
+          }
+        }
+      },
+      "started_at_ms": 1786261895069,
+      "completed_at_ms": 1786261895128,
+      "duration_ms": 59
+    },
+    {
+      "role": "assistant",
+      "thinking": "I need to create `test/unit/timeline.test.ts` to verify that `sortTimeline` orders events by timestamp, then eventType, then subject.\n\nI'll examine existing unit tests and package.json to understand the test setup."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:10:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/test/unit/evaluation.test.ts"
+          },
+          "started_at_ms": 1786261896794,
+          "completed_at_ms": 1786261896865,
+          "duration_ms": 71
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:10:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/test/unit/evaluation.test.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import { readFile } from \"node:fs/promises\"\nimport { describe, expect, it } from \"vitest\"\nimport { Effect, Schema } from \"effect\"\nimport { EvidenceCollection } from \"../../src/domain/Evidence.js\"\nimport { ExpectedOutcome } from \"../../src/domain/ExpectedOutcome.js\"\nimport { Incident } from \"../../src/domain/Incident.js\"\nimport { IncidentContext } from \"../../src/domain/IncidentContext.js\"\nimport type { IncidentDataset } from \"../../src/dataset/DatasetLoader.js\"\nimport { makeExperimentInput, runSingleEvaluation } from \"../../src/eval/Evaluation.js\"\nimport { makeFakeRunner } from \"../../src/eval/AgentRunner.js\"\nimport { createRunIdentity } from \"../../src/eval/RunIdentity.js\"\nimport { scoreAgentResult } from \"../../src/eval/Scorer.js\"\nimport { buildReport } from \"../../src/eval/Report.js\"\n\nconst load = async <A, I>(name: string, schema: Schema.Schema<A, I>): Promise<A> => {\n  const raw = JSON.parse(await readFile(new URL(`../../fixtures/synthetic-example/${name}`, import.meta.url), \"utf8\")) as unknown\n  return Effect.runPromise(Schema.decodeUnknown(schema)(raw))\n}\n\nconst dataset = async (): Promise<IncidentDataset> => {\n  const incident = await load(\"incident.json\", Incident)\n  const evidence = await load(\"evidence.json\", EvidenceCollection)\n  const context = await load(\"context.json\", IncidentContext)\n  const expected = await load(\"expected.json\", ExpectedOutcome)\n  return { directory: \"synthetic\", incident, evidence, context, expected, rawContext: context }\n}\n\nconst correctResult = {\n  finalDiagnosis: \"checkout-api experienced an inventory-api timeout\",\n  rootCauseCategory: \"upstream-timeout\",\n  affectedComponents: [\"checkout-api\"],\n  triggerEntities: [\"inventory-api\"],\n  citedEvidenceIds: [\"ev-error-001\"],\n  remediationIds: [\"rollback-checkout-v184\"]\n} as const\n\ndescribe(\"evaluation core\", () => {\n  it(\"keeps control and manual-context inputs structurally separate\", async () => {\n    const loaded = await dataset()\n    expect(\"context\" in makeExperimentInput(loaded, \"CONTROL\")).toBe(false)",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 84,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261896794,
+      "completed_at_ms": 1786261896865,
+      "duration_ms": 71
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:11:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/package.json"
+          },
+          "started_at_ms": 1786261896794,
+          "completed_at_ms": 1786261896861,
+          "duration_ms": 67
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:11:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/package.json"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "{\n  \"name\": \"zeitgeist\",\n  \"version\": \"0.0.0-gate0a\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"engines\": {\n    \"node\": \">=24.0.0\"\n  },\n  \"bin\": {\n    \"zeitgeist\": \"./dist/src/cli/root.js\"\n  },\n  \"scripts\": {\n    \"build\": \"tsc -p tsconfig.json\",\n    \"typecheck\": \"tsc -p tsconfig.json --noEmit\",\n    \"test\": \"vitest run\",\n    \"research:exp-001\": \"tsx research/experiments/exp-001-agent-work-profile/runner.ts\",\n    \"research:exp-001:report\": \"tsx research/experiments/exp-001-agent-work-profile/report.ts\",\n    \"research:exp-002:ingest\": \"tsx research/experiments/exp-002-live-trace-validation/ingest.ts\",\n    \"research:exp-002:report\": \"tsx research/experiments/exp-002-live-trace-validation/report.ts\",\n    \"research:exp-003:prepare\": \"tsx research/experiments/exp-003-environment-warmth/prepare-all.ts\",\n    \"research:exp-003:ingest\": \"tsx research/experiments/exp-003-environment-warmth/ingest.ts\",\n    \"research:exp-003:report\": \"tsx research/experiments/exp-003-environment-warmth/report.ts\",\n    \"research:exp-004:ingest\": \"tsx research/experiments/exp-004-time-attribution/ingest.ts\",\n    \"research:exp-004:report\": \"tsx research/experiments/exp-004-time-attribution/report.ts\",\n    \"zeitgeist\": \"tsx src/cli/root.ts\"\n  },\n  \"dependencies\": {\n    \"@effect/cli\": \"0.77.0\",\n    \"@effect/platform\": \"0.97.1\",\n    \"@effect/platform-node\": \"0.108.1\",\n    \"effect\": \"3.22.1\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"24.13.3\",\n    \"@types/ws\": \"8.18.1\",\n    \"tsx\": \"4.23.10\",\n    \"typescript\": \"7.0.2\",\n    \"vitest\": \"4.1.10\"\n  },\n  \"packageManager\": \"pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee\"",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 42,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261896794,
+      "completed_at_ms": 1786261896861,
+      "duration_ms": 67
+    },
+    {
+      "role": "assistant",
+      "thinking": "Creating timeline.test.ts with tests for sortTimeline ordering by timestamp, eventType, and subject."
+    },
+    {
+      "role": "assistant",
+      "text": "Creating the timeline unit test and running the test suite.\n"
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:14:tool",
+          "tool_name": "search_replace",
+          "started_at_ms": 1786261899813,
+          "completed_at_ms": 1786261899905,
+          "duration_ms": 92
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:14:tool",
+      "tool_name": "search_replace",
+      "tool_result": {
+        "resultType": "editFileResult",
+        "value": {
+          "diff": {
+            "chunks": [
+              {
+                "diffString": "--- /dev/null\n+++ b//workspace/test/unit/timeline.test.ts\n@@ -1,0 +1,53 @@\n+import { describe, expect, it } from \"vitest\"\n+import { sortTimeline } from \"../../src/domain/Timeline.js\"\n+\n+describe(\"sortTimeline\", () => {\n+  it(\"orders events by timestamp\", () => {\n+    const events = [\n+      { timestamp: \"2026-01-02T00:00:00.000Z\", eventType: \"error\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"deploy\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-03T00:00:00.000Z\", eventType: \"alert\", subject: \"inventory-api\" }\n+    ]\n+    expect(sortTimeline(events)).toEqual([\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"deploy\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-02T00:00:00.000Z\", eventType: \"error\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-03T00:00:00.000Z\", eventType: \"alert\", subject: \"inventory-api\" }\n+    ])\n+  })\n+\n+  it(\"orders events by eventType when timestamps match\", () => {\n+    const events = [\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"alert\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"deploy\", subject: \"checkout-api\" }\n+    ]\n+    expect(sortTimeline(events)).toEqual([\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"alert\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"deploy\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"checkout-api\" }\n+    ])\n+  })\n+\n+  it(\"orders events by subject when timestamp and eventType match\", () => {\n+    const events = [\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"inventory-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"billing-api\" }\n+    ]\n+    expect(sortTimeline(events)).toEqual([\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"billing-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"error\", subject: \"inventory-api\" }\n+    ])\n+  })\n+\n+  it(\"does not mutate the input array\", () => {\n+    const events = [\n+      { timestamp: \"2026-01-02T00:00:00.000Z\", eventType: \"error\", subject: \"checkout-api\" },\n+      { timestamp: \"2026-01-01T00:00:00.000Z\", eventType: \"deploy\", subject: \"checkout-api\" }\n+    ]\n+    const copy = [...events]\n+    sortTimeline(events)\n+    expect(events).toEqual(copy)\n+  })\n+})",
+                "oldStart": 0,
+                "newStart": 0,
+                "oldLines": 0,
+                "newLines": 0,
+                "linesRemoved": 0,
+                "linesAdded": 53
+              }
+            ],
+            "editor": "EDITOR_AI",
+            "hitTimeout": false
+          },
+          "isApplied": true,
+          "applyFailed": false,
+          "linterErrors": []
+        }
+      },
+      "started_at_ms": 1786261899813,
+      "completed_at_ms": 1786261899905,
+      "duration_ms": 92
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:15:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && pnpm test test/unit/timeline.test.ts",
+            "is_background": false
+          },
+          "started_at_ms": 1786261899812,
+          "completed_at_ms": 1786261904424,
+          "duration_ms": 4612
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:15:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && pnpm test test/unit/timeline.test.ts",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "[WARN] Unsupported engine: wanted: {\"node\":\">=24.0.0\"} (current: {\"node\":\"v22.14.0\",\"pnpm\":\"11.20.0\"})\n? Verifying lockfile against supply-chain policies (170 entries)...\nLockfile is up to date, resolution step is skipped\nProgress: resolved 1, reused 0, downloaded 0, added 0\nPackages: +86\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nPackages are hard linked from the content-addressable store to the virtual store.\n  Content-addressable store is at: /home/ubuntu/.local/share/pnpm/store/v11\n  Virtual store is at:             node_modules/.pnpm\nProgress: resolved 86, reused 0, downloaded 86, added 86, done\n✓ Lockfile passes supply-chain policies (170 entries in 1.4s)\n.../esbuild@0.28.1/node_modules/esbuild postinstall$ node install.js\n.../esbuild@0.28.1/node_modules/esbuild postinstall: Done\n\ndependencies:\n+ @effect/cli 0.77.0\n+ @effect/platform 0.97.1\n+ @effect/platform-node 0.108.1\n+ effect 3.22.1\n\ndevDependencies:\n+ @types/node 24.13.3\n+ @types/ws 8.18.1\n+ tsx 4.23.10\n+ typescript 7.0.2\n+ vitest 4.1.10\n\nDone in 2s using pnpm v11.20.0\n[WARN] Unsupported engine: wanted: {\"node\":\">=24.0.0\"} (current: {\"node\":\"v22.14.0\",\"pnpm\":\"11.20.0\"})\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:51:44\n   Duration  320ms (transform 35ms, setup 0ms, import 223ms, tests 8ms, environment 0ms)\n\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261899812,
+      "completed_at_ms": 1786261904424,
+      "duration_ms": 4612
+    },
+    {
+      "role": "assistant",
+      "thinking": "Tests passed. Committing and pushing now."
+    },
+    {
+      "role": "assistant",
+      "text": "Tests passed. Committing and pushing.\n"
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:18:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && git add test/unit/timeline.test.ts && git commit -m \"exp-004: real-beta-timeline-tests\" && git push -u origin cursor/exp-004-time-attribution-1db1",
+            "is_background": false
+          },
+          "started_at_ms": 1786261905701,
+          "completed_at_ms": 1786261906115,
+          "duration_ms": 414
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:18:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && git add test/unit/timeline.test.ts && git commit -m \"exp-004: real-beta-timeline-tests\" && git push -u origin cursor/exp-004-time-attribution-1db1",
+        "is_background": false
+      },
+      "started_at_ms": 1786261905701,
+      "completed_at_ms": 1786261906115,
+      "duration_ms": 414
+    },
+    {
+      "role": "assistant",
+      "thinking": "I need to pull and rebase the current branch before pushing again."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:20:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && git pull --rebase origin cursor/exp-004-time-attribution-1db1 && git push -u origin cursor/exp-004-time-attribution-1db1",
+            "is_background": false
+          },
+          "started_at_ms": 1786261907385,
+          "completed_at_ms": 1786261908845,
+          "duration_ms": 1460
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:20:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && git pull --rebase origin cursor/exp-004-time-attribution-1db1 && git push -u origin cursor/exp-004-time-attribution-1db1",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "branch 'cursor/exp-004-time-attribution-1db1' set up to track 'origin/cursor/exp-004-time-attribution-1db1'.\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261907385,
+      "completed_at_ms": 1786261908845,
+      "duration_ms": 1460
+    },
+    {
+      "role": "assistant",
+      "thinking": "Fetching the final commit hash after rebasing."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:22:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && git rev-parse HEAD",
+            "is_background": false
+          },
+          "started_at_ms": 1786261909940,
+          "completed_at_ms": 1786261910077,
+          "duration_ms": 137
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:22:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && git rev-parse HEAD",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "6581bf0f7938da819e79c4477779bc1215c2e933\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261909940,
+      "completed_at_ms": 1786261910077,
+      "duration_ms": 137
+    },
+    {
+      "role": "assistant",
+      "thinking": "Tests passed. Committed as exp-004: real-beta-timeline-tests."
+    },
+    {
+      "role": "assistant",
+      "text": "**Tests passed:** yes\n\n**Commit hash:** `6581bf0f7938da819e79c4477779bc1215c2e933`\n\n**Summary:** Added `test/unit/timeline.test.ts` with four Vitest cases for `sortTimeline` in `src/domain/Timeline.ts`: primary sort by timestamp, tie-break by `eventType`, then by `subject`, plus a check that the input array is not mutated. All four tests passed; committed as `exp-004: real-beta-timeline-tests` on `cursor/exp-004-time-attribution-1db1`."
+    }
+  ]
+}

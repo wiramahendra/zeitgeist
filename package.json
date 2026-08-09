@@ -7,12 +7,23 @@
     "node": ">=24.0.0"
   },
   "bin": {
-    "zeitgeist": "./dist/cli/root.js"
+    "zeitgeist": "./dist/src/cli/root.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
+    "research:exp-001": "tsx research/experiments/exp-001-agent-work-profile/runner.ts",
+    "research:exp-001:report": "tsx research/experiments/exp-001-agent-work-profile/report.ts",
+    "research:exp-002:ingest": "tsx research/experiments/exp-002-live-trace-validation/ingest.ts",
+    "research:exp-002:report": "tsx research/experiments/exp-002-live-trace-validation/report.ts",
+    "research:exp-003:prepare": "tsx research/experiments/exp-003-environment-warmth/prepare-all.ts",
+    "research:exp-003:ingest": "tsx research/experiments/exp-003-environment-warmth/ingest.ts",
+    "research:exp-003:report": "tsx research/experiments/exp-003-environment-warmth/report.ts",
+    "research:exp-004:ingest": "tsx research/experiments/exp-004-time-attribution/ingest.ts",
+    "research:exp-004:report": "tsx research/experiments/exp-004-time-attribution/report.ts",
+    "research:exp-004b:ingest": "tsx research/experiments/exp-004b-inter-batch-gap/ingest.ts",
+    "research:exp-004b:report": "tsx research/experiments/exp-004b-inter-batch-gap/report.ts",
     "zeitgeist": "tsx src/cli/root.ts"
   },
   "dependencies": {

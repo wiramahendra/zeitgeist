@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-002",
+  "transcriptRunDirectory": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T06-30-45Z-c5ac",
+  "runs": [
+    {
+      "taskId": "live-alpha-ratio",
+      "runIndex": 0,
+      "cloudAgentBcId": "bc-2e6914e8-6132-5a37-a857-c6687c74dc0e",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T06-30-45Z-c5ac/bc-2e6914e8-6132-5a37-a857-c6687c74dc0e/transcript.json"
+    },
+    {
+      "taskId": "live-beta-label",
+      "runIndex": 1,
+      "cloudAgentBcId": "bc-5bb1844b-f5be-5aa8-9bef-b74060d94f66",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T06-30-45Z-c5ac/bc-5bb1844b-f5be-5aa8-9bef-b74060d94f66/transcript.json"
+    },
+    {
+      "taskId": "live-gamma-parser",
+      "runIndex": 2,
+      "cloudAgentBcId": "bc-9c624810-2993-5d84-bb71-9a081c29ffac",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T06-30-45Z-c5ac/bc-9c624810-2993-5d84-bb71-9a081c29ffac/transcript.json"
+    },
+    {
+      "taskId": "live-delta-slug",
+      "runIndex": 3,
+      "cloudAgentBcId": "bc-c0acb90b-dfa8-5be4-ad40-6c9f0556a95c",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T06-30-45Z-c5ac/bc-c0acb90b-dfa8-5be4-ad40-6c9f0556a95c/transcript.json"
+    },
+    {
+      "taskId": "live-epsilon-name",
+      "runIndex": 4,
+      "cloudAgentBcId": "bc-69a2d5c0-b11c-59d4-adbd-d893043eed51",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T06-30-45Z-c5ac/bc-69a2d5c0-b11c-59d4-adbd-d893043eed51/transcript.json"
+    }
+  ]
+}

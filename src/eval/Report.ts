@@ -112,10 +112,12 @@ export const renderReportMarkdown = (report: EvaluationReport): string => `# Zei
 Experiment status: **${report.experimentStatus}**
 
 Distinct research incidents: ${report.distinctResearchIncidents}
+Total evaluations: ${report.control.runCount + report.manualContext.runCount}
 
 ## Control
 
 - Runs: ${report.control.runCount}
+- Needs human adjudication: ${report.control.needsHumanAdjudicationCount}
 - Diagnostic accuracy: ${display(report.control.diagnosticAccuracy)}
 - Median investigation duration (ms): ${display(report.control.medianDurationMs)}
 - Median tool calls: ${display(report.control.medianToolCalls)}
@@ -125,6 +127,7 @@ Distinct research incidents: ${report.distinctResearchIncidents}
 ## Manual context
 
 - Runs: ${report.manualContext.runCount}
+- Needs human adjudication: ${report.manualContext.needsHumanAdjudicationCount}
 - Diagnostic accuracy: ${display(report.manualContext.diagnosticAccuracy)}
 - Median investigation duration (ms): ${display(report.manualContext.medianDurationMs)}
 - Median tool calls: ${display(report.manualContext.medianToolCalls)}

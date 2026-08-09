@@ -1,0 +1,22 @@
+{
+  "experimentId": "EXP-004b",
+  "experimentVersion": "1.0.0",
+  "name": "Inter-Batch Gap Attribution",
+  "parentExperimentId": "EXP-004",
+  "taskSetPath": "research/workloads/task-set-exp004-v1.json",
+  "resultsDir": "research/results/exp-004b",
+  "sourceTranscriptDir": "research/results/exp-004/transcripts",
+  "sourceRunManifest": "research/results/exp-004/run-manifest.json",
+  "runnerIdentity": "gap-attribution/v1",
+  "runnerConfigDigest": "f3a9c1e7b2d84f60a5e8c3b1d7f4a2e9c6b0d8f1a3e5c7b9d2f4a6e8c0b3d5f7",
+  "modelIdentity": "composer-2.5-fast",
+  "environmentCondition": "C_WARM_WORKSPACE",
+  "repositoryScope": "zeitgeist-monorepo-root",
+  "taskCount": 10,
+  "newLiveRunsPerformed": 0,
+  "attributionThreshold": {
+    "minAttributableShare": 0.8,
+    "minDominantShare": 0.5,
+    "minTaskClasses": 3
+  }
+}
