@@ -23,5 +23,5 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts", "research/**/*.ts"],
-  "exclude": ["dist", "node_modules", "test", "research/workloads/fixtures/**", "research/workloads/**/node_modules/**"]
+  "exclude": ["dist", "node_modules", "test", "research/workloads/fixtures/**", "research/workloads/exp-002-live/**", "research/workloads/exp-003-runs/**", "research/workloads/**/node_modules/**"]
 }

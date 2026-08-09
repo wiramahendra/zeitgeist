@@ -135,4 +135,51 @@ describe("cloud transcript adapter", () => {
     expect(run.toolCalls[0]?.failed).toBe(true)
     expect(run.finalStatus).toBe("TASK_FAILED")
   })
+
+  it("falls back to tool result timestamps when call timing is missing", () => {
+    const transcript = parseCloudTranscript({
+      messages: [
+        {
+          role: "assistant",
+          tool_calls: [
+            {
+              tool_call_id: "t1",
+              tool_name: "grep",
+              tool_args: { pattern: "foo" }
+            }
+          ]
+        },
+        {
+          role: "tool",
+          tool_call_id: "t1",
+          tool_name: "grep",
+          started_at_ms: 500,
+          completed_at_ms: 650,
+          duration_ms: 150,
+          tool_result: { value: { results: [] } }
+        }
+      ]
+    })
+    const run = transcriptToRawAgentRun({
+      experimentId: "EXP-002",
+      experimentVersion: "1.0.0",
+      repositoryCommit: "abc",
+      taskSetDigest: "digest",
+      runnerIdentity: "cloud-transcript-adapter/v1",
+      runnerConfigDigest: "cfg",
+      modelIdentity: null,
+      task: {
+        taskId: "live-alpha-ratio",
+        taskClass: "bug_fix",
+        title: "t",
+        description: "d",
+        workspacePath: "x"
+      },
+      runIndex: 0,
+      transcript,
+      cloudAgentBcId: null
+    })
+    expect(run.durationMs).toBe(150)
+    expect(run.startedAt).toMatch(/T/)
+  })
 })

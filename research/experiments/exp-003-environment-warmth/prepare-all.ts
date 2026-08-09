@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises"
+import { mkdir, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import { Effect } from "effect"
@@ -17,6 +17,7 @@ const main = async (): Promise<void> => {
     console.log(`[exp-003] prepared ${run.runId} (${run.condition}) -> ${run.workspacePath}`)
   }
   const matrixPath = join(repositoryRoot, "research/results/exp-003/run-matrix.json")
+  await mkdir(join(repositoryRoot, "research/results/exp-003"), { recursive: true })
   await writeFile(matrixPath, canonicalize({ schemaVersion: "1.0", runs }), "utf8")
   console.log(`[exp-003] run matrix: ${matrixPath} (${runs.length} runs)`)
 }

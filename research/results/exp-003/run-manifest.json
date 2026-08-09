@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-003",
+  "transcriptRunDirectory": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067",
+  "runs": [
+    {
+      "runId": "warm-alpha-ratio--A_COLD",
+      "taskId": "warm-alpha-ratio",
+      "taskClass": "bug_fix",
+      "condition": "A_COLD",
+      "runIndex": 0,
+      "cloudAgentBcId": "bc-16385854-4ce4-5a89-b096-f02d09362dd3",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-16385854-4ce4-5a89-b096-f02d09362dd3/transcript.json"
+    },
+    {
+      "runId": "warm-alpha-ratio--B_WARM_PACKAGE",
+      "taskId": "warm-alpha-ratio",
+      "taskClass": "bug_fix",
+      "condition": "B_WARM_PACKAGE",
+      "runIndex": 1,
+      "cloudAgentBcId": "bc-d093793b-5daa-569c-8f02-c89469424e43",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-d093793b-5daa-569c-8f02-c89469424e43/transcript.json"
+    },
+    {
+      "runId": "warm-alpha-ratio--C_WARM_WORKSPACE",
+      "taskId": "warm-alpha-ratio",
+      "taskClass": "bug_fix",
+      "condition": "C_WARM_WORKSPACE",
+      "runIndex": 2,
+      "cloudAgentBcId": "bc-32a1d315-640b-5876-86b9-e946df57b12d",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-32a1d315-640b-5876-86b9-e946df57b12d/transcript.json"
+    },
+    {
+      "runId": "warm-beta-label--B_WARM_PACKAGE",
+      "taskId": "warm-beta-label",
+      "taskClass": "feature_addition",
+      "condition": "B_WARM_PACKAGE",
+      "runIndex": 3,
+      "cloudAgentBcId": "bc-f9a038a9-8783-5943-82de-07c3976b6e94",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-f9a038a9-8783-5943-82de-07c3976b6e94/transcript.json"
+    },
+    {
+      "runId": "warm-beta-label--C_WARM_WORKSPACE",
+      "taskId": "warm-beta-label",
+      "taskClass": "feature_addition",
+      "condition": "C_WARM_WORKSPACE",
+      "runIndex": 4,
+      "cloudAgentBcId": "bc-79ff47fc-192a-598c-858b-7cfe1f1960df",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-79ff47fc-192a-598c-858b-7cfe1f1960df/transcript.json"
+    },
+    {
+      "runId": "warm-beta-label--A_COLD",
+      "taskId": "warm-beta-label",
+      "taskClass": "feature_addition",
+      "condition": "A_COLD",
+      "runIndex": 5,
+      "cloudAgentBcId": "bc-0a76e7f9-f38a-5837-9322-faefe2eadfd1",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-0a76e7f9-f38a-5837-9322-faefe2eadfd1/transcript.json"
+    },
+    {
+      "runId": "warm-gamma-parser--C_WARM_WORKSPACE",
+      "taskId": "warm-gamma-parser",
+      "taskClass": "refactor",
+      "condition": "C_WARM_WORKSPACE",
+      "runIndex": 6,
+      "cloudAgentBcId": "bc-9f343041-9e3c-513d-b1b0-e7fe1c3cbd1a",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-9f343041-9e3c-513d-b1b0-e7fe1c3cbd1a/transcript.json"
+    },
+    {
+      "runId": "warm-gamma-parser--A_COLD",
+      "taskId": "warm-gamma-parser",
+      "taskClass": "refactor",
+      "condition": "A_COLD",
+      "runIndex": 7,
+      "cloudAgentBcId": "bc-3f09a9c4-500b-51cc-9275-239b6dc40f0f",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-3f09a9c4-500b-51cc-9275-239b6dc40f0f/transcript.json"
+    },
+    {
+      "runId": "warm-gamma-parser--B_WARM_PACKAGE",
+      "taskId": "warm-gamma-parser",
+      "taskClass": "refactor",
+      "condition": "B_WARM_PACKAGE",
+      "runIndex": 8,
+      "cloudAgentBcId": "bc-04a1691b-9ca0-5a27-b77d-16b6ec1cfec4",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-04a1691b-9ca0-5a27-b77d-16b6ec1cfec4/transcript.json"
+    },
+    {
+      "runId": "warm-delta-slug--A_COLD",
+      "taskId": "warm-delta-slug",
+      "taskClass": "test_addition",
+      "condition": "A_COLD",
+      "runIndex": 9,
+      "cloudAgentBcId": "bc-f7b963cf-a580-5e17-803f-a1b4ce6dabbb",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-f7b963cf-a580-5e17-803f-a1b4ce6dabbb/transcript.json"
+    },
+    {
+      "runId": "warm-delta-slug--C_WARM_WORKSPACE",
+      "taskId": "warm-delta-slug",
+      "taskClass": "test_addition",
+      "condition": "C_WARM_WORKSPACE",
+      "runIndex": 10,
+      "cloudAgentBcId": "bc-2801ccdc-c08b-5961-adce-0c753c777ed0",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-2801ccdc-c08b-5961-adce-0c753c777ed0/transcript.json"
+    },
+    {
+      "runId": "warm-delta-slug--B_WARM_PACKAGE",
+      "taskId": "warm-delta-slug",
+      "taskClass": "test_addition",
+      "condition": "B_WARM_PACKAGE",
+      "runIndex": 11,
+      "cloudAgentBcId": "bc-a5abe8ef-be83-5fc2-b3d4-78a239809fc0",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-a5abe8ef-be83-5fc2-b3d4-78a239809fc0/transcript.json"
+    },
+    {
+      "runId": "warm-epsilon-name--B_WARM_PACKAGE",
+      "taskId": "warm-epsilon-name",
+      "taskClass": "validation_change",
+      "condition": "B_WARM_PACKAGE",
+      "runIndex": 12,
+      "cloudAgentBcId": "bc-834a02a8-0bbc-5645-acc8-81687812e533",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-834a02a8-0bbc-5645-acc8-81687812e533/transcript.json"
+    },
+    {
+      "runId": "warm-epsilon-name--A_COLD",
+      "taskId": "warm-epsilon-name",
+      "taskClass": "validation_change",
+      "condition": "A_COLD",
+      "runIndex": 13,
+      "cloudAgentBcId": "bc-7797e1ba-69d5-5c00-846a-7714f4180144",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-7797e1ba-69d5-5c00-846a-7714f4180144/transcript.json"
+    },
+    {
+      "runId": "warm-epsilon-name--C_WARM_WORKSPACE",
+      "taskId": "warm-epsilon-name",
+      "taskClass": "validation_change",
+      "condition": "C_WARM_WORKSPACE",
+      "runIndex": 14,
+      "cloudAgentBcId": "bc-d187a204-4f01-53d4-aa09-db61b53576b0",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-d187a204-4f01-53d4-aa09-db61b53576b0/transcript.json"
+    },
+    {
+      "runId": "warm-zeta-record--C_WARM_WORKSPACE",
+      "taskId": "warm-zeta-record",
+      "taskClass": "schema_or_contract_change",
+      "condition": "C_WARM_WORKSPACE",
+      "runIndex": 15,
+      "cloudAgentBcId": "bc-812af43d-589f-57cf-9ca2-a5c2ab2872ee",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-812af43d-589f-57cf-9ca2-a5c2ab2872ee/transcript.json"
+    },
+    {
+      "runId": "warm-zeta-record--B_WARM_PACKAGE",
+      "taskId": "warm-zeta-record",
+      "taskClass": "schema_or_contract_change",
+      "condition": "B_WARM_PACKAGE",
+      "runIndex": 16,
+      "cloudAgentBcId": "bc-a79dc53f-e9fb-5263-bba8-928cf0592653",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-a79dc53f-e9fb-5263-bba8-928cf0592653/transcript.json"
+    },
+    {
+      "runId": "warm-zeta-record--A_COLD",
+      "taskId": "warm-zeta-record",
+      "taskClass": "schema_or_contract_change",
+      "condition": "A_COLD",
+      "runIndex": 17,
+      "cloudAgentBcId": "bc-4c60d240-acd5-5745-9c74-6658ebe43a57",
+      "transcriptPath": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T07-14-19Z-e067/bc-4c60d240-acd5-5745-9c74-6658ebe43a57/transcript.json"
+    }
+  ]
+}

@@ -142,6 +142,29 @@ const extractOutputBytes = (result: TranscriptToolResult | undefined): { readonl
 const countModelTurns = (messages: ReadonlyArray<TranscriptMessage>): number =>
   messages.filter((message) => message.role === "user").length
 
+const finiteMs = (value: unknown): number | null =>
+  typeof value === "number" && Number.isFinite(value) ? value : null
+
+const resolveToolTiming = (
+  call: TranscriptToolCall,
+  result: TranscriptToolResult | undefined
+): { readonly startedAtMs: number; readonly endedAtMs: number; readonly durationMs: number } => {
+  const startedAtMs =
+    finiteMs(call.started_at_ms) ??
+    finiteMs(result?.started_at_ms) ??
+    finiteMs(result?.completed_at_ms) ??
+    0
+  const endedAtMs =
+    finiteMs(call.completed_at_ms) ??
+    finiteMs(result?.completed_at_ms) ??
+    startedAtMs
+  const durationMs =
+    finiteMs(call.duration_ms) ??
+    finiteMs(result?.duration_ms) ??
+    Math.max(0, endedAtMs - startedAtMs)
+  return { startedAtMs, endedAtMs, durationMs }
+}
+
 const mapToolName = (toolName: string): string => {
   switch (toolName) {
     case "run_terminal_cmd":
@@ -181,15 +204,16 @@ export const transcriptToRawAgentRun = (input: TranscriptRunInput): RawAgentRun 
       const category = command === null ? categorizeToolName(mappedName) : categorizeCommand(command) ?? categorizeToolName(mappedName)
       const files = extractFiles(call.tool_name, call.tool_args)
       const output = extractOutputBytes(result)
-      runStartMs = runStartMs === null ? call.started_at_ms : Math.min(runStartMs, call.started_at_ms)
-      runEndMs = runEndMs === null ? call.completed_at_ms : Math.max(runEndMs, call.completed_at_ms)
+      const timing = resolveToolTiming(call, result)
+      runStartMs = runStartMs === null ? timing.startedAtMs : Math.min(runStartMs, timing.startedAtMs)
+      runEndMs = runEndMs === null ? timing.endedAtMs : Math.max(runEndMs, timing.endedAtMs)
       toolCalls.push({
         callIndex,
         toolName: mappedName,
         category,
-        startedAtMs: call.started_at_ms,
-        endedAtMs: call.completed_at_ms,
-        durationMs: Math.max(0, Math.round(call.duration_ms)),
+        startedAtMs: timing.startedAtMs,
+        endedAtMs: timing.endedAtMs,
+        durationMs: Math.max(0, Math.round(timing.durationMs)),
         exitStatus: extractExitStatus(result),
         command,
         filesRead: files.read,
