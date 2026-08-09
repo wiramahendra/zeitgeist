@@ -1,0 +1,15 @@
+{
+  "experimentId": "EXP-001",
+  "experimentVersion": "1.0.0",
+  "name": "Coding Agent Work Profile",
+  "taskSetPath": "research/workloads/task-set-v1.json",
+  "resultsDir": "research/results/exp-001",
+  "runnerIdentity": "instrumented-workload-runner/v1",
+  "runnerConfigDigest": "a3f5c8e2b1d04f6e9c7a2b5d8e1f4c7a9b2d5e8f1c4a7b0d3e6f9c2a5b8d1e4",
+  "modelIdentity": "composer-2.5-fast",
+  "smokeTaskCount": 10,
+  "notes": [
+    "Observational smoke experiment. No optimization performed.",
+    "Subprocess instrumentation captures deterministic tool timing; model/provider timing unavailable."
+  ]
+}
