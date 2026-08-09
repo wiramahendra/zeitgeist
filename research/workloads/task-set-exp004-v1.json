@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "taskSetId": "exp-004-attribution-v1",
+  "taskSetVersion": "1.0.0",
+  "frozenAtCommit": "TO_BE_RECORDED_AT_RUN",
+  "environmentCondition": "C_WARM_WORKSPACE",
+  "workspaceRoot": ".",
+  "tasks": [
+    {
+      "taskId": "real-alpha-scorer-tests",
+      "taskClass": "test_addition",
+      "title": "Add scoreAgentResult unit tests",
+      "description": "In the Zeitgeist repository root, create test/unit/scorer.test.ts with unit tests for scoreAgentResult covering at least CORRECT, INCORRECT, and NEEDS_HUMAN_ADJUDICATION outcomes. Use minimal inline fixtures; run pnpm test to verify.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-beta-timeline-tests",
+      "taskClass": "test_addition",
+      "title": "Add sortTimeline unit tests",
+      "description": "In the Zeitgeist repository root, create test/unit/timeline.test.ts verifying sortTimeline in src/domain/Timeline.ts orders events by timestamp, then eventType, then subject. Run pnpm test to verify.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-gamma-timeline-compare",
+      "taskClass": "refactor",
+      "title": "Extract timeline compare helper",
+      "description": "In src/domain/Timeline.ts, extract the sort comparator into an exported timelineCompare function and use it from sortTimeline without changing sort behavior. Add or extend tests, then run pnpm test.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-delta-canonical-edge",
+      "taskClass": "test_addition",
+      "title": "Add canonical edge-case tests",
+      "description": "Extend test/unit/canonical.test.ts with cases for empty object and empty array canonicalization/digest stability. Run pnpm test to verify.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-epsilon-reduction-metrics",
+      "taskClass": "test_addition",
+      "title": "Add reduction() unit tests",
+      "description": "Create test/unit/eval-metrics.test.ts testing reduction() in src/eval/Metrics.ts for null control, null treatment, zero control, and a normal positive reduction case. Run pnpm test to verify.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-zeta-report-total",
+      "taskClass": "feature_addition",
+      "title": "Add total runs to eval report markdown",
+      "description": "Update renderReportMarkdown in src/eval/Report.ts to include a Total evaluations line summing control and manualContext run counts. Extend test/unit/evaluation.test.ts if needed. Run pnpm test.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-eta-inspect-unique",
+      "taskClass": "cross_cutting",
+      "title": "Show unique timeline evidence IDs in inspect",
+      "description": "Update inspectContext in src/context/ContextValidator.ts to include a line reporting the count of unique evidence IDs referenced by timeline events (deduplicated across the timeline). Add or extend tests, then run pnpm test.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-theta-budget-bytes",
+      "taskClass": "bug_fix",
+      "title": "Show context byte size on inspect",
+      "description": "When context inspect succeeds, include the canonical byte size of the context in the inspectContext output (use validateContextBudget or equivalent sizing logic). Update tests as needed and run pnpm test.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-iota-secret-message",
+      "taskClass": "validation_change",
+      "title": "Clarify secret-key validation error",
+      "description": "In src/dataset/DatasetValidator.ts, ensure assertNoSecretBearingKeys failures include the matched forbidden key name and JSON path in the DatasetMalformed reason. Add a focused unit test, then run pnpm test.",
+      "workspacePath": "."
+    },
+    {
+      "taskId": "real-kappa-report-adjudication",
+      "taskClass": "feature_addition",
+      "title": "Add adjudication counts to eval report",
+      "description": "Update renderReportMarkdown in src/eval/Report.ts to show needsHumanAdjudicationCount for control and manualContext sections (fields already exist on ConditionMetrics). Extend tests if needed; run pnpm test.",
+      "workspacePath": "."
+    }
+  ]
+}
