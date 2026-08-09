@@ -69,4 +69,4 @@ export const calculateConditionMetrics = (
 }
 
 export const reduction = (control: number | null, treatment: number | null): number | null =>
-  control === null || treatment === null || control === 0 ? null : (treatment - control) / control
+  control === null || treatment === null || control === 0 ? null : (control - treatment) / control
