@@ -1,4 +1,4 @@
 export const computeRatio = (numerator: number, denominator: number): number | null => {
-  if (denominator === 0) throw new Error("division by zero")
+  if (denominator === 0) return null
   return numerator / denominator
 }
