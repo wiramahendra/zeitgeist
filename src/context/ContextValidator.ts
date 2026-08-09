@@ -64,6 +64,11 @@ export const validateContext = (
         }
       }
     }
+    for (const event of context.timeline) {
+      for (const id of event.evidenceIds) {
+        if (!knownIds.has(id)) yield* Effect.fail(new ContextEvidenceReferenceMissing({ evidenceId: id }))
+      }
+    }
     yield* validateContextBudget(context, maximumBytes)
     return context
   })
