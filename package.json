@@ -27,6 +27,7 @@
     "research:exp-005:prepare": "tsx research/experiments/exp-005-agent-failure-surface/prepare-all.ts",
     "research:exp-005:ingest": "tsx research/experiments/exp-005-agent-failure-surface/ingest.ts",
     "research:exp-005:report": "tsx research/experiments/exp-005-agent-failure-surface/report.ts",
+    "research:exp-005v:report": "tsx research/experiments/exp-005v-validity-audit/generate-report.ts",
     "zeitgeist": "tsx src/cli/root.ts"
   },
   "dependencies": {
