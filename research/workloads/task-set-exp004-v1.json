@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "taskSetId": "exp-004-attribution-v1",
   "taskSetVersion": "1.0.0",
-  "frozenAtCommit": "TO_BE_RECORDED_AT_RUN",
+  "frozenAtCommit": "db5a57b",
   "environmentCondition": "C_WARM_WORKSPACE",
   "workspaceRoot": ".",
   "tasks": [
