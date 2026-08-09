@@ -10,7 +10,7 @@ import { makeExperimentInput, runSingleEvaluation } from "../../src/eval/Evaluat
 import { makeFakeRunner } from "../../src/eval/AgentRunner.js"
 import { createRunIdentity } from "../../src/eval/RunIdentity.js"
 import { scoreAgentResult } from "../../src/eval/Scorer.js"
-import { buildReport, renderReportMarkdown } from "../../src/eval/Report.js"
+import { buildReport, renderReportMarkdown, type EvaluationReport } from "../../src/eval/Report.js"
 
 const load = async <A, I>(name: string, schema: Schema.Schema<A, I>): Promise<A> => {
   const raw = JSON.parse(await readFile(new URL(`../../fixtures/synthetic-example/${name}`, import.meta.url), "utf8")) as unknown
@@ -89,5 +89,36 @@ describe("evaluation core", () => {
     const report = buildReport([control, manualContext])
     const markdown = renderReportMarkdown(report)
     expect(markdown).toContain(`Total evaluations: ${report.control.runCount + report.manualContext.runCount}`)
+  })
+
+  it("shows needs human adjudication counts in report markdown", () => {
+    const emptyMetrics = {
+      runCount: 0,
+      correctCount: 0,
+      needsHumanAdjudicationCount: 0,
+      diagnosticAccuracy: null,
+      medianDurationMs: null,
+      medianTimeToCorrectHypothesisMs: null,
+      medianToolCalls: null,
+      medianTotalTokens: null,
+      medianHumanInterventions: null,
+      medianFalseHighConfidenceHypotheses: null,
+      missingMetrics: []
+    }
+    const report: EvaluationReport = {
+      schemaVersion: "1.0",
+      generatedFrom: "results.jsonl",
+      experimentStatus: "INCOMPLETE",
+      completenessReasons: [],
+      distinctResearchIncidents: 0,
+      control: { ...emptyMetrics, runCount: 3, needsHumanAdjudicationCount: 2 },
+      manualContext: { ...emptyMetrics, runCount: 3, needsHumanAdjudicationCount: 1 },
+      comparisons: { medianToolCallReduction: null, medianTimeToCorrectHypothesisReduction: null }
+    }
+    const markdown = renderReportMarkdown(report)
+    expect(markdown).toContain("## Control")
+    expect(markdown).toContain("- Needs human adjudication: 2")
+    expect(markdown).toContain("## Manual context")
+    expect(markdown).toContain("- Needs human adjudication: 1")
   })
 })
