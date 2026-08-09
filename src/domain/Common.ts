@@ -35,3 +35,14 @@ export const StringArray = Schema.Array(NonEmptyString)
 
 export const decodePersisted = <A, I, R>(schema: Schema.Schema<A, I, R>) =>
   Schema.decodeUnknown(schema, { onExcessProperty: "error" })
+
+export const median = (values: ReadonlyArray<number>): number | null => {
+  if (values.length === 0) return null
+  const sorted = [...values].sort((left, right) => left - right)
+  const middle = Math.floor(sorted.length / 2)
+  const right = sorted[middle]
+  if (right === undefined) return null
+  if (sorted.length % 2 === 1) return right
+  const left = sorted[middle - 1]
+  return left === undefined ? null : (left + right) / 2
+}

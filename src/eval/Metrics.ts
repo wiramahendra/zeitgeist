@@ -1,3 +1,4 @@
+import { median } from "../domain/Common.js"
 import type { EvaluationResult, ExperimentCondition } from "../domain/EvaluationResult.js"
 
 export interface ConditionMetrics {
@@ -12,17 +13,6 @@ export interface ConditionMetrics {
   readonly medianHumanInterventions: number | null
   readonly medianFalseHighConfidenceHypotheses: number | null
   readonly missingMetrics: ReadonlyArray<string>
-}
-
-const median = (values: ReadonlyArray<number>): number | null => {
-  if (values.length === 0) return null
-  const sorted = [...values].sort((left, right) => left - right)
-  const middle = Math.floor(sorted.length / 2)
-  const right = sorted[middle]
-  if (right === undefined) return null
-  if (sorted.length % 2 === 1) return right
-  const left = sorted[middle - 1]
-  return left === undefined ? null : (left + right) / 2
 }
 
 const optionalValues = (results: ReadonlyArray<EvaluationResult>, select: (result: EvaluationResult) => number | undefined) =>
