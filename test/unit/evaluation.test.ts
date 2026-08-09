@@ -78,7 +78,10 @@ describe("evaluation core", () => {
     const loaded = await dataset()
     const runner = makeFakeRunner("fake-v1", () => correctResult)
     const result = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
-    expect(buildReport([result])).toEqual(buildReport([result]))
+    const first = buildReport([result])
+    const second = buildReport([result])
+    expect({ ...first, generatedAt: null }).toEqual({ ...second, generatedAt: null })
+    expect(first.generatedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/)
   })
 
   it("renders total evaluations as the sum of control and manual-context runs", async () => {
@@ -89,6 +92,19 @@ describe("evaluation core", () => {
     const report = buildReport([control, manualContext])
     const markdown = renderReportMarkdown(report)
     expect(markdown).toContain(`Total evaluations: ${report.control.runCount + report.manualContext.runCount}`)
+  })
+
+  it("uses a configurable minimum incident count for completeness", async () => {
+    const loaded = await dataset()
+    const runner = makeFakeRunner("fake-v1", () => correctResult)
+    const result = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
+    expect(buildReport([result]).completenessReasons).toContain("Fewer than 10 distinct real incident results")
+    expect(buildReport([result], { minIncidents: 0 }).completenessReasons).not.toContain(
+      "Fewer than 0 distinct real incident results"
+    )
+    expect(buildReport([result], { minIncidents: 1 }).completenessReasons).toContain(
+      "Fewer than 1 distinct real incident results"
+    )
   })
 
   it("shows needs human adjudication counts in report markdown", () => {
@@ -108,6 +124,7 @@ describe("evaluation core", () => {
     const report: EvaluationReport = {
       schemaVersion: "1.0",
       generatedFrom: "results.jsonl",
+      generatedAt: "2026-08-09T08:00:00.000Z",
       experimentStatus: "INCOMPLETE",
       completenessReasons: [],
       distinctResearchIncidents: 0,

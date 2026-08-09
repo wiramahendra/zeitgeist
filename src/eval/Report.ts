@@ -1,12 +1,13 @@
 import { Effect, Schema } from "effect"
 import type { EvaluationResult } from "../domain/EvaluationResult.js"
-import { decodePersisted } from "../domain/Common.js"
+import { decodePersisted, Timestamp } from "../domain/Common.js"
 import { atomicWrite, canonicalize } from "../context/Canonicalize.js"
 import { calculateConditionMetrics, reduction, type ConditionMetrics } from "./Metrics.js"
 
 export interface EvaluationReport {
   readonly schemaVersion: "1.0"
   readonly generatedFrom: "results.jsonl"
+  readonly generatedAt: string
   readonly experimentStatus: "PASS" | "FAIL" | "INCOMPLETE"
   readonly completenessReasons: ReadonlyArray<string>
   readonly distinctResearchIncidents: number
@@ -36,6 +37,7 @@ const ConditionMetricsSchema = Schema.Struct({
 const EvaluationReportSchema = Schema.Struct({
   schemaVersion: Schema.Literal("1.0"),
   generatedFrom: Schema.Literal("results.jsonl"),
+  generatedAt: Timestamp,
   experimentStatus: Schema.Literal("PASS", "FAIL", "INCOMPLETE"),
   completenessReasons: Schema.Array(Schema.String),
   distinctResearchIncidents: Schema.Number.pipe(Schema.int(), Schema.nonNegative()),
@@ -47,13 +49,23 @@ const EvaluationReportSchema = Schema.Struct({
   })
 })
 
-export const buildReport = (results: ReadonlyArray<EvaluationResult>): EvaluationReport => {
+export interface BuildReportOptions {
+  readonly minIncidents?: number
+}
+
+export const buildReport = (
+  results: ReadonlyArray<EvaluationResult>,
+  options: BuildReportOptions = {}
+): EvaluationReport => {
+  const minIncidents = options.minIncidents ?? 10
   const researchResults = results.filter((result) => result.researchClassification === "REAL_SANITIZED_HISTORICAL")
   const control = calculateConditionMetrics(researchResults, "CONTROL")
   const manualContext = calculateConditionMetrics(researchResults, "MANUAL_CONTEXT")
   const incidentIds = new Set(researchResults.map((result) => result.incidentId))
   const completenessReasons: Array<string> = []
-  if (incidentIds.size < 10) completenessReasons.push("Fewer than 10 distinct real incident results")
+  if (incidentIds.size < minIncidents) {
+    completenessReasons.push(`Fewer than ${minIncidents} distinct real incident results`)
+  }
   const researchControlCount = researchResults.filter((result) => result.condition === "CONTROL").length
   const researchManualCount = researchResults.filter((result) => result.condition === "MANUAL_CONTEXT").length
   if (researchControlCount !== researchManualCount || researchControlCount < incidentIds.size) {
@@ -96,6 +108,7 @@ export const buildReport = (results: ReadonlyArray<EvaluationResult>): Evaluatio
   return {
     schemaVersion: "1.0",
     generatedFrom: "results.jsonl",
+    generatedAt: new Date().toISOString(),
     experimentStatus,
     completenessReasons,
     distinctResearchIncidents: incidentIds.size,
@@ -108,6 +121,8 @@ export const buildReport = (results: ReadonlyArray<EvaluationResult>): Evaluatio
 const display = (value: number | null): string => value === null ? "unavailable" : String(value)
 
 export const renderReportMarkdown = (report: EvaluationReport): string => `# Zeitgeist Gate 0 Evaluation Report
+
+Generated: ${report.generatedAt}
 
 Experiment status: **${report.experimentStatus}**
 
