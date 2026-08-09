@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1.0",
+  "taskSetId": "exp-001-smoke-v1",
+  "taskSetVersion": "1.0.0",
+  "tasks": [
+    {
+      "taskId": "task-01-bug-fix-median",
+      "taskClass": "bug_fix",
+      "title": "Fix off-by-one median for even-length arrays",
+      "description": "Repair the median helper so even-length inputs average the two central elements instead of returning the upper middle only.",
+      "fixturePath": "research/workloads/fixtures/task-01-bug-fix-median",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-02-feature-add-cli-flag",
+      "taskClass": "feature_addition",
+      "title": "Add --json output flag to stats CLI",
+      "description": "Extend the stats command with a --json flag that prints machine-readable summary output.",
+      "fixturePath": "research/workloads/fixtures/task-02-feature-add-cli-flag",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-03-refactor-extract-parser",
+      "taskClass": "refactor",
+      "title": "Extract CSV row parser helper",
+      "description": "Move row parsing logic into a dedicated helper without changing external behavior.",
+      "fixturePath": "research/workloads/fixtures/task-03-refactor-extract-parser",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-04-schema-add-field",
+      "taskClass": "schema_or_contract_change",
+      "title": "Add optional source field to Record schema",
+      "description": "Extend the Record schema with an optional source string and update dependent validators.",
+      "fixturePath": "research/workloads/fixtures/task-04-schema-add-field",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-05-dependency-upgrade",
+      "taskClass": "dependency_change",
+      "title": "Upgrade vitest and fix breaking API usage",
+      "description": "Bump vitest to the target version and repair test imports affected by the upgrade.",
+      "fixturePath": "research/workloads/fixtures/task-05-dependency-upgrade",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-06-validation-tighten",
+      "taskClass": "validation_change",
+      "title": "Reject negative quantity values",
+      "description": "Tighten validation so quantity must be a non-negative integer.",
+      "fixturePath": "research/workloads/fixtures/task-06-validation-tighten",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-07-test-addition",
+      "taskClass": "test_addition",
+      "title": "Add tests for slugify edge cases",
+      "description": "Add unit tests covering empty input and consecutive separators for slugify.",
+      "fixturePath": "research/workloads/fixtures/task-07-test-addition",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-08-test-failure-diagnosis",
+      "taskClass": "test_failure_diagnosis",
+      "title": "Diagnose failing timezone formatter test",
+      "description": "Find and fix the regression causing the timezone formatter test to fail.",
+      "fixturePath": "research/workloads/fixtures/task-08-test-failure-diagnosis",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-09-cross-cutting-logging",
+      "taskClass": "cross_cutting_change",
+      "title": "Add structured logging across parser and writer",
+      "description": "Introduce a shared logger and wire it through parser and writer modules consistently.",
+      "fixturePath": "research/workloads/fixtures/task-09-cross-cutting-logging",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    },
+    {
+      "taskId": "task-10-doc-alignment",
+      "taskClass": "documentation_or_interface_alignment",
+      "title": "Align CLI help with implemented flags",
+      "description": "Update CLI help text and README examples to match the implemented command flags.",
+      "fixturePath": "research/workloads/fixtures/task-10-doc-alignment",
+      "verificationCommand": ["pnpm", "exec", "vitest", "run", "--config", "vitest.config.ts"]
+    }
+  ]
+}
