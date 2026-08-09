@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-005",
+  "updatedAt": "2026-08-09T08:48:34Z",
+  "totalTasks": 11,
+  "completedRuns": 2,
+  "runningRuns": 9,
+  "completed": [
+    {
+      "taskId": "fail-zeta-min-incidents-flag",
+      "cloudAgentBcId": "bc-570b60ec-d35a-5e70-a7b3-3564a5f29c57",
+      "status": "IDLE",
+      "onSeedBranch": true
+    },
+    {
+      "taskId": "fail-kappa-reduction-regression",
+      "cloudAgentBcId": "bc-06223e99-044a-595f-92f1-d4c24f9153e1",
+      "status": "IDLE",
+      "onSeedBranch": false,
+      "actualPushBranch": "cursor/fix-kappa-reduction-regression-53e1"
+    }
+  ],
+  "running": [
+    "fail-alpha-context-stats",
+    "fail-beta-timeline-tiebreak",
+    "fail-gamma-decode-helper",
+    "fail-delta-report-generated-at",
+    "fail-epsilon-shared-median",
+    "fail-eta-condition-delta",
+    "fail-theta-import-extensions",
+    "fail-iota-inspect-evidence-flag",
+    "fail-lambda-orphan-timeline-evidence"
+  ]
+}
