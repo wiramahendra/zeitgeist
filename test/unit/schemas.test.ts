@@ -4,8 +4,8 @@ import { Effect, Schema } from "effect"
 import { Incident } from "../../src/domain/Incident.js"
 import { decodePersisted } from "../../src/domain/Common.js"
 import { EvidenceCollection } from "../../src/domain/Evidence.js"
-import { decodeContext, validateContext } from "../../src/context/ContextValidator.js"
-import { validateContextBudget } from "../../src/context/ContextBudget.js"
+import { decodeContext, inspectContext, validateContext } from "../../src/context/ContextValidator.js"
+import { contextByteSize, validateContextBudget } from "../../src/context/ContextBudget.js"
 
 const fixture = async (name: string): Promise<unknown> =>
   JSON.parse(await readFile(new URL(`../../fixtures/synthetic-example/${name}`, import.meta.url), "utf8")) as unknown
@@ -54,5 +54,11 @@ describe("persisted schemas", () => {
   it("enforces the configured context byte budget", async () => {
     const context = await fixture("context.json")
     expect(await failureTag(validateContextBudget(context, 10))).toBe("ContextBudgetExceeded")
+  })
+
+  it("reports canonical byte size in inspect output", async () => {
+    const context = await Effect.runPromise(decodeContext(await fixture("context.json")))
+    const output = inspectContext(context)
+    expect(output).toContain(`Canonical bytes: ${contextByteSize(context)}`)
   })
 })

@@ -4,7 +4,7 @@ import { IncidentContext, type IncidentContext as IncidentContextType } from "..
 import { decodePersisted } from "../domain/Common.js"
 import { ContextContainsHypothesis, ContextEvidenceReferenceMissing } from "../errors/ContextErrors.js"
 import { SchemaValidationFailed } from "../errors/DatasetErrors.js"
-import { validateContextBudget } from "./ContextBudget.js"
+import { contextByteSize, validateContextBudget } from "./ContextBudget.js"
 
 const forbiddenInferenceKeys = new Set(["hypothesis", "hypotheses", "rootcause", "rootcauses"])
 
@@ -84,7 +84,8 @@ export const inspectContext = (context: IncidentContextType): string => {
     `Recent changes: ${context.recentChanges.length}`,
     `Errors: ${context.errors.length}`,
     `Dependencies: ${context.dependencies.length}`,
-    `Evidence references: ${context.evidenceReferences.length}`
+    `Evidence references: ${context.evidenceReferences.length}`,
+    `Canonical bytes: ${contextByteSize(context)}`
   ]
   return `${lines.join("\n")}\n`
 }
