@@ -68,11 +68,26 @@ export const validateContext = (
     return context
   })
 
-export const inspectContext = (context: IncidentContextType): string => {
+const timelineEvidenceIdCount = (context: IncidentContextType): number => {
   const timelineEvidenceIds = new Set<string>()
   for (const event of context.timeline) {
     for (const id of event.evidenceIds) timelineEvidenceIds.add(id)
   }
+  return timelineEvidenceIds.size
+}
+
+export const statsContext = (context: IncidentContextType): string => {
+  const lines = [
+    `Facts: ${context.facts.length}`,
+    `Timeline events: ${context.timeline.length}`,
+    `Errors: ${context.errors.length}`,
+    `Dependencies: ${context.dependencies.length}`,
+    `Timeline unique evidence IDs: ${timelineEvidenceIdCount(context)}`
+  ]
+  return `${lines.join("\n")}\n`
+}
+
+export const inspectContext = (context: IncidentContextType): string => {
   const lines = [
     `Incident: ${context.incident.id}`,
     `Service: ${context.incident.affectedService}`,
@@ -80,7 +95,7 @@ export const inspectContext = (context: IncidentContextType): string => {
     `Started: ${context.incident.startedAt}`,
     `Facts: ${context.facts.length}`,
     `Timeline events: ${context.timeline.length}`,
-    `Timeline unique evidence IDs: ${timelineEvidenceIds.size}`,
+    `Timeline unique evidence IDs: ${timelineEvidenceIdCount(context)}`,
     `Recent changes: ${context.recentChanges.length}`,
     `Errors: ${context.errors.length}`,
     `Dependencies: ${context.dependencies.length}`,

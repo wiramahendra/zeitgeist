@@ -3,6 +3,7 @@ import { Command } from "@effect/cli"
 import { NodeContext, NodeRuntime } from "@effect/platform-node"
 import { Effect } from "effect"
 import { contextInspectCommand } from "./contextInspect.js"
+import { contextStatsCommand } from "./contextStats.js"
 import { contextValidateCommand } from "./contextValidate.js"
 import { datasetValidateCommand } from "./datasetValidate.js"
 import { evalReportCommand } from "./evalReport.js"
@@ -10,7 +11,7 @@ import { evalRunCommand } from "./evalRun.js"
 
 const datasetCommand = Command.make("dataset").pipe(Command.withSubcommands([datasetValidateCommand]))
 const contextCommand = Command.make("context").pipe(
-  Command.withSubcommands([contextValidateCommand, contextInspectCommand])
+  Command.withSubcommands([contextValidateCommand, contextInspectCommand, contextStatsCommand])
 )
 const evalCommand = Command.make("eval").pipe(Command.withSubcommands([evalRunCommand, evalReportCommand]))
 
