@@ -1,12 +1,12 @@
 import { FileSystem } from "@effect/platform"
 import { Effect, Schema } from "effect"
-import { EvidenceCollection, type Evidence } from "../domain/Evidence.js"
-import { ExpectedOutcome, type ExpectedOutcome as ExpectedOutcomeType } from "../domain/ExpectedOutcome.js"
-import { Incident, type Incident as IncidentType } from "../domain/Incident.js"
-import { decodePersisted } from "../domain/Common.js"
+import { EvidenceCollection, type Evidence } from "../domain/Evidence"
+import { ExpectedOutcome, type ExpectedOutcome as ExpectedOutcomeType } from "../domain/ExpectedOutcome"
+import { Incident, type Incident as IncidentType } from "../domain/Incident"
+import { decodePersisted } from "../domain/Common"
 import type { IncidentContext } from "../domain/IncidentContext.js"
-import { DatasetMalformed, DatasetNotFound, SchemaValidationFailed } from "../errors/DatasetErrors.js"
-import { decodeContext } from "../context/ContextValidator.js"
+import { DatasetMalformed, DatasetNotFound, SchemaValidationFailed } from "../errors/DatasetErrors"
+import { decodeContext } from "../context/ContextValidator"
 
 export interface IncidentDataset {
   readonly directory: string
