@@ -112,6 +112,7 @@ export const renderReportMarkdown = (report: EvaluationReport): string => `# Zei
 Experiment status: **${report.experimentStatus}**
 
 Distinct research incidents: ${report.distinctResearchIncidents}
+Total evaluations: ${report.control.runCount + report.manualContext.runCount}
 
 ## Control
 

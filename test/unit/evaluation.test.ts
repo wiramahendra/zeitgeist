@@ -10,7 +10,7 @@ import { makeExperimentInput, runSingleEvaluation } from "../../src/eval/Evaluat
 import { makeFakeRunner } from "../../src/eval/AgentRunner.js"
 import { createRunIdentity } from "../../src/eval/RunIdentity.js"
 import { scoreAgentResult } from "../../src/eval/Scorer.js"
-import { buildReport } from "../../src/eval/Report.js"
+import { buildReport, renderReportMarkdown } from "../../src/eval/Report.js"
 
 const load = async <A, I>(name: string, schema: Schema.Schema<A, I>): Promise<A> => {
   const raw = JSON.parse(await readFile(new URL(`../../fixtures/synthetic-example/${name}`, import.meta.url), "utf8")) as unknown
@@ -79,5 +79,15 @@ describe("evaluation core", () => {
     const runner = makeFakeRunner("fake-v1", () => correctResult)
     const result = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
     expect(buildReport([result])).toEqual(buildReport([result]))
+  })
+
+  it("renders total evaluations as the sum of control and manual-context runs", async () => {
+    const loaded = await dataset()
+    const runner = makeFakeRunner("fake-v1", () => correctResult)
+    const control = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
+    const manualContext = await Effect.runPromise(runSingleEvaluation(loaded, "MANUAL_CONTEXT", 0, runner, {}))
+    const report = buildReport([control, manualContext])
+    const markdown = renderReportMarkdown(report)
+    expect(markdown).toContain(`Total evaluations: ${report.control.runCount + report.manualContext.runCount}`)
   })
 })
