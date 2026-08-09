@@ -17,8 +17,8 @@ export const timelineCompare = <
   right: T
 ): number =>
   left.timestamp.localeCompare(right.timestamp) ||
-  left.eventType.localeCompare(right.eventType) ||
-  left.subject.localeCompare(right.subject)
+  left.subject.localeCompare(right.subject) ||
+  left.eventType.localeCompare(right.eventType)
 
 export const sortTimeline = <
   T extends { readonly timestamp: string; readonly eventType: string; readonly subject: string }
