@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0",
+  "taskSetId": "exp-003-warmth-v1",
+  "taskSetVersion": "1.0.0",
+  "tasks": [
+    {
+      "taskId": "warm-alpha-ratio",
+      "taskClass": "bug_fix",
+      "title": "Fix zero denominator in computeRatio",
+      "description": "In the assigned workspace, computeRatio throws when the denominator is zero. Fix it to return null instead of throwing, and make the existing tests pass.",
+      "fixturePath": "research/workloads/exp-003-live/alpha"
+    },
+    {
+      "taskId": "warm-beta-label",
+      "taskClass": "feature_addition",
+      "title": "Implement formatLabel",
+      "description": "In the assigned workspace, implement formatLabel so non-empty labels render as '[label]: value' and empty labels render as the value alone. Tests describe expected behavior.",
+      "fixturePath": "research/workloads/exp-003-live/beta"
+    },
+    {
+      "taskId": "warm-gamma-parser",
+      "taskClass": "refactor",
+      "title": "Extract parseLine helper",
+      "description": "In the assigned workspace, extract line parsing into parseLine without changing parseDocument output.",
+      "fixturePath": "research/workloads/exp-003-live/gamma"
+    },
+    {
+      "taskId": "warm-delta-slug",
+      "taskClass": "test_addition",
+      "title": "Add slugify edge tests",
+      "description": "In the assigned workspace, add slugify tests for empty input and consecutive separators without changing slugify behavior.",
+      "fixturePath": "research/workloads/exp-003-live/delta"
+    },
+    {
+      "taskId": "warm-epsilon-name",
+      "taskClass": "validation_change",
+      "title": "Reject whitespace-only names",
+      "description": "In the assigned workspace, tighten validateName to reject whitespace-only strings.",
+      "fixturePath": "research/workloads/exp-003-live/epsilon"
+    },
+    {
+      "taskId": "warm-zeta-record",
+      "taskClass": "schema_or_contract_change",
+      "title": "Add optional source to Record schema",
+      "description": "In the assigned workspace, extend RecordShape with optional source string and update validateRecord so tests pass.",
+      "fixturePath": "research/workloads/exp-003-live/zeta"
+    }
+  ]
+}

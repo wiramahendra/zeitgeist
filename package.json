@@ -17,6 +17,9 @@
     "research:exp-001:report": "tsx research/experiments/exp-001-agent-work-profile/report.ts",
     "research:exp-002:ingest": "tsx research/experiments/exp-002-live-trace-validation/ingest.ts",
     "research:exp-002:report": "tsx research/experiments/exp-002-live-trace-validation/report.ts",
+    "research:exp-003:prepare": "tsx research/experiments/exp-003-environment-warmth/prepare-all.ts",
+    "research:exp-003:ingest": "tsx research/experiments/exp-003-environment-warmth/ingest.ts",
+    "research:exp-003:report": "tsx research/experiments/exp-003-environment-warmth/report.ts",
     "zeitgeist": "tsx src/cli/root.ts"
   },
   "dependencies": {

@@ -3,3 +3,4 @@ dist/
 coverage/
 *.tmp
 research/workloads/.runs/
+research/workloads/exp-003-runs/
