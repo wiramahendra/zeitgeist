@@ -3,7 +3,7 @@ EXP-003 REPORT: ENVIRONMENT WARMTH / SETUP TAX
 DECISION: REPLICATE
 
 BRANCH: cursor/exp-003-environment-warmth-1db1
-HEAD: a428d3c9295bde2e657cba64821570174876893e
+HEAD: f1900fcef82499ac2dc59d80cdf9549d25e74192
 MODEL: composer-2.5-fast
 RUNNER: cloud-transcript-adapter/v1
 
