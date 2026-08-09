@@ -7,12 +7,14 @@
     "node": ">=24.0.0"
   },
   "bin": {
-    "zeitgeist": "./dist/cli/root.js"
+    "zeitgeist": "./dist/src/cli/root.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
+    "research:exp-001": "tsx research/experiments/exp-001-agent-work-profile/runner.ts",
+    "research:exp-001:report": "tsx research/experiments/exp-001-agent-work-profile/report.ts",
     "zeitgeist": "tsx src/cli/root.ts"
   },
   "dependencies": {
