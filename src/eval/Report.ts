@@ -108,10 +108,9 @@ export const buildReport = (results: ReadonlyArray<EvaluationResult>): Evaluatio
 const display = (value: number | null): string => value === null ? "unavailable" : String(value)
 
 
-export const summarizeConditionDelta = (_control: ConditionMetrics, _manual: ConditionMetrics): string => {
-  // EXP-005 stub — incomplete
-  return ""
-}
+export const summarizeConditionDelta = (control: ConditionMetrics, manual: ConditionMetrics): string =>
+  `- Control run count: ${control.runCount}, correct count: ${control.correctCount}
+- Manual context run count: ${manual.runCount}, correct count: ${manual.correctCount}`
 
 export const renderReportMarkdown = (report: EvaluationReport): string => `# Zeitgeist Gate 0 Evaluation Report
 
@@ -139,6 +138,10 @@ Total evaluations: ${report.control.runCount + report.manualContext.runCount}
 - Median tool calls: ${display(report.manualContext.medianToolCalls)}
 - Median total tokens: ${display(report.manualContext.medianTotalTokens)}
 - Missing metrics: ${report.manualContext.missingMetrics.length === 0 ? "none" : report.manualContext.missingMetrics.join(", ")}
+
+## Condition delta
+
+${summarizeConditionDelta(report.control, report.manualContext)}
 
 ## Completeness
 
