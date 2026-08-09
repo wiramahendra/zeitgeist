@@ -84,9 +84,71 @@ describe("time attribution", () => {
     run.durationMs = 900
     const attribution = computeTimeAttribution(run)
     expect(attribution.deterministicToolMs).toBe(600)
+    expect(attribution.busyWallMs).toBe(600)
     expect(attribution.interToolGapMs).toBe(200)
     expect(attribution.unattributedMs).toBe(100)
     expect(attribution.verificationMs).toBe(500)
+  })
+
+  it("groups parallel tool calls into batches for gap accounting", () => {
+    const run = normalizeAgentRun(
+      baseRun([
+        {
+          callIndex: 0,
+          toolName: "Read",
+          category: "file_read",
+          startedAtMs: 0,
+          endedAtMs: 100,
+          durationMs: 100,
+          exitStatus: null,
+          command: "read:src/a.ts",
+          filesRead: ["src/a.ts"],
+          filesWritten: [],
+          stdoutBytes: null,
+          stderrBytes: null,
+          failed: false,
+          retried: false
+        },
+        {
+          callIndex: 1,
+          toolName: "Grep",
+          category: "search",
+          startedAtMs: 0,
+          endedAtMs: 150,
+          durationMs: 150,
+          exitStatus: null,
+          command: "rg foo",
+          filesRead: [],
+          filesWritten: [],
+          stdoutBytes: null,
+          stderrBytes: null,
+          failed: false,
+          retried: false
+        },
+        {
+          callIndex: 2,
+          toolName: "Shell",
+          category: "test",
+          startedAtMs: 400,
+          endedAtMs: 700,
+          durationMs: 300,
+          exitStatus: 0,
+          command: "pnpm test",
+          filesRead: [],
+          filesWritten: [],
+          stdoutBytes: 10,
+          stderrBytes: null,
+          failed: false,
+          retried: false
+        }
+      ])
+    )
+    run.durationMs = 700
+    const attribution = computeTimeAttribution(run)
+    expect(attribution.parallelBatchCount).toBe(2)
+    expect(attribution.busyWallMs).toBe(450)
+    expect(attribution.interToolGapMs).toBe(250)
+    expect(attribution.parallelOverlapMs).toBe(100)
   })
 
   it("detects recurring exploration pattern across runs", () => {

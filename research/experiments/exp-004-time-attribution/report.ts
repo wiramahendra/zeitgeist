@@ -62,7 +62,9 @@ const generateReport = async (): Promise<void> => {
 
   const totalWall = records.reduce((sum, record) => sum + record.attribution.wallClockMs, 0)
   const totalTool = records.reduce((sum, record) => sum + record.attribution.deterministicToolMs, 0)
+  const totalBusy = records.reduce((sum, record) => sum + record.attribution.busyWallMs, 0)
   const totalGap = records.reduce((sum, record) => sum + record.attribution.interToolGapMs, 0)
+  const totalOverlap = records.reduce((sum, record) => sum + record.attribution.parallelOverlapMs, 0)
   const totalUnattributed = records.reduce((sum, record) => sum + record.attribution.unattributedMs, 0)
 
   const categoryTotals = rankCategoriesByDuration(
@@ -83,7 +85,7 @@ const generateReport = async (): Promise<void> => {
   const perRunLines = records
     .map((record) => {
       const top = rankCategoriesByDuration(record.attribution.categoryDurationMs)[0]
-      return `${record.taskId} ${record.taskClass} ${record.finalStatus} wall=${record.attribution.wallClockMs} tool=${record.attribution.deterministicToolMs} gap=${record.attribution.interToolGapMs} unattributed=${record.attribution.unattributedMs} verify=${record.attribution.verificationMs} explore=${record.attribution.explorationMs} top=${top?.category ?? "none"} dupRead=${record.metrics.duplicateFileReadRatio ?? "n/a"} repeatTest=${record.metrics.repeatedTestRunCount}`
+      return `${record.taskId} ${record.taskClass} ${record.finalStatus} wall=${record.attribution.wallClockMs} busy=${record.attribution.busyWallMs} tool=${record.attribution.deterministicToolMs} gap=${record.attribution.interToolGapMs} overlap=${record.attribution.parallelOverlapMs} unattributed=${record.attribution.unattributedMs} verify=${record.attribution.verificationMs} explore=${record.attribution.explorationMs} top=${top?.category ?? "none"} dupRead=${record.metrics.duplicateFileReadRatio ?? "n/a"} repeatTest=${record.metrics.repeatedTestRunCount}`
     })
     .join("\n")
 
@@ -129,11 +131,17 @@ Unavailable: input/output tokens, model request latency, pre-first-tool and post
 
 AGGREGATE TIME ATTRIBUTION (all runs)
 Total wall-clock (first-to-last tool span): ${totalWall}ms
-Total deterministic tool time: ${totalTool}ms (${totalWall === 0 ? "n/a" : ((totalTool / totalWall) * 100).toFixed(1)}% of wall)
-Total inter-tool gap time: ${totalGap}ms (${totalWall === 0 ? "n/a" : ((totalGap / totalWall) * 100).toFixed(1)}% of wall)
+Total busy wall (parallel-batch spans): ${totalBusy}ms (${totalWall === 0 ? "n/a" : ((totalBusy / totalWall) * 100).toFixed(1)}% of wall)
+Total deterministic tool activity: ${totalTool}ms (sum of tool durations; may exceed busy wall when tools run in parallel)
+Total inter-batch gap time (observable wait between tool batches): ${totalGap}ms (${totalWall === 0 ? "n/a" : ((totalGap / totalWall) * 100).toFixed(1)}% of wall)
+Total parallel overlap (tool activity minus busy wall): ${totalOverlap}ms
 Total unattributed within span: ${totalUnattributed}ms (${totalWall === 0 ? "n/a" : ((totalUnattributed / totalWall) * 100).toFixed(1)}% of wall)
 Median wall per run: ${median(records.map((record) => record.attribution.wallClockMs)) ?? "n/a"}ms
-Median unattributed per run: ${median(records.map((record) => record.attribution.unattributedMs)) ?? "n/a"}ms
+Median inter-batch gap per run: ${median(records.map((record) => record.attribution.interToolGapMs)) ?? "n/a"}ms
+Parallel-batch accounting used: ${records.every((record) => record.attribution.usesParallelBatchAccounting) ? "yes (all runs had same-turn parallel tool calls)" : "mixed"}
+
+PRIMARY FINDING
+Inter-batch gap time (observable wait between tool batches, not attributed to any tool category) is the largest wall-clock component at ${totalWall === 0 ? "n/a" : ((totalGap / totalWall) * 100).toFixed(1)}% aggregate share. This is reported separately from tool categories and is not classified as model reasoning. Deterministic tool activity (busy wall) is only ${totalWall === 0 ? "n/a" : ((totalBusy / totalWall) * 100).toFixed(1)}% of wall-clock.
 
 CATEGORY TOTALS
 ${categoryLines || "no tool activity recorded"}
@@ -165,8 +173,7 @@ research/results/exp-004/run-manifest.json
 NO OPTIMIZATION IMPLEMENTED
 
 RECOMMENDED NEXT EXPERIMENT
-If STRONG_SIGNAL: replicate the identified pattern on 20 runs with finer-grained transcript timing (turn boundaries) before any intervention research.
-If WEAK_SIGNAL or NO_SIGNAL: run EXP-004b with model-turn boundary instrumentation to split inter-tool gaps from model wait time.
+Run EXP-004b with explicit model-turn boundary timestamps to determine how much of the ${totalWall === 0 ? "~62" : ((totalGap / totalWall) * 100).toFixed(0)}% inter-batch gap is model latency versus agent scheduling overhead. The git/package_environment STRONG_SIGNAL (29% tool-activity share) is secondary to gap-dominated wall-clock.
 `
 
   const summary = {

@@ -23,10 +23,21 @@ export interface InterToolGap {
   readonly durationMs: number
 }
 
+export interface ToolBatch {
+  readonly startMs: number
+  readonly endMs: number
+  readonly wallMs: number
+  readonly toolMs: number
+  readonly callIndexes: ReadonlyArray<number>
+}
+
 export interface TimeAttribution {
   readonly wallClockMs: number
   readonly deterministicToolMs: number
+  readonly parallelBatchCount: number
+  readonly busyWallMs: number
   readonly interToolGapMs: number
+  readonly parallelOverlapMs: number
   readonly unattributedMs: number
   readonly interToolGapCount: number
   readonly medianInterToolGapMs: number | null
@@ -36,6 +47,7 @@ export interface TimeAttribution {
   readonly verificationMs: number
   readonly explorationMs: number
   readonly timingSemantics: NormalizedAgentRun["timingSemantics"]
+  readonly usesParallelBatchAccounting: boolean
 }
 
 export interface RecurringPattern {
@@ -51,6 +63,50 @@ const median = (values: ReadonlyArray<number>): number | null => {
   const sorted = [...values].sort((left, right) => left - right)
   const middle = Math.floor(sorted.length / 2)
   return sorted.length % 2 === 1 ? sorted[middle]! : (sorted[middle - 1]! + sorted[middle]!) / 2
+}
+
+export const groupToolBatches = (
+  toolCalls: ReadonlyArray<{ readonly callIndex: number; readonly startedAtMs: number; readonly endedAtMs: number; readonly durationMs: number }>
+): ReadonlyArray<ToolBatch> => {
+  const ordered = [...toolCalls].sort((left, right) =>
+    left.startedAtMs === right.startedAtMs ? left.callIndex - right.callIndex : left.startedAtMs - right.startedAtMs
+  )
+  const batches: Array<ToolBatch> = []
+  for (const call of ordered) {
+    const last = batches[batches.length - 1]
+    if (last !== undefined && call.startedAtMs <= last.endMs) {
+      batches[batches.length - 1] = {
+        startMs: last.startMs,
+        endMs: Math.max(last.endMs, call.endedAtMs),
+        wallMs: Math.max(last.endMs, call.endedAtMs) - last.startMs,
+        toolMs: last.toolMs + call.durationMs,
+        callIndexes: [...last.callIndexes, call.callIndex]
+      }
+      continue
+    }
+    batches.push({
+      startMs: call.startedAtMs,
+      endMs: call.endedAtMs,
+      wallMs: Math.max(0, call.endedAtMs - call.startedAtMs),
+      toolMs: call.durationMs,
+      callIndexes: [call.callIndex]
+    })
+  }
+  return batches
+}
+
+export const computeInterBatchGaps = (batches: ReadonlyArray<ToolBatch>): ReadonlyArray<InterToolGap> => {
+  const gaps: Array<InterToolGap> = []
+  for (let index = 1; index < batches.length; index += 1) {
+    const previous = batches[index - 1]
+    const current = batches[index]
+    if (previous === undefined || current === undefined) continue
+    const durationMs = Math.max(0, current.startMs - previous.endMs)
+    if (durationMs > 0) {
+      gaps.push({ afterCallIndex: previous.callIndexes[previous.callIndexes.length - 1] ?? -1, durationMs })
+    }
+  }
+  return gaps
 }
 
 export const computeInterToolGaps = (
@@ -72,9 +128,15 @@ export const computeInterToolGaps = (
 
 export const computeTimeAttribution = (run: NormalizedAgentRun): TimeAttribution => {
   const metrics = computeRunMetrics(run)
-  const gaps = computeInterToolGaps(run.toolCalls)
+  const usesParallelBatchAccounting = run.timingSemantics === "overlapping_unsupported"
+  const batches = groupToolBatches(run.toolCalls)
+  const gaps = usesParallelBatchAccounting ? computeInterBatchGaps(batches) : computeInterToolGaps(run.toolCalls)
   const interToolGapMs = gaps.reduce((total, gap) => total + gap.durationMs, 0)
-  const unattributedMs = Math.max(0, run.durationMs - metrics.deterministicToolDurationMs - interToolGapMs)
+  const busyWallMs = batches.reduce((total, batch) => total + batch.wallMs, 0)
+  const parallelOverlapMs = usesParallelBatchAccounting
+    ? Math.max(0, metrics.deterministicToolDurationMs - busyWallMs)
+    : 0
+  const unattributedMs = Math.max(0, run.durationMs - busyWallMs - interToolGapMs)
   const categoryWallShare = Object.fromEntries(
     TOOL_CATEGORIES.map((category) => [
       category,
@@ -93,7 +155,10 @@ export const computeTimeAttribution = (run: NormalizedAgentRun): TimeAttribution
   return {
     wallClockMs: run.durationMs,
     deterministicToolMs: metrics.deterministicToolDurationMs,
+    parallelBatchCount: batches.length,
+    busyWallMs,
     interToolGapMs,
+    parallelOverlapMs,
     unattributedMs,
     interToolGapCount: gaps.length,
     medianInterToolGapMs: median(gaps.map((gap) => gap.durationMs)),
@@ -102,7 +167,8 @@ export const computeTimeAttribution = (run: NormalizedAgentRun): TimeAttribution
     categoryWallShare,
     verificationMs,
     explorationMs,
-    timingSemantics: run.timingSemantics
+    timingSemantics: run.timingSemantics,
+    usesParallelBatchAccounting
   }
 }
 
@@ -215,9 +281,6 @@ export const decideExp004 = (
   thresholds: { readonly minWallShare: number; readonly minToolShare: number }
 ): Exp004Decision => {
   if (records.length < expectedRunCount) return "INVALID"
-  if (records.some((record) => record.attribution.timingSemantics === "overlapping_unsupported")) {
-    return "INVALID"
-  }
   const strong = patterns.filter(
     (pattern) =>
       (pattern.medianWallShare ?? 0) >= thresholds.minWallShare ||
