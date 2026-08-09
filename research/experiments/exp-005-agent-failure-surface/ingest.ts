@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { cp } from "node:fs/promises"
-import { dirname, join } from "node:path"
+import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 import { canonicalize, sha256 } from "../../../src/context/Canonicalize.js"
 import {
@@ -62,10 +62,16 @@ const ingest = async (manifestPath: string): Promise<void> => {
   for (const entry of manifest.runs) {
     const taskDef = taskSet.tasks.find((task) => task.taskId === entry.taskId)
     if (taskDef === undefined) throw new Error(`Unknown task ${entry.taskId}`)
-    const transcriptRaw = await readFile(entry.transcriptPath, "utf8")
+    const transcriptPath = entry.transcriptPath.startsWith("/")
+      ? entry.transcriptPath
+      : join(repositoryRoot, entry.transcriptPath)
+    const transcriptRaw = await readFile(transcriptPath, "utf8")
     const transcript = parseCloudTranscript(JSON.parse(transcriptRaw) as unknown)
     const transcriptFile = entry.cloudAgentBcId === null ? `${entry.taskId}.json` : `${entry.cloudAgentBcId}.json`
-    await cp(entry.transcriptPath, join(resultsDir, "transcripts", transcriptFile))
+    const archivedTranscriptPath = join(resultsDir, "transcripts", transcriptFile)
+    if (resolve(transcriptPath) !== resolve(archivedTranscriptPath)) {
+      await cp(transcriptPath, archivedTranscriptPath)
+    }
     const base = transcriptToRawAgentRun({
       experimentId: config.experimentId,
       experimentVersion: config.experimentVersion,
