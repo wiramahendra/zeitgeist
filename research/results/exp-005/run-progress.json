@@ -1,14 +1,38 @@
 {
   "schemaVersion": "1.0",
   "experimentId": "EXP-005",
-  "updatedAt": "2026-08-09T08:48:34Z",
+  "updatedAt": "2026-08-09T08:49:31Z",
   "totalTasks": 11,
-  "completedRuns": 2,
-  "runningRuns": 9,
+  "completedRuns": 6,
+  "runningRuns": 5,
   "completed": [
+    {
+      "taskId": "fail-alpha-context-stats",
+      "cloudAgentBcId": "bc-087e03e7-b035-541c-b930-9e6b76257ac4",
+      "status": "IDLE",
+      "onSeedBranch": true
+    },
+    {
+      "taskId": "fail-beta-timeline-tiebreak",
+      "cloudAgentBcId": "bc-1b300d77-157d-52b2-9185-9992f7a5b4a1",
+      "status": "IDLE",
+      "onSeedBranch": true
+    },
+    {
+      "taskId": "fail-epsilon-shared-median",
+      "cloudAgentBcId": "bc-76a24b30-1cb1-5183-a267-7d8a84af9f7c",
+      "status": "IDLE",
+      "onSeedBranch": true
+    },
     {
       "taskId": "fail-zeta-min-incidents-flag",
       "cloudAgentBcId": "bc-570b60ec-d35a-5e70-a7b3-3564a5f29c57",
+      "status": "IDLE",
+      "onSeedBranch": true
+    },
+    {
+      "taskId": "fail-theta-import-extensions",
+      "cloudAgentBcId": "bc-0ab289f9-b050-50a7-ab31-823956d0f881",
       "status": "IDLE",
       "onSeedBranch": true
     },
@@ -21,13 +45,9 @@
     }
   ],
   "running": [
-    "fail-alpha-context-stats",
-    "fail-beta-timeline-tiebreak",
     "fail-gamma-decode-helper",
     "fail-delta-report-generated-at",
-    "fail-epsilon-shared-median",
     "fail-eta-condition-delta",
-    "fail-theta-import-extensions",
     "fail-iota-inspect-evidence-flag",
     "fail-lambda-orphan-timeline-evidence"
   ]

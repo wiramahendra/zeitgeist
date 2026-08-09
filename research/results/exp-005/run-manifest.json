@@ -4,8 +4,35 @@
   "frozenRepositoryCommit": "131476cdc4b1cd744863d356aaa7f728efb18152",
   "environmentCondition": "C_WARM_WORKSPACE",
   "modelIdentity": "composer-2.5-fast",
-  "transcriptRunDirectory": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T08-48-34Z-a472",
+  "transcriptRunDirectory": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T08-49-31Z-f4d2",
   "runs": [
+    {
+      "taskId": "fail-alpha-context-stats",
+      "taskClass": "cross_module_feature",
+      "runIndex": 0,
+      "cloudAgentBcId": "bc-087e03e7-b035-541c-b930-9e6b76257ac4",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-087e03e7-b035-541c-b930-9e6b76257ac4.json",
+      "seedBranch": "cursor/exp-005-seed-fail-alpha-context-stats-1db1",
+      "finalCommitHash": "37526fca0229e0232993d7bf5bbd14803a587724"
+    },
+    {
+      "taskId": "fail-beta-timeline-tiebreak",
+      "taskClass": "bug_misleading_symptom",
+      "runIndex": 1,
+      "cloudAgentBcId": "bc-1b300d77-157d-52b2-9185-9992f7a5b4a1",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-1b300d77-157d-52b2-9185-9992f7a5b4a1.json",
+      "seedBranch": "cursor/exp-005-seed-fail-beta-timeline-tiebreak-1db1",
+      "finalCommitHash": "18623226094de0ba3e5dc390bf361b311b79c8f0"
+    },
+    {
+      "taskId": "fail-epsilon-shared-median",
+      "taskClass": "refactor_multi_module",
+      "runIndex": 4,
+      "cloudAgentBcId": "bc-76a24b30-1cb1-5183-a267-7d8a84af9f7c",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-76a24b30-1cb1-5183-a267-7d8a84af9f7c.json",
+      "seedBranch": "cursor/exp-005-seed-fail-epsilon-shared-median-1db1",
+      "finalCommitHash": "99cde15f0fcb345f51a8f0bc0f27611ecb4fe00c"
+    },
     {
       "taskId": "fail-zeta-min-incidents-flag",
       "taskClass": "config_plus_app",
@@ -14,6 +41,15 @@
       "transcriptPath": "research/results/exp-005/transcripts/bc-570b60ec-d35a-5e70-a7b3-3564a5f29c57.json",
       "seedBranch": "cursor/exp-005-seed-fail-zeta-min-incidents-flag-1db1",
       "finalCommitHash": "bd1fff818b6ee10a118bff40694d718260dd84f5"
+    },
+    {
+      "taskId": "fail-theta-import-extensions",
+      "taskClass": "implicit_convention",
+      "runIndex": 7,
+      "cloudAgentBcId": "bc-0ab289f9-b050-50a7-ab31-823956d0f881",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-0ab289f9-b050-50a7-ab31-823956d0f881.json",
+      "seedBranch": "cursor/exp-005-seed-fail-theta-import-extensions-1db1",
+      "finalCommitHash": "ef17025a058837906ba5581766752fa2f17c9dd1"
     },
     {
       "taskId": "fail-kappa-reduction-regression",
