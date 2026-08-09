@@ -47,13 +47,23 @@ const EvaluationReportSchema = Schema.Struct({
   })
 })
 
-export const buildReport = (results: ReadonlyArray<EvaluationResult>): EvaluationReport => {
+export interface BuildReportOptions {
+  readonly minIncidents?: number
+}
+
+export const buildReport = (
+  results: ReadonlyArray<EvaluationResult>,
+  options: BuildReportOptions = {}
+): EvaluationReport => {
+  const minIncidents = options.minIncidents ?? 10
   const researchResults = results.filter((result) => result.researchClassification === "REAL_SANITIZED_HISTORICAL")
   const control = calculateConditionMetrics(researchResults, "CONTROL")
   const manualContext = calculateConditionMetrics(researchResults, "MANUAL_CONTEXT")
   const incidentIds = new Set(researchResults.map((result) => result.incidentId))
   const completenessReasons: Array<string> = []
-  if (incidentIds.size < 10) completenessReasons.push("Fewer than 10 distinct real incident results")
+  if (incidentIds.size < minIncidents) {
+    completenessReasons.push(`Fewer than ${minIncidents} distinct real incident results`)
+  }
   const researchControlCount = researchResults.filter((result) => result.condition === "CONTROL").length
   const researchManualCount = researchResults.filter((result) => result.condition === "MANUAL_CONTEXT").length
   if (researchControlCount !== researchManualCount || researchControlCount < incidentIds.size) {
