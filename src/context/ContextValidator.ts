@@ -69,6 +69,10 @@ export const validateContext = (
   })
 
 export const inspectContext = (context: IncidentContextType): string => {
+  const timelineEvidenceIds = new Set<string>()
+  for (const event of context.timeline) {
+    for (const id of event.evidenceIds) timelineEvidenceIds.add(id)
+  }
   const lines = [
     `Incident: ${context.incident.id}`,
     `Service: ${context.incident.affectedService}`,
@@ -76,6 +80,7 @@ export const inspectContext = (context: IncidentContextType): string => {
     `Started: ${context.incident.startedAt}`,
     `Facts: ${context.facts.length}`,
     `Timeline events: ${context.timeline.length}`,
+    `Timeline unique evidence IDs: ${timelineEvidenceIds.size}`,
     `Recent changes: ${context.recentChanges.length}`,
     `Errors: ${context.errors.length}`,
     `Dependencies: ${context.dependencies.length}`,
