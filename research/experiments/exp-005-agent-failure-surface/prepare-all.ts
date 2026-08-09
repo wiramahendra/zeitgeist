@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process"
-import { readFile, writeFile } from "node:fs/promises"
+import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import { canonicalize, sha256 } from "../../../src/context/Canonicalize.js"
@@ -96,6 +96,8 @@ const prepareAll = async (): Promise<void> => {
   }
 
   run(`git checkout cursor/exp-005-agent-failure-surface-1db1`)
+  const matrixPath = join(repositoryRoot, "research/results/exp-005/run-matrix.json")
+  await mkdir(dirname(matrixPath), { recursive: true })
   const matrix = {
     schemaVersion: "1.0",
     experimentId: "EXP-005",
@@ -103,7 +105,6 @@ const prepareAll = async (): Promise<void> => {
     taskSetDigest: sha256(taskSetRaw),
     branches
   }
-  const matrixPath = join(repositoryRoot, "research/results/exp-005/run-matrix.json")
   await writeFile(matrixPath, `${canonicalize(matrix)}\n`, "utf8")
   console.log(`[exp-005] frozen=${frozenCommit}`)
   console.log(`[exp-005] run-matrix: ${matrixPath}`)
