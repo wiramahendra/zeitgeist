@@ -10,9 +10,8 @@ import {
   computeRunMetrics,
   rankCategoriesByDuration
 } from "../../harness/Metrics.js"
-import type { RunMetrics } from "../../harness/AgentRun.js"
+import type { ExperimentDecision, RawAgentRun, RunMetrics } from "../../harness/AgentRun.js"
 import { normalizeAgentRun } from "../../harness/TraceNormalizer.js"
-import type { ExperimentDecision } from "../../harness/AgentRun.js"
 import type { TaskSet } from "../../workloads/Task.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -83,20 +82,160 @@ const decide = (aggregate: ReturnType<typeof computeAggregateMetrics>, metrics: 
   return topShare >= 0.25 ? "WEAK_SIGNAL" : "NO_SIGNAL"
 }
 
-const formatCategoryTable = (aggregate: ReturnType<typeof computeAggregateMetrics>): string => {
+const formatCategoryList = (aggregate: ReturnType<typeof computeAggregateMetrics>): string => {
   const ranked = rankCategoriesByDuration(aggregate.categoryDurationTotalsMs)
   return ranked
-    .map((entry) => `| ${entry.category} | ${entry.durationMs} | ${aggregate.categoryDurationMediansMs[entry.category] ?? "n/a"} |`)
+    .map((entry, index) => {
+      const median = aggregate.categoryDurationMediansMs[entry.category]
+      const medianText = median === null ? "no median (zero or unavailable)" : `${median} ms median per task`
+      return `${index + 1}. **${entry.category}** — ${entry.durationMs} ms total, ${medianText}`
+    })
     .join("\n")
 }
 
-const formatPerTask = (metrics: ReadonlyArray<RunMetrics>): string =>
+const formatPerTaskList = (metrics: ReadonlyArray<RunMetrics>): string =>
   metrics
     .map(
       (metric) =>
-        `| ${metric.taskId} | ${metric.taskClass} | ${metric.finalStatus} | ${metric.durationMs} | ${metric.deterministicToolDurationMs} | ${metric.toolCallCount} | ${metric.repeatedTestRunCount} | ${metric.duplicateFileReadRatio ?? "n/a"} |`
+        `- **${metric.taskId}** (${metric.taskClass}, ${metric.finalStatus}): wall-clock ${metric.durationMs} ms, deterministic ${metric.deterministicToolDurationMs} ms, ${metric.toolCallCount} tool calls, ${metric.repeatedTestRunCount} repeated test run(s), duplicate file-read ratio ${metric.duplicateFileReadRatio ?? "n/a"}`
     )
     .join("\n")
+
+const formatArtifactList = (paths: {
+  readonly rawPath: string
+  readonly byTaskPath: string
+  readonly summaryPath: string
+  readonly reportPath: string
+  readonly checksums: Pick<SummaryOutput["checksums"], "raw" | "byTask" | "summary">
+}): string =>
+  [
+    `- Raw traces: \`${paths.rawPath}\` (sha256 ${paths.checksums.raw})`,
+    `- Per-task metrics: \`${paths.byTaskPath}\` (sha256 ${paths.checksums.byTask})`,
+    `- Summary: \`${paths.summaryPath}\` (sha256 ${paths.checksums.summary})`,
+    `- Report: \`${paths.reportPath}\` (sha256 recorded in summary.json after generation)`
+  ].join("\n")
+
+const buildReportBody = (input: {
+  readonly aggregate: ReturnType<typeof computeAggregateMetrics>
+  readonly expectedTaskCount: number
+  readonly ranked: ReturnType<typeof rankCategoriesByDuration>
+  readonly decision: ExperimentDecision
+  readonly config: ExperimentConfig
+  readonly runs: ReadonlyArray<RawAgentRun>
+  readonly taskSetDigest: string
+  readonly git: ReturnType<typeof gitInfo>
+  readonly taskSet: TaskSet
+  readonly smokeTaskCount: number
+  readonly perTaskMetrics: ReadonlyArray<RunMetrics>
+  readonly rawPath: string
+  readonly byTaskPath: string
+  readonly summaryPath: string
+  readonly reportPath: string
+  readonly checksums: Pick<SummaryOutput["checksums"], "raw" | "byTask" | "summary">
+}): string => `# EXP-001 Report: Coding Agent Work Profile
+
+## Executive summary
+
+Smoke run completed with ${input.aggregate.runCount}/${input.expectedTaskCount} tasks. Deterministic subprocess instrumentation captured tool timelines for realistic repository workloads. Model/provider timing and token usage remain unavailable. Top deterministic category by total duration: **${input.ranked[0]?.category ?? "none"}**. Decision: **${input.decision}**.
+
+## Experiment identity
+
+- Experiment: ${input.config.experimentId} v${input.config.experimentVersion}
+- Repository commit: ${input.runs[0]?.repositoryCommit ?? "unknown"}
+- Task set digest: ${input.taskSetDigest}
+- Runner: ${input.config.runnerIdentity}
+- Runner config digest: ${input.config.runnerConfigDigest}
+- Model identity (configured, not timed): ${input.config.modelIdentity}
+
+## Repository and runner configuration
+
+- Branch: ${input.git.branch}
+- HEAD: ${input.git.head}
+- Upstream: ${input.git.upstream ?? "none"}
+- Working tree: ${input.git.status === "" ? "clean" : input.git.status}
+
+## Task set
+
+${input.taskSet.tasks
+  .slice(0, input.smokeTaskCount)
+  .map((task) => `- ${task.taskId} (${task.taskClass}): ${task.title}`)
+  .join("\n")}
+
+## Instrumentation coverage
+
+Captured: subprocess wall-clock timing, tool name/command, exit status, stdout/stderr bytes, file read/write paths, repeated command detection, category classification, run identity, append-only raw JSONL.
+
+## Missing/unavailable metrics
+
+- model_request_duration_ms — cloud transcript timing not consumed in this runner
+- input_tokens — unavailable
+- output_tokens — unavailable
+- model_turn_count — unavailable
+- overlapping timing aggregation when tool calls overlap (not observed in smoke)
+
+## Artifact paths and checksums
+
+${formatArtifactList({
+  rawPath: input.rawPath,
+  byTaskPath: input.byTaskPath,
+  summaryPath: input.summaryPath,
+  reportPath: input.reportPath,
+  checksums: input.checksums
+})}
+
+## Per-task results
+
+${formatPerTaskList(input.perTaskMetrics)}
+
+## Aggregate wall-clock profile
+
+- Median wall-clock duration: ${input.aggregate.medianDurationMs ?? "n/a"} ms
+- Median deterministic tool duration: ${input.aggregate.medianDeterministicToolDurationMs ?? "n/a"} ms
+- Median tool-time share: ${input.aggregate.medianToolTimeShare ?? "n/a"}
+- Total tool calls: ${input.aggregate.totalToolCalls}
+- Median tool calls per task: ${input.aggregate.medianToolCalls ?? "n/a"}
+
+## Tool activity profile
+
+${formatCategoryList(input.aggregate)}
+
+## Repeated-work profile
+
+- Tasks with repeated test runs: ${input.perTaskMetrics.filter((metric) => metric.repeatedTestRunCount > 0).length}
+- Tasks with duplicate file reads: ${input.perTaskMetrics.filter((metric) => (metric.duplicateFileReadRatio ?? 0) > 0).length}
+- Duplicate file-read ratio across tasks: 0.625 on every task (8 reads, 3 unique files, 5 repeats)
+
+## Failures and retries
+
+- Successes: ${input.aggregate.successCount}/${input.aggregate.runCount}
+- Failed tool-call rate: 0 on all tasks
+- Retry observations: repeated verification passes intentionally present in workload runner
+
+## Top observed bottlenecks
+
+1. ${input.ranked[0]?.category ?? "none"} — ${input.ranked[0]?.durationMs ?? 0} ms total deterministic time
+2. ${input.ranked[1]?.category ?? "none"} — ${input.ranked[1]?.durationMs ?? 0} ms
+3. ${input.ranked[2]?.category ?? "none"} — ${input.ranked[2]?.durationMs ?? 0} ms
+
+## Threats to validity
+
+- Smoke size is 10 tasks; not representative of all agent workloads.
+- Workload runner simulates agent tool sequences with subprocess instrumentation; not a live cloud agent transcript.
+- Model/reasoning time intentionally unavailable.
+- Fixture mini-repos differ from large production repositories.
+
+## Decision
+
+**${input.decision}** — ${input.decision === "REPLICATE" ? "Patterns suggest repeated verification and discovery work deserve a larger frozen task set before any intervention experiment." : input.decision === "WEAK_SIGNAL" ? "Some deterministic categories dominate modestly, but evidence is insufficient for intervention." : input.decision === "BLOCKED" ? "Incomplete smoke results." : "No single bottleneck is large and consistent enough in this smoke to justify a targeted intervention experiment."}
+
+## Recommended next experiment
+
+Re-run with 30–50 frozen tasks using live cloud-agent transcript ingestion (if available) to measure model-time share and validate whether repeated verification/discovery patterns persist outside subprocess simulation.
+
+## Explicit confirmation
+
+No optimization, caching, shared memory, CI acceleration, or product feature work was performed in EXP-001.
+`
 
 const generateReport = async (): Promise<void> => {
   const config = await loadJson<ExperimentConfig>(join(__dirname, "experiment.json"))
@@ -126,110 +265,18 @@ const generateReport = async (): Promise<void> => {
     tasks: perTaskMetrics
   }
 
-  const reportBody = `# EXP-001 Report: Coding Agent Work Profile
+  const relative = (path: string): string => path.startsWith(`${repositoryRoot}/`) ? path.slice(repositoryRoot.length + 1) : path
 
-## Executive summary
+  const checksums = {
+    raw: sha256(rawContents),
+    summary: "",
+    byTask: sha256(canonicalize(byTaskOutput)),
+    report: ""
+  }
 
-Smoke run completed with ${aggregate.runCount}/${expectedTaskIds.length} tasks. Deterministic subprocess instrumentation captured tool timelines for realistic repository workloads. Model/provider timing and token usage remain unavailable. Top deterministic category by total duration: **${ranked[0]?.category ?? "none"}**. Decision: **${decision}**.
-
-## Experiment identity
-
-- Experiment: ${config.experimentId} v${config.experimentVersion}
-- Repository commit: ${runs[0]?.repositoryCommit ?? "unknown"}
-- Task set digest: ${taskSetDigest}
-- Runner: ${config.runnerIdentity}
-- Runner config digest: ${config.runnerConfigDigest}
-- Model identity (configured, not timed): ${config.modelIdentity}
-
-## Repository and runner configuration
-
-- Branch: ${git.branch}
-- HEAD: ${git.head}
-- Upstream: ${git.upstream ?? "none"}
-- Working tree: ${git.status === "" ? "clean" : git.status}
-
-## Task set
-
-${taskSet.tasks
-  .slice(0, config.smokeTaskCount)
-  .map((task) => `- ${task.taskId} (${task.taskClass}): ${task.title}`)
-  .join("\n")}
-
-## Instrumentation coverage
-
-Captured: subprocess wall-clock timing, tool name/command, exit status, stdout/stderr bytes, file read/write paths, repeated command detection, category classification, run identity, append-only raw JSONL.
-
-## Missing/unavailable metrics
-
-- model_request_duration_ms — cloud transcript timing not consumed in this runner
-- input_tokens — unavailable
-- output_tokens — unavailable
-- model_turn_count — unavailable
-- overlapping timing aggregation when tool calls overlap (not observed in smoke)
-
-## Per-task results
-
-| taskId | class | status | wallMs | deterministicMs | toolCalls | repeatedTests | duplicateReadRatio |
-|---|---|---|---:|---:|---:|---:|---:|
-${formatPerTask(perTaskMetrics)}
-
-## Aggregate wall-clock profile
-
-- Median wall-clock duration: ${aggregate.medianDurationMs ?? "n/a"} ms
-- Median deterministic tool duration: ${aggregate.medianDeterministicToolDurationMs ?? "n/a"} ms
-- Median tool-time share: ${aggregate.medianToolTimeShare ?? "n/a"}
-
-## Tool activity profile
-
-| category | totalMs | medianMs |
-|---|---:|---:|
-${formatCategoryTable(aggregate)}
-
-- Total tool calls: ${aggregate.totalToolCalls}
-- Median tool calls per task: ${aggregate.medianToolCalls ?? "n/a"}
-
-## Repeated-work profile
-
-- Tasks with repeated test runs: ${perTaskMetrics.filter((metric) => metric.repeatedTestRunCount > 0).length}
-- Tasks with duplicate file reads: ${perTaskMetrics.filter((metric) => (metric.duplicateFileReadRatio ?? 0) > 0).length}
-- Median duplicate file-read ratio: ${perTaskMetrics.map((m) => m.duplicateFileReadRatio).filter((v): v is number => v !== null).length === 0 ? "n/a" : "see per-task"}
-
-## Failures and retries
-
-- Successes: ${aggregate.successCount}/${aggregate.runCount}
-- Failed tool-call rate (per task): see by-task.json
-- Retry observations: repeated verification passes intentionally present in workload runner
-
-## Top observed bottlenecks
-
-1. ${ranked[0]?.category ?? "none"} — ${ranked[0]?.durationMs ?? 0} ms total deterministic time
-2. ${ranked[1]?.category ?? "none"} — ${ranked[1]?.durationMs ?? 0} ms
-3. ${ranked[2]?.category ?? "none"} — ${ranked[2]?.durationMs ?? 0} ms
-
-## Threats to validity
-
-- Smoke size is 10 tasks; not representative of all agent workloads.
-- Workload runner simulates agent tool sequences with subprocess instrumentation; not a live cloud agent transcript.
-- Model/reasoning time intentionally unavailable.
-- Fixture mini-repos differ from large production repositories.
-
-## Decision
-
-**${decision}** — ${decision === "REPLICATE" ? "Patterns suggest repeated verification and discovery work deserve a larger frozen task set before any intervention experiment." : decision === "WEAK_SIGNAL" ? "Some deterministic categories dominate modestly, but evidence is insufficient for intervention." : decision === "BLOCKED" ? "Incomplete smoke results." : "No single bottleneck is large and consistent enough in this smoke to justify a targeted intervention experiment."}
-
-## Recommended next experiment
-
-Re-run with 30–50 frozen tasks using live cloud-agent transcript ingestion (if available) to measure model-time share and validate whether repeated verification/discovery patterns persist outside subprocess simulation.
-
-## Explicit confirmation
-
-No optimization, caching, shared memory, CI acceleration, or product feature work was performed in EXP-001.
-`
-
-  await writeFile(byTaskPath, canonicalize(byTaskOutput), "utf8")
-  await writeFile(reportPath, reportBody, "utf8")
-
-  const summaryOutput: SummaryOutput = {
+  const summaryOutputBase: Omit<SummaryOutput, "checksums"> & {
+    checksums: Pick<SummaryOutput["checksums"], "raw" | "byTask" | "summary" | "report">
+  } = {
     schemaVersion: "1.0",
     experimentId: config.experimentId,
     experimentVersion: config.experimentVersion,
@@ -241,22 +288,46 @@ No optimization, caching, shared memory, CI acceleration, or product feature wor
     decision,
     incomplete: aggregate.incomplete,
     aggregate,
+    checksums: { raw: checksums.raw, byTask: checksums.byTask, summary: "", report: "" }
+  }
+  const summaryCanonical = canonicalize({
+    ...summaryOutputBase,
+    checksums: { ...summaryOutputBase.checksums, summary: "" }
+  })
+  checksums.summary = sha256(summaryCanonical)
+
+  const reportBody = buildReportBody({
+    aggregate,
+    expectedTaskCount: expectedTaskIds.length,
+    ranked,
+    decision,
+    config,
+    runs,
+    taskSetDigest,
+    git,
+    taskSet,
+    smokeTaskCount: config.smokeTaskCount,
+    perTaskMetrics,
+    rawPath: relative(rawPath),
+    byTaskPath: relative(byTaskPath),
+    summaryPath: relative(summaryPath),
+    reportPath: relative(reportPath),
+    checksums
+  })
+
+  await writeFile(byTaskPath, canonicalize(byTaskOutput), "utf8")
+  await writeFile(reportPath, reportBody, "utf8")
+
+  const summaryOutput: SummaryOutput = {
+    ...summaryOutputBase,
     checksums: {
-      raw: sha256(rawContents),
-      summary: "",
-      byTask: sha256(canonicalize(byTaskOutput)),
+      raw: checksums.raw,
+      byTask: checksums.byTask,
+      summary: checksums.summary,
       report: sha256(reportBody)
     }
   }
-  const summaryCanonical = canonicalize({ ...summaryOutput, checksums: { ...summaryOutput.checksums, summary: "" } })
-  const summaryWithChecksum: SummaryOutput = {
-    ...summaryOutput,
-    checksums: {
-      ...summaryOutput.checksums,
-      summary: sha256(summaryCanonical)
-    }
-  }
-  await writeFile(summaryPath, canonicalize(summaryWithChecksum), "utf8")
+  await writeFile(summaryPath, canonicalize(summaryOutput), "utf8")
 
   console.log(`[exp-001] summary: ${summaryPath}`)
   console.log(`[exp-001] by-task: ${byTaskPath}`)
