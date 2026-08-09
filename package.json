@@ -24,6 +24,9 @@
     "research:exp-004:report": "tsx research/experiments/exp-004-time-attribution/report.ts",
     "research:exp-004b:ingest": "tsx research/experiments/exp-004b-inter-batch-gap/ingest.ts",
     "research:exp-004b:report": "tsx research/experiments/exp-004b-inter-batch-gap/report.ts",
+    "research:exp-005:prepare": "tsx research/experiments/exp-005-agent-failure-surface/prepare-all.ts",
+    "research:exp-005:ingest": "tsx research/experiments/exp-005-agent-failure-surface/ingest.ts",
+    "research:exp-005:report": "tsx research/experiments/exp-005-agent-failure-surface/report.ts",
     "zeitgeist": "tsx src/cli/root.ts"
   },
   "dependencies": {
