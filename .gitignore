@@ -2,4 +2,6 @@ node_modules/
 dist/
 coverage/
 *.tmp
-.DS_Store
+.exp005v-check.ts
+research/workloads/.runs/
+research/workloads/exp-003-runs/

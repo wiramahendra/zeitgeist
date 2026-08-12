@@ -4,7 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
-    "rootDir": "src",
+    "rootDir": ".",
     "outDir": "dist",
     "strict": true,
     "noUncheckedIndexedAccess": true,
@@ -22,6 +22,6 @@
     "skipLibCheck": false,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["dist", "node_modules", "test"]
+  "include": ["src/**/*.ts", "research/**/*.ts"],
+  "exclude": ["dist", "node_modules", "test", "research/workloads/fixtures/**", "research/workloads/exp-002-live/**", "research/workloads/exp-003-runs/**", "research/workloads/**/node_modules/**", "research/experiments/exp-005v-checks/**", "research/experiments/exp-005v-validity-audit/**"]
 }

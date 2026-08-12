@@ -6,7 +6,9 @@ import { loadIncidentDataset, type IncidentDataset } from "./DatasetLoader.js"
 
 const secretKey = /(?:^|[_-])(api[_-]?key|password|passwd|secret|token|authorization|cookie|private[_-]?key|client[_-]?secret)(?:$|[_-])/i
 
-const findSecretKey = (value: unknown, path = "$", seen = new Set<unknown>()): string | undefined => {
+type SecretKeyMatch = { readonly keyName: string; readonly jsonPath: string }
+
+const findSecretKey = (value: unknown, path = "$", seen = new Set<unknown>()): SecretKeyMatch | undefined => {
   if (value === null || typeof value !== "object" || seen.has(value)) return undefined
   seen.add(value)
   if (Array.isArray(value)) {
@@ -17,7 +19,7 @@ const findSecretKey = (value: unknown, path = "$", seen = new Set<unknown>()): s
     return undefined
   }
   for (const [key, child] of Object.entries(value)) {
-    if (secretKey.test(key)) return `${path}.${key}`
+    if (secretKey.test(key)) return { keyName: key, jsonPath: `${path}.${key}` }
     const found = findSecretKey(child, `${path}.${key}`, seen)
     if (found !== undefined) return found
   }
@@ -28,7 +30,12 @@ export const assertNoSecretBearingKeys = (value: unknown, path: string): Effect.
   const found = findSecretKey(value)
   return found === undefined
     ? Effect.void
-    : Effect.fail(new DatasetMalformed({ path, reason: `Forbidden secret-bearing field name at ${found}` }))
+    : Effect.fail(
+        new DatasetMalformed({
+          path,
+          reason: `Forbidden secret-bearing field name "${found.keyName}" at JSON path ${found.jsonPath}`
+        })
+      )
 }
 
 export const validateIncidentDataset = (directory: string) =>

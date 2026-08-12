@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-005",
+  "updatedAt": "2026-08-09T08:50:04Z",
+  "totalTasks": 11,
+  "completedRuns": 11,
+  "runningRuns": 0,
+  "decision": "STRONG_SIGNAL"
+}

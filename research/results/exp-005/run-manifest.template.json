@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-005",
+  "frozenRepositoryCommit": "131476cdc4b1cd744863d356aaa7f728efb18152",
+  "environmentCondition": "C_WARM_WORKSPACE",
+  "modelIdentity": "composer-2.5-fast",
+  "runs": []
+}

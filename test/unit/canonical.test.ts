@@ -18,6 +18,22 @@ describe("canonical artifacts", () => {
     expect(canonicalDigest({ value: 1 })).not.toBe(canonicalDigest({ value: 2 }))
   })
 
+  it("serializes empty objects and arrays deterministically", () => {
+    expect(canonicalize({})).toBe("{}\n")
+    expect(canonicalize([])).toBe("[]\n")
+    expect(canonicalize({ nested: {} })).toBe("{\"nested\":{}}\n")
+    expect(canonicalize([[]])).toBe("[[]]\n")
+  })
+
+  it("produces stable digests for empty objects and arrays", () => {
+    const emptyObjectDigest = canonicalDigest({})
+    const emptyArrayDigest = canonicalDigest([])
+
+    expect(canonicalDigest({})).toBe(emptyObjectDigest)
+    expect(canonicalDigest([])).toBe(emptyArrayDigest)
+    expect(emptyObjectDigest).not.toBe(emptyArrayDigest)
+  })
+
   it("atomically writes stable UTF-8 bytes", async () => {
     const directory = await mkdtemp(join(tmpdir(), "zeitgeist-canonical-"))
     const path = join(directory, "artifact.json")

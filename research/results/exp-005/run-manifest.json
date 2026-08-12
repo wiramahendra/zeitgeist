@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-005",
+  "frozenRepositoryCommit": "131476cdc4b1cd744863d356aaa7f728efb18152",
+  "environmentCondition": "C_WARM_WORKSPACE",
+  "modelIdentity": "composer-2.5-fast",
+  "transcriptRunDirectory": "/tmp/cursor/cloud-agent-transcripts/2026-08-09T08-50-04Z-19d8",
+  "runs": [
+    {
+      "taskId": "fail-alpha-context-stats",
+      "taskClass": "cross_module_feature",
+      "runIndex": 0,
+      "cloudAgentBcId": "bc-087e03e7-b035-541c-b930-9e6b76257ac4",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-087e03e7-b035-541c-b930-9e6b76257ac4.json",
+      "seedBranch": "cursor/exp-005-seed-fail-alpha-context-stats-1db1",
+      "finalCommitHash": "37526fca0229e0232993d7bf5bbd14803a587724"
+    },
+    {
+      "taskId": "fail-beta-timeline-tiebreak",
+      "taskClass": "bug_misleading_symptom",
+      "runIndex": 1,
+      "cloudAgentBcId": "bc-1b300d77-157d-52b2-9185-9992f7a5b4a1",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-1b300d77-157d-52b2-9185-9992f7a5b4a1.json",
+      "seedBranch": "cursor/exp-005-seed-fail-beta-timeline-tiebreak-1db1",
+      "finalCommitHash": "18623226094de0ba3e5dc390bf361b311b79c8f0"
+    },
+    {
+      "taskId": "fail-gamma-decode-helper",
+      "taskClass": "refactor_multi_module",
+      "runIndex": 2,
+      "cloudAgentBcId": "bc-466f9b2b-f7b4-5150-a011-e42d8d411691",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-466f9b2b-f7b4-5150-a011-e42d8d411691.json",
+      "seedBranch": "cursor/exp-005-seed-fail-gamma-decode-helper-1db1",
+      "finalCommitHash": "d59de9c4777b52145839271fe14f125b1809c58c"
+    },
+    {
+      "taskId": "fail-delta-report-generated-at",
+      "taskClass": "schema_contract_change",
+      "runIndex": 3,
+      "cloudAgentBcId": "bc-c033167d-feae-532e-be25-6f53670e462a",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-c033167d-feae-532e-be25-6f53670e462a.json",
+      "seedBranch": "cursor/exp-005-seed-fail-delta-report-generated-at-1db1",
+      "finalCommitHash": "df141b7683b6721d0e62da6aec9594bfe2da5b40"
+    },
+    {
+      "taskId": "fail-epsilon-shared-median",
+      "taskClass": "refactor_multi_module",
+      "runIndex": 4,
+      "cloudAgentBcId": "bc-76a24b30-1cb1-5183-a267-7d8a84af9f7c",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-76a24b30-1cb1-5183-a267-7d8a84af9f7c.json",
+      "seedBranch": "cursor/exp-005-seed-fail-epsilon-shared-median-1db1",
+      "finalCommitHash": "99cde15f0fcb345f51a8f0bc0f27611ecb4fe00c"
+    },
+    {
+      "taskId": "fail-zeta-min-incidents-flag",
+      "taskClass": "config_plus_app",
+      "runIndex": 5,
+      "cloudAgentBcId": "bc-570b60ec-d35a-5e70-a7b3-3564a5f29c57",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-570b60ec-d35a-5e70-a7b3-3564a5f29c57.json",
+      "seedBranch": "cursor/exp-005-seed-fail-zeta-min-incidents-flag-1db1",
+      "finalCommitHash": "bd1fff818b6ee10a118bff40694d718260dd84f5"
+    },
+    {
+      "taskId": "fail-eta-condition-delta",
+      "taskClass": "partial_completion",
+      "runIndex": 6,
+      "cloudAgentBcId": "bc-b28778d6-0bb9-5a65-b76f-f72fb44a225c",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-b28778d6-0bb9-5a65-b76f-f72fb44a225c.json",
+      "seedBranch": "cursor/exp-005-seed-fail-eta-condition-delta-1db1",
+      "finalCommitHash": "70bf2a7aeeeea1474351ca56aa3ffa9abed3d707"
+    },
+    {
+      "taskId": "fail-theta-import-extensions",
+      "taskClass": "implicit_convention",
+      "runIndex": 7,
+      "cloudAgentBcId": "bc-0ab289f9-b050-50a7-ab31-823956d0f881",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-0ab289f9-b050-50a7-ab31-823956d0f881.json",
+      "seedBranch": "cursor/exp-005-seed-fail-theta-import-extensions-1db1",
+      "finalCommitHash": "ef17025a058837906ba5581766752fa2f17c9dd1"
+    },
+    {
+      "taskId": "fail-iota-inspect-evidence-flag",
+      "taskClass": "docs_tests_alignment",
+      "runIndex": 8,
+      "cloudAgentBcId": "bc-b8eebf57-264f-5f40-9407-4008de340b12",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-b8eebf57-264f-5f40-9407-4008de340b12.json",
+      "seedBranch": "cursor/exp-005-seed-fail-iota-inspect-evidence-flag-1db1",
+      "finalCommitHash": "c84fb5cbd4bb2cde9ff062b1e6efa80d35fb5af7"
+    },
+    {
+      "taskId": "fail-kappa-reduction-regression",
+      "taskClass": "regression_root_cause",
+      "runIndex": 9,
+      "cloudAgentBcId": "bc-06223e99-044a-595f-92f1-d4c24f9153e1",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-06223e99-044a-595f-92f1-d4c24f9153e1.json",
+      "seedBranch": "cursor/exp-005-seed-fail-kappa-reduction-regression-1db1",
+      "finalCommitHash": "e502b97",
+      "actualPushBranch": "cursor/fix-kappa-reduction-regression-53e1"
+    },
+    {
+      "taskId": "fail-lambda-orphan-timeline-evidence",
+      "taskClass": "cross_module_miss",
+      "runIndex": 10,
+      "cloudAgentBcId": "bc-79b24613-8fe0-5935-b87c-040d4b47d069",
+      "transcriptPath": "research/results/exp-005/transcripts/bc-79b24613-8fe0-5935-b87c-040d4b47d069.json",
+      "seedBranch": "cursor/exp-005-seed-fail-lambda-orphan-timeline-evidence-1db1",
+      "finalCommitHash": "981ee1930f800681f628b86db7c91f677fe8c0b8"
+    }
+  ]
+}

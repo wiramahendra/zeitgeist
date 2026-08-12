@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0",
+  "taskSetId": "exp-005-failure-surface-v1",
+  "taskSetVersion": "1.0.0",
+  "frozenAtCommit": "131476cdc4b1cd744863d356aaa7f728efb18152",
+  "environmentCondition": "C_WARM_WORKSPACE",
+  "workspaceRoot": ".",
+  "modelIdentity": "composer-2.5-fast",
+  "tasks": [
+    {
+      "taskId": "fail-alpha-context-stats",
+      "taskClass": "cross_module_feature",
+      "title": "Add context stats CLI subcommand",
+      "description": "Add a `zeitgeist context stats <context.json>` subcommand that validates the context against fixtures/synthetic-example/evidence.json, then prints counts of facts, timeline events, errors, dependencies, and unique timeline evidence IDs (one count per line with a label). Wire through CLI and reuse existing context validation. Run pnpm test and pnpm typecheck.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-alpha-context-stats-1db1"
+    },
+    {
+      "taskId": "fail-beta-timeline-tiebreak",
+      "taskClass": "bug_misleading_symptom",
+      "title": "Fix timeline ordering for equal timestamps",
+      "description": "Developers report timeline events with the same timestamp appear in the wrong order in sortTimeline. The symptom looks like a generic sort bug, but inspect the tie-breaking rules in src/domain/Timeline.ts. Fix ordering so events with equal timestamps sort by eventType then subject (stable, deterministic). Extend tests if needed. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-beta-timeline-tiebreak-1db1"
+    },
+    {
+      "taskId": "fail-gamma-decode-helper",
+      "taskClass": "refactor_multi_module",
+      "title": "Extract shared persisted decode helper",
+      "description": "Both src/dataset/DatasetLoader.ts and src/context/ContextValidator.ts decode persisted JSON with similar Schema.decodeUnknown + mapError patterns. Extract a shared helper (e.g. decodePersistedFile in src/domain/Common.ts or a small shared module) and update both call sites without changing error messages or behavior. Run pnpm test and pnpm typecheck.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-gamma-decode-helper-1db1"
+    },
+    {
+      "taskId": "fail-delta-report-generated-at",
+      "taskClass": "schema_contract_change",
+      "title": "Add generatedAt to evaluation report schema",
+      "description": "Extend EvaluationReport in src/eval/Report.ts with a required generatedAt ISO-8601 string field set at report build time. Update renderReportMarkdown to include a Generated line. Update schema validation and tests. Persisted report JSON must remain canonical. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-delta-report-generated-at-1db1"
+    },
+    {
+      "taskId": "fail-epsilon-shared-median",
+      "taskClass": "refactor_multi_module",
+      "title": "Consolidate duplicate median implementations",
+      "description": "median() is duplicated in src/eval/Metrics.ts and research/harness code paths. Export a single median helper from src/domain/Common.ts (or src/eval/Metrics.ts) and replace the duplicate private median in Metrics.ts and any identical copy in src/eval/Report.ts if present, preserving behavior for even-length inputs. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-epsilon-shared-median-1db1"
+    },
+    {
+      "taskId": "fail-zeta-min-incidents-flag",
+      "taskClass": "config_plus_app",
+      "title": "Add eval report minimum-incidents CLI flag",
+      "description": "Add `--min-incidents <n>` to `zeitgeist eval report` (src/cli/evalReport.ts) passed through to buildReport completeness logic so the 'Fewer than 10 distinct real incident results' threshold uses the configured minimum instead of hard-coded 10. Default remains 10. Add CLI test or unit coverage. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-zeta-min-incidents-flag-1db1"
+    },
+    {
+      "taskId": "fail-eta-condition-delta",
+      "taskClass": "partial_completion",
+      "title": "Complete condition delta summary helper",
+      "description": "src/eval/Report.ts contains an incomplete summarizeConditionDelta helper (marked EXP-005 stub). Complete it to return a markdown fragment comparing control vs manualContext runCount and correctCount. Use it in renderReportMarkdown. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-eta-condition-delta-1db1"
+    },
+    {
+      "taskId": "fail-theta-import-extensions",
+      "taskClass": "implicit_convention",
+      "title": "Fix ESM import paths in dataset loader",
+      "description": "pnpm typecheck fails in src/dataset/DatasetLoader.ts due to import paths that omit the .js extension required by this repository's Node ESM convention. Fix imports in that module only to match patterns used in src/context/. Run pnpm typecheck and pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-theta-import-extensions-1db1"
+    },
+    {
+      "taskId": "fail-iota-inspect-evidence-flag",
+      "taskClass": "docs_tests_alignment",
+      "title": "Align context inspect CLI with documented evidence flag",
+      "description": "README documents `pnpm zeitgeist context inspect <context.json> --evidence <evidence.json>` but the CLI may not accept --evidence on inspect. Align src/cli/contextInspect.ts with README behavior: when --evidence is provided, validate references against that evidence file before printing inspect output. Update tests. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-iota-inspect-evidence-flag-1db1"
+    },
+    {
+      "taskId": "fail-kappa-reduction-regression",
+      "taskClass": "regression_root_cause",
+      "title": "Fix failing reduction metric tests",
+      "description": "pnpm test fails in test/unit/eval-metrics.test.ts for reduction(). Investigate the root cause (not merely update test expectations). Fix the implementation so reduction handles null control, null treatment, zero control, and positive reduction cases correctly. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-kappa-reduction-regression-1db1"
+    },
+    {
+      "taskId": "fail-lambda-orphan-timeline-evidence",
+      "taskClass": "cross_module_miss",
+      "title": "Reject orphan timeline evidence references",
+      "description": "validateContext in src/context/ContextValidator.ts must reject timeline events whose evidenceIds include IDs not present in the provided evidence array (orphan references). Add validation before budget checks. Add focused tests in test/unit/context-validator.test.ts. Do not change unrelated validation. Run pnpm test.",
+      "workspacePath": ".",
+      "seedBranch": "cursor/exp-005-seed-fail-lambda-orphan-timeline-evidence-1db1"
+    }
+  ]
+}

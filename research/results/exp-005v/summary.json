@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "experimentId": "EXP-005V",
+  "decision": "SIGNAL_REJECTED",
+  "runCount": 11,
+  "classificationCounts": {
+    "LEGITIMATE_MISS": 0,
+    "AMBIGUOUS_REQUIREMENT": 0,
+    "HIDDEN_REQUIREMENT": 0,
+    "EXPERIMENT_CONTAMINATION": 0,
+    "HARNESS_OR_SCORING_ERROR": 11
+  },
+  "legitimateMissCount": 0,
+  "legitimateMissRate": 0,
+  "agentClaimedCompletionAfterDefaultPass": 0,
+  "defaultTestPassHiddenFailLegitimateMiss": 0,
+  "exp005VerificationFailureSignalSurvives": false,
+  "checksums": {
+    "audit": "a05630878c69ad660756fc0c2a2750056ccfa4f41911d5b567dd24fba2b1127e",
+    "byTask": "1d0422a5202e2e7ef2254c8f15d6464fa572bcb75376c4fad3bd96099cd9e4ae",
+    "report": "0000b20531389f97d67f4503f22cbba6def48d44c789cb327189b004daaa50d1"
+  }
+}

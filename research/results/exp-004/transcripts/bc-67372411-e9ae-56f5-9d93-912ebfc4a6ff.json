@@ -1,0 +1,1294 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "text": "Coding agent in /workspace, branch cursor/exp-004-time-attribution-1db1.\n\nEnvironment: C_WARM_WORKSPACE — full Zeitgeist monorepo with dependencies already installed.\n\nWork in the repository root (/workspace).\n\nTask: In the Zeitgeist repository root, create test/unit/scorer.test.ts with unit tests for scoreAgentResult covering at least CORRECT, INCORRECT, and NEEDS_HUMAN_ADJUDICATION outcomes. Use minimal inline fixtures; run pnpm test to verify.\n\nWork naturally. Run pnpm test (and pnpm typecheck if you change types). Commit: exp-004: real-alpha-scorer-tests\n\nReturn: tests passed yes/no, commit hash, brief summary."
+    },
+    {
+      "role": "assistant",
+      "thinking": "Creating unit tests for `scoreAgentResult` in `test/unit/scorer.test.ts`. Tests will cover CORRECT, INCORRECT, and NEEDS_HUMAN_ADJUDICATION outcomes with minimal inline fixtures. Then I'll run `pnpm test` to verify.\n\nExploring the codebase to understand the existing test structure and the `scoreAgentResult` implementation before writing the tests."
+    },
+    {
+      "role": "assistant",
+      "text": "Exploring the codebase for `scoreAgentResult` and existing test patterns before adding unit tests.\n"
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:2:tool",
+          "tool_name": "grep",
+          "started_at_ms": 1786261891926,
+          "completed_at_ms": 1786261892004,
+          "duration_ms": 78
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:2:tool",
+      "tool_name": "grep",
+      "tool_result": {
+        "resultType": "ripgrepSearchResult",
+        "value": {
+          "internal": {
+            "results": [
+              {
+                "resource": "./src/eval/Scorer.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 10,
+                            "startColumn": 0,
+                            "endLineNumber": 10,
+                            "endColumn": 104
+                          }
+                        }
+                      ],
+                      "previewText": "export const scoreAgentResult = (result: AgentRunResult, expected: ExpectedOutcome): ScoreBreakdown => {"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "./test/unit/evaluation.test.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 11,
+                            "startColumn": 0,
+                            "endLineNumber": 11,
+                            "endColumn": 59
+                          }
+                        }
+                      ],
+                      "previewText": "import { scoreAgentResult } from \"../../src/eval/Scorer.js\""
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 51,
+                            "startColumn": 0,
+                            "endLineNumber": 51,
+                            "endColumn": 83
+                          }
+                        }
+                      ],
+                      "previewText": "    expect(scoreAgentResult(correctResult, loaded.expected).status).toBe(\"CORRECT\")"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 56,
+                            "startColumn": 0,
+                            "endLineNumber": 56,
+                            "endColumn": 132
+                          }
+                        }
+                      ],
+                      "previewText": "    expect(scoreAgentResult({ finalDiagnosis: \"An upstream became slow\" }, loaded.expected).status).toBe(\"NEEDS_HUMAN_ADJUDICATION\")"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "./research/workloads/task-set-exp004-v1.json",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 11,
+                            "startColumn": 0,
+                            "endLineNumber": 11,
+                            "endColumn": 49
+                          }
+                        }
+                      ],
+                      "previewText": "      \"title\": \"Add scoreAgentResult unit tests\","
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 12,
+                            "startColumn": 0,
+                            "endLineNumber": 12,
+                            "endColumn": 257
+                          }
+                        }
+                      ],
+                      "previewText": "      \"description\": \"In the Zeitgeist repository root, create test/unit/scorer.test.ts with unit tests for scoreAgentResult covering at least CORRECT, INCORRECT, and NEEDS_HUMAN_ADJUDICATION outcomes. Use minimal inline fixtures; run pnpm test to verify.\","
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "./src/eval/Evaluation.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 6,
+                            "startColumn": 0,
+                            "endLineNumber": 6,
+                            "endColumn": 46
+                          }
+                        }
+                      ],
+                      "previewText": "import { scoreAgentResult } from \"./Scorer.js\""
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 64,
+                            "startColumn": 0,
+                            "endLineNumber": 64,
+                            "endColumn": 65
+                          }
+                        }
+                      ],
+                      "previewText": "      score: scoreAgentResult(execution.result, dataset.expected)"
+                    }
+                  }
+                ]
+              }
+            ],
+            "limitHit": false,
+            "messages": []
+          }
+        }
+      },
+      "started_at_ms": 1786261891926,
+      "completed_at_ms": 1786261892004,
+      "duration_ms": 78
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:3:tool",
+          "tool_name": "glob_file_search",
+          "started_at_ms": 1786261891926,
+          "completed_at_ms": 1786261892034,
+          "duration_ms": 108
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:3:tool",
+      "tool_name": "glob_file_search",
+      "tool_result": {
+        "resultType": "globFileSearchResult",
+        "value": {
+          "directories": [
+            {
+              "absPath": "/workspace",
+              "files": [
+                {
+                  "relPath": "test/research/exp-002.test.ts"
+                },
+                {
+                  "relPath": "test/research/exp-001.test.ts"
+                },
+                {
+                  "relPath": "test/research/exp-003.test.ts"
+                },
+                {
+                  "relPath": "test/research/exp-004.test.ts"
+                },
+                {
+                  "relPath": "test/unit/schemas.test.ts"
+                },
+                {
+                  "relPath": "test/unit/result-store.test.ts"
+                },
+                {
+                  "relPath": "test/unit/evaluation.test.ts"
+                },
+                {
+                  "relPath": "test/unit/canonical.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/beta/src/label.test.ts"
+                },
+                {
+                  "relPath": "test/integration/external-runner.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/gamma/src/document.test.ts"
+                },
+                {
+                  "relPath": "test/integration/dataset.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/alpha/src/ratio.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/beta/src/label.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/epsilon/src/name.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/delta/src/slugify.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/gamma/src/document.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-002-live/delta/src/slugify.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/zeta/src/record.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/alpha/src/ratio.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/exp-003-live/epsilon/src/name.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-09-cross-cutting-logging/src/logging.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-08-test-failure-diagnosis/src/timezone.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-05-dependency-upgrade/src/adder.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-02-feature-add-cli-flag/src/cli.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-03-refactor-extract-parser/src/csv.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-06-validation-tighten/src/record.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-04-schema-add-field/src/record.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-10-doc-alignment/src/cli.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-07-test-addition/src/slugify.test.ts"
+                },
+                {
+                  "relPath": "research/workloads/fixtures/task-01-bug-fix-median/src/median.test.ts"
+                }
+              ],
+              "totalFiles": 31,
+              "ripgrepTruncated": false
+            }
+          ]
+        }
+      },
+      "started_at_ms": 1786261891926,
+      "completed_at_ms": 1786261892034,
+      "duration_ms": 108
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:4:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && git branch --show-current && git status -sb",
+            "is_background": false
+          },
+          "started_at_ms": 1786261891928,
+          "completed_at_ms": 1786261892251,
+          "duration_ms": 323
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:4:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && git branch --show-current && git status -sb",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "cursor/exp-004-time-attribution-1db1\n## cursor/exp-004-time-attribution-1db1\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261891928,
+      "completed_at_ms": 1786261892251,
+      "duration_ms": 323
+    },
+    {
+      "role": "assistant",
+      "thinking": "Reading Scorer.ts and evaluation.test.ts to understand the scoring logic before writing the new unit tests."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:6:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/src/eval/Scorer.ts"
+          },
+          "started_at_ms": 1786261893932,
+          "completed_at_ms": 1786261893984,
+          "duration_ms": 52
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:6:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/src/eval/Scorer.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import type { AgentRunResult, ScoreBreakdown } from \"../domain/EvaluationResult.js\"\nimport type { ExpectedOutcome } from \"../domain/ExpectedOutcome.js\"\n\nconst containsAll = (actual: ReadonlyArray<string> | undefined, expected: ReadonlyArray<string>): boolean => {\n  if (expected.length === 0) return true\n  if (actual === undefined) return false\n  const normalized = new Set(actual.map((item) => item.toLowerCase()))\n  return expected.every((item) => normalized.has(item.toLowerCase()))\n}\n\nexport const scoreAgentResult = (result: AgentRunResult, expected: ExpectedOutcome): ScoreBreakdown => {\n  const rootCauseCategoryMatch = result.rootCauseCategory?.toLowerCase() === expected.rootCauseCategory.toLowerCase()\n  const affectedComponentsMatch = containsAll(result.affectedComponents, expected.affectedComponents)\n  const triggerEntitiesMatch = containsAll(result.triggerEntities, expected.triggerEntities)\n  const requiredEvidenceMatch = containsAll(result.citedEvidenceIds, expected.requiredEvidence)\n  const remediationMatch = expected.acceptableRemediations.length === 0\n    ? null\n    : result.remediationIds !== undefined && result.remediationIds.some((item) =>\n        expected.acceptableRemediations.some((acceptable) => acceptable.toLowerCase() === item.toLowerCase())\n      )\n  const diagnosis = result.finalDiagnosis.toLowerCase()\n  const matchedDiagnosis = expected.acceptableDiagnoses.find((candidate) =>\n    candidate.deterministicTerms.every((term) => diagnosis.includes(term.toLowerCase()))\n  )\n  const structuredComplete =\n    rootCauseCategoryMatch &&\n    affectedComponentsMatch &&\n    triggerEntitiesMatch &&\n    requiredEvidenceMatch &&\n    remediationMatch !== false\n  const status = structuredComplete && matchedDiagnosis !== undefined\n    ? \"CORRECT\"\n    : matchedDiagnosis !== undefined || diagnosis.trim().length > 0\n      ? \"NEEDS_HUMAN_ADJUDICATION\"\n      : \"INCORRECT\"\n  return {\n    status,\n    rootCauseCategoryMatch,\n    affectedComponentsMatch,\n    triggerEntitiesMatch,\n    requiredEvidenceMatch,\n    remediationMatch,\n    matchedDiagnosisId: matchedDiagnosis?.id ?? null\n  }\n}\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 46,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261893932,
+      "completed_at_ms": 1786261893984,
+      "duration_ms": 52
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:7:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/test/unit/evaluation.test.ts"
+          },
+          "started_at_ms": 1786261893932,
+          "completed_at_ms": 1786261893986,
+          "duration_ms": 54
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:7:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/test/unit/evaluation.test.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import { readFile } from \"node:fs/promises\"\nimport { describe, expect, it } from \"vitest\"\nimport { Effect, Schema } from \"effect\"\nimport { EvidenceCollection } from \"../../src/domain/Evidence.js\"\nimport { ExpectedOutcome } from \"../../src/domain/ExpectedOutcome.js\"\nimport { Incident } from \"../../src/domain/Incident.js\"\nimport { IncidentContext } from \"../../src/domain/IncidentContext.js\"\nimport type { IncidentDataset } from \"../../src/dataset/DatasetLoader.js\"\nimport { makeExperimentInput, runSingleEvaluation } from \"../../src/eval/Evaluation.js\"\nimport { makeFakeRunner } from \"../../src/eval/AgentRunner.js\"\nimport { createRunIdentity } from \"../../src/eval/RunIdentity.js\"\nimport { scoreAgentResult } from \"../../src/eval/Scorer.js\"\nimport { buildReport } from \"../../src/eval/Report.js\"\n\nconst load = async <A, I>(name: string, schema: Schema.Schema<A, I>): Promise<A> => {\n  const raw = JSON.parse(await readFile(new URL(`../../fixtures/synthetic-example/${name}`, import.meta.url), \"utf8\")) as unknown\n  return Effect.runPromise(Schema.decodeUnknown(schema)(raw))\n}\n\nconst dataset = async (): Promise<IncidentDataset> => {\n  const incident = await load(\"incident.json\", Incident)\n  const evidence = await load(\"evidence.json\", EvidenceCollection)\n  const context = await load(\"context.json\", IncidentContext)\n  const expected = await load(\"expected.json\", ExpectedOutcome)\n  return { directory: \"synthetic\", incident, evidence, context, expected, rawContext: context }\n}\n\nconst correctResult = {\n  finalDiagnosis: \"checkout-api experienced an inventory-api timeout\",\n  rootCauseCategory: \"upstream-timeout\",\n  affectedComponents: [\"checkout-api\"],\n  triggerEntities: [\"inventory-api\"],\n  citedEvidenceIds: [\"ev-error-001\"],\n  remediationIds: [\"rollback-checkout-v184\"]\n} as const\n\ndescribe(\"evaluation core\", () => {\n  it(\"keeps control and manual-context inputs structurally separate\", async () => {\n    const loaded = await dataset()\n    expect(\"context\" in makeExperimentInput(loaded, \"CONTROL\")).toBe(false)\n    expect(\"context\" in makeExperimentInput(loaded, \"MANUAL_CONTEXT\")).toBe(true)\n  })\n\n  it(\"creates deterministic identities bound to every identity input\", () => {\n    const input = { incidentId: \"i\", condition: \"CONTROL\" as const, repetitionIndex: 0, runnerIdentity: \"r\", promptConfigDigest: \"p\", contextDigest: null }\n    expect(createRunIdentity(input)).toBe(createRunIdentity({ ...input }))\n    expect(createRunIdentity(input)).not.toBe(createRunIdentity({ ...input, repetitionIndex: 1 }))\n  })\n\n  it(\"scores exact deterministic evidence and entities as correct\", async () => {\n    const loaded = await dataset()\n    expect(scoreAgentResult(correctResult, loaded.expected).status).toBe(\"CORRECT\")\n  })\n\n  it(\"requires human adjudication for plausible non-deterministic text\", async () => {\n    const loaded = await dataset()\n    expect(scoreAgentResult({ finalDiagnosis: \"An upstream became slow\" }, loaded.expected).status).toBe(\"NEEDS_HUMAN_ADJUDICATION\")\n  })\n\n  it(\"records unavailable optional metrics as absent, not zero\", async () => {\n    const loaded = await dataset()\n    const runner = makeFakeRunner(\"fake-v1\", () => correctResult)\n    const result = await Effect.runPromise(runSingleEvaluation(loaded, \"CONTROL\", 0, runner, {}))\n    expect(result.agentResult.toolCallCount).toBeUndefined()\n    expect(result.contextDigest).toBeNull()\n  })\n\n  it(\"cannot mistake synthetic fixtures for research incidents or complete evidence\", async () => {\n    const loaded = await dataset()\n    const runner = makeFakeRunner(\"fake-v1\", () => correctResult)\n    const result = await Effect.runPromise(runSingleEvaluation(loaded, \"CONTROL\", 0, runner, {}))\n    const report = buildReport([result])\n    expect(report.distinctResearchIncidents).toBe(0)\n    expect(report.experimentStatus).toBe(\"INCOMPLETE\")\n  })\n\n  it(\"renders deterministic aggregate data\", async () => {\n    const loaded = await dataset()\n    const runner = makeFakeRunner(\"fake-v1\", () => correctResult)\n    const result = await Effect.runPromise(runSingleEvaluation(loaded, \"CONTROL\", 0, runner, {}))\n    expect(buildReport([result])).toEqual(buildReport([result]))\n  })\n})\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 84,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261893932,
+      "completed_at_ms": 1786261893986,
+      "duration_ms": 54
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:8:tool",
+          "tool_name": "grep",
+          "started_at_ms": 1786261893932,
+          "completed_at_ms": 1786261893988,
+          "duration_ms": 56
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:8:tool",
+      "tool_name": "grep",
+      "tool_result": {
+        "resultType": "ripgrepSearchResult",
+        "value": {
+          "internal": {
+            "results": [
+              {
+                "resource": "src/index.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 4,
+                            "startColumn": 0,
+                            "endLineNumber": 4,
+                            "endColumn": 43
+                          }
+                        }
+                      ],
+                      "previewText": "export * from \"./domain/ExpectedOutcome.js\""
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "src/eval/Scorer.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 0,
+                            "startColumn": 0,
+                            "endLineNumber": 0,
+                            "endColumn": 83
+                          }
+                        }
+                      ],
+                      "previewText": "import type { AgentRunResult, ScoreBreakdown } from \"../domain/EvaluationResult.js\""
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 1,
+                            "startColumn": 0,
+                            "endLineNumber": 1,
+                            "endColumn": 67
+                          }
+                        }
+                      ],
+                      "previewText": "import type { ExpectedOutcome } from \"../domain/ExpectedOutcome.js\""
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 10,
+                            "startColumn": 0,
+                            "endLineNumber": 10,
+                            "endColumn": 104
+                          }
+                        }
+                      ],
+                      "previewText": "export const scoreAgentResult = (result: AgentRunResult, expected: ExpectedOutcome): ScoreBreakdown => {"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "src/eval/ExternalRunner.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 2,
+                            "startColumn": 0,
+                            "endLineNumber": 2,
+                            "endColumn": 62
+                          }
+                        }
+                      ],
+                      "previewText": "import { AgentRunResult } from \"../domain/EvaluationResult.js\""
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 84,
+                            "startColumn": 0,
+                            "endLineNumber": 84,
+                            "endColumn": 54
+                          }
+                        }
+                      ],
+                      "previewText": "            decodePersisted(AgentRunResult)(raw).pipe("
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 85,
+                            "startColumn": 0,
+                            "endLineNumber": 85,
+                            "endColumn": 139
+                          }
+                        }
+                      ],
+                      "previewText": "              Effect.mapError(() => new InvalidRunnerOutput({ reason: \"Runner output does not match the strict AgentRunResult contract\" }))"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "src/eval/AgentRunner.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 4,
+                            "startColumn": 0,
+                            "endLineNumber": 4,
+                            "endColumn": 88
+                          }
+                        }
+                      ],
+                      "previewText": "import type { AgentRunResult, ExperimentCondition } from \"../domain/EvaluationResult.js\""
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 16,
+                            "startColumn": 0,
+                            "endLineNumber": 16,
+                            "endColumn": 33
+                          }
+                        }
+                      ],
+                      "previewText": "  readonly result: AgentRunResult"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 30,
+                            "startColumn": 0,
+                            "endLineNumber": 30,
+                            "endColumn": 53
+                          }
+                        }
+                      ],
+                      "previewText": "  handler: (input: ExperimentInput) => AgentRunResult"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "src/domain/ExpectedOutcome.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 9,
+                            "startColumn": 0,
+                            "endLineNumber": 9,
+                            "endColumn": 46
+                          }
+                        }
+                      ],
+                      "previewText": "export const ExpectedOutcome = Schema.Struct({"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 19,
+                            "startColumn": 0,
+                            "endLineNumber": 19,
+                            "endColumn": 57
+                          }
+                        }
+                      ],
+                      "previewText": "export type ExpectedOutcome = typeof ExpectedOutcome.Type"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "src/domain/EvaluationResult.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 8,
+                            "startColumn": 0,
+                            "endLineNumber": 8,
+                            "endColumn": 45
+                          }
+                        }
+                      ],
+                      "previewText": "export const AgentRunResult = Schema.Struct({"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 22,
+                            "startColumn": 0,
+                            "endLineNumber": 22,
+                            "endColumn": 55
+                          }
+                        }
+                      ],
+                      "previewText": "export type AgentRunResult = typeof AgentRunResult.Type"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 27,
+                            "startColumn": 0,
+                            "endLineNumber": 27,
+                            "endColumn": 45
+                          }
+                        }
+                      ],
+                      "previewText": "export const ScoreBreakdown = Schema.Struct({"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 36,
+                            "startColumn": 0,
+                            "endLineNumber": 36,
+                            "endColumn": 55
+                          }
+                        }
+                      ],
+                      "previewText": "export type ScoreBreakdown = typeof ScoreBreakdown.Type"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 52,
+                            "startColumn": 0,
+                            "endLineNumber": 52,
+                            "endColumn": 30
+                          }
+                        }
+                      ],
+                      "previewText": "  agentResult: AgentRunResult,"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 53,
+                            "startColumn": 0,
+                            "endLineNumber": 53,
+                            "endColumn": 23
+                          }
+                        }
+                      ],
+                      "previewText": "  score: ScoreBreakdown"
+                    }
+                  }
+                ]
+              },
+              {
+                "resource": "src/dataset/DatasetLoader.ts",
+                "results": [
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 3,
+                            "startColumn": 0,
+                            "endLineNumber": 3,
+                            "endColumn": 107
+                          }
+                        }
+                      ],
+                      "previewText": "import { ExpectedOutcome, type ExpectedOutcome as ExpectedOutcomeType } from \"../domain/ExpectedOutcome.js\""
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 15,
+                            "startColumn": 0,
+                            "endLineNumber": 15,
+                            "endColumn": 40
+                          }
+                        }
+                      ],
+                      "previewText": "  readonly expected: ExpectedOutcomeType"
+                    }
+                  },
+                  {
+                    "match": {
+                      "rangeLocations": [
+                        {
+                          "source": {
+                            "startLineNumber": 52,
+                            "startColumn": 0,
+                            "endLineNumber": 52,
+                            "endColumn": 56
+                          }
+                        }
+                      ],
+                      "previewText": "      decode(ExpectedOutcome, expectedRaw, expectedPath)"
+                    }
+                  }
+                ]
+              }
+            ],
+            "limitHit": false,
+            "messages": []
+          }
+        }
+      },
+      "started_at_ms": 1786261893932,
+      "completed_at_ms": 1786261893988,
+      "duration_ms": 56
+    },
+    {
+      "role": "assistant",
+      "thinking": "Reviewing ExpectedOutcome and AgentRunResult types. Checking for existing scorer tests."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:10:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/src/domain/ExpectedOutcome.ts"
+          },
+          "started_at_ms": 1786261900382,
+          "completed_at_ms": 1786261900427,
+          "duration_ms": 45
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:10:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/src/domain/ExpectedOutcome.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import * as Schema from \"effect/Schema\"\nimport { NonEmptyString, SchemaVersion, StringArray } from \"./Common.js\"\n\nexport const AcceptableDiagnosis = Schema.Struct({\n  id: NonEmptyString,\n  text: NonEmptyString,\n  deterministicTerms: StringArray\n})\n\nexport const ExpectedOutcome = Schema.Struct({\n  schemaVersion: SchemaVersion,\n  rootCauseCategory: NonEmptyString,\n  affectedComponents: StringArray,\n  triggerEntities: StringArray,\n  acceptableDiagnoses: Schema.Array(AcceptableDiagnosis).pipe(Schema.minItems(1)),\n  requiredEvidence: StringArray,\n  acceptableRemediations: StringArray\n})\n\nexport type ExpectedOutcome = typeof ExpectedOutcome.Type\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 21,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261900382,
+      "completed_at_ms": 1786261900427,
+      "duration_ms": 45
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:11:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/src/domain/EvaluationResult.ts"
+          },
+          "started_at_ms": 1786261900383,
+          "completed_at_ms": 1786261900425,
+          "duration_ms": 42
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:11:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/src/domain/EvaluationResult.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import * as Schema from \"effect/Schema\"\nimport { NonEmptyString, SchemaVersion, StringArray, Timestamp } from \"./Common.js\"\n\nexport const ExperimentCondition = Schema.Literal(\"CONTROL\", \"MANUAL_CONTEXT\")\nexport type ExperimentCondition = typeof ExperimentCondition.Type\n\nexport const MetricCount = Schema.NullOr(Schema.Number.pipe(Schema.int(), Schema.nonNegative()))\n\nexport const AgentRunResult = Schema.Struct({\n  finalDiagnosis: NonEmptyString,\n  rootCauseCategory: Schema.optional(NonEmptyString),\n  affectedComponents: Schema.optional(StringArray),\n  triggerEntities: Schema.optional(StringArray),\n  citedEvidenceIds: Schema.optional(StringArray),\n  remediationIds: Schema.optional(StringArray),\n  correctHypothesisAtMs: Schema.optional(Schema.Number.pipe(Schema.int(), Schema.nonNegative())),\n  toolCallCount: Schema.optional(Schema.Number.pipe(Schema.int(), Schema.nonNegative())),\n  inputTokens: Schema.optional(Schema.Number.pipe(Schema.int(), Schema.nonNegative())),\n  outputTokens: Schema.optional(Schema.Number.pipe(Schema.int(), Schema.nonNegative())),\n  humanInterventionCount: Schema.optional(Schema.Number.pipe(Schema.int(), Schema.nonNegative())),\n  falseHighConfidenceHypotheses: Schema.optional(Schema.Number.pipe(Schema.int(), Schema.nonNegative()))\n})\nexport type AgentRunResult = typeof AgentRunResult.Type\n\nexport const ScoreStatus = Schema.Literal(\"CORRECT\", \"INCORRECT\", \"NEEDS_HUMAN_ADJUDICATION\")\nexport type ScoreStatus = typeof ScoreStatus.Type\n\nexport const ScoreBreakdown = Schema.Struct({\n  status: ScoreStatus,\n  rootCauseCategoryMatch: Schema.Boolean,\n  affectedComponentsMatch: Schema.Boolean,\n  triggerEntitiesMatch: Schema.Boolean,\n  requiredEvidenceMatch: Schema.Boolean,\n  remediationMatch: Schema.NullOr(Schema.Boolean),\n  matchedDiagnosisId: Schema.NullOr(Schema.String)\n})\nexport type ScoreBreakdown = typeof ScoreBreakdown.Type\n\nexport const EvaluationResult = Schema.Struct({\n  schemaVersion: SchemaVersion,\n  runIdentity: NonEmptyString,\n  incidentId: NonEmptyString,\n  researchClassification: Schema.Literal(\"REAL_SANITIZED_HISTORICAL\", \"SYNTHETIC_TEST_ONLY\"),\n  condition: ExperimentCondition,\n  repetitionIndex: Schema.Number.pipe(Schema.int(), Schema.nonNegative()),\n  runnerIdentity: NonEmptyString,\n  promptConfigDigest: NonEmptyString,\n  contextDigest: Schema.NullOr(NonEmptyString),\n  startedAt: Timestamp,\n  completedAt: Timestamp,\n  durationMs: Schema.Number.pipe(Schema.int(), Schema.nonNegative()),\n  runnerExitCode: Schema.Number.pipe(Schema.int()),\n  agentResult: AgentRunResult,\n  score: ScoreBreakdown\n})\n\nexport const EvaluationResultCollection = Schema.Array(EvaluationResult)\nexport type EvaluationResult = typeof EvaluationResult.Type\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 59,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261900383,
+      "completed_at_ms": 1786261900425,
+      "duration_ms": 42
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:12:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/test/research/exp-004.test.ts"
+          },
+          "started_at_ms": 1786261900383,
+          "completed_at_ms": 1786261900456,
+          "duration_ms": 73
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:12:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/test/research/exp-004.test.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import { describe, expect, it } from \"vitest\"\nimport type { RawAgentRun } from \"../../research/harness/AgentRun.js\"\nimport {\n  buildAttributionRecords,\n  computeInterToolGaps,\n  computeTimeAttribution,\n  decideExp004,\n  detectRecurringPatterns\n} from \"../../research/harness/TimeAttribution.js\"\nimport { normalizeAgentRun } from \"../../research/harness/TraceNormalizer.js\"\n\nconst baseRun = (toolCalls: RawAgentRun[\"toolCalls\"]): RawAgentRun => ({\n  schemaVersion: \"1.0\",\n  experimentId: \"EXP-004\",\n  experimentVersion: \"1.0.0\",\n  repositoryCommit: \"abc\",\n  taskSetDigest: \"digest\",\n  runnerIdentity: \"cloud-transcript-adapter/v1\",\n  runnerConfigDigest: \"cfg\",\n  taskId: \"real-alpha-scorer-tests\",\n  runIndex: 0,\n  runIdentity: \"run\",\n  taskClass: \"test_addition\",\n  startedAt: \"2026-01-01T00:00:00.000Z\",\n  completedAt: \"2026-01-01T00:00:10.000Z\",\n  durationMs: 10000,\n  finalStatus: \"SUCCESS\",\n  modelIdentity: \"composer-2.5-fast\",\n  modelTurnCount: 1,\n  inputTokens: null,\n  outputTokens: null,\n  modelRequestDurationMs: null,\n  toolCalls,\n  unavailableMetrics: [\"input_tokens\", \"output_tokens\", \"model_request_duration_ms\"],\n  notes: []\n})\n\ndescribe(\"time attribution\", () => {\n  it(\"computes inter-tool gaps between consecutive calls\", () => {\n    const gaps = computeInterToolGaps([\n      { callIndex: 0, startedAtMs: 0, endedAtMs: 100 },\n      { callIndex: 1, startedAtMs: 250, endedAtMs: 400 }\n    ])\n    expect(gaps).toEqual([{ afterCallIndex: 0, durationMs: 150 }])\n  })\n\n  it(\"partitions wall-clock into tool, gap, and unattributed components\", () => {\n    const run = normalizeAgentRun(\n      baseRun([\n        {\n          callIndex: 0,\n          toolName: \"Read\",\n          category: \"file_read\",\n          startedAtMs: 0,\n          endedAtMs: 100,\n          durationMs: 100,\n          exitStatus: null,\n          command: \"read:src/a.ts\",\n          filesRead: [\"src/a.ts\"],\n          filesWritten: [],\n          stdoutBytes: null,\n          stderrBytes: null,\n          failed: false,\n          retried: false\n        },\n        {\n          callIndex: 1,\n          toolName: \"Shell\",\n          category: \"test\",\n          startedAtMs: 300,\n          endedAtMs: 800,\n          durationMs: 500,\n          exitStatus: 0,\n          command: \"pnpm test\",\n          filesRead: [],\n          filesWritten: [],\n          stdoutBytes: 10,\n          stderrBytes: null,\n          failed: false,\n          retried: false\n        }\n      ])\n    )\n    run.durationMs = 900\n    const attribution = computeTimeAttribution(run)\n    expect(attribution.deterministicToolMs).toBe(600)\n    expect(attribution.interToolGapMs).toBe(200)\n    expect(attribution.unattributedMs).toBe(100)\n    expect(attribution.verificationMs).toBe(500)\n  })\n\n  it(\"detects recurring exploration pattern across runs\", () => {\n    const makeRecord = (taskClass: string, explorationMs: number, wallMs: number) => {\n      const run = baseRun([\n        {\n          callIndex: 0,\n          toolName: \"Read\",\n          category: \"file_read\",\n          startedAtMs: 0,\n          endedAtMs: explorationMs,\n          durationMs: explorationMs,\n          exitStatus: null,\n          command: \"read:src/a.ts\",\n          filesRead: [\"src/a.ts\"],\n          filesWritten: [],\n          stdoutBytes: null,\n          stderrBytes: null,\n          failed: false,\n          retried: false\n        }\n      ])\n      run.taskClass = taskClass\n      run.durationMs = wallMs\n      return buildAttributionRecords([run])[0]!\n    }\n    const records = [\n      makeRecord(\"test_addition\", 4000, 5000),\n      makeRecord(\"refactor\", 4000, 5000),\n      makeRecord(\"bug_fix\", 4000, 5000),\n      makeRecord(\"feature_addition\", 4000, 5000),\n      makeRecord(\"validation_change\", 4000, 5000),\n      makeRecord(\"cross_cutting\", 4000, 5000)\n    ]\n    const patterns = detectRecurringPatterns(records, {\n      minRuns: 5,\n      minTaskClasses: 3,\n      minWallShare: 0.2,\n      minToolShare: 0.25\n    })\n    expect(patterns.some((pattern) => pattern.pattern === \"exploration_overhead\")).toBe(true)\n    expect(decideExp004(records, 6, patterns, { minWallShare: 0.2, minToolShare: 0.25 })).toBe(\"STRONG_SIGNAL\")\n  })\n})\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 134,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261900383,
+      "completed_at_ms": 1786261900456,
+      "duration_ms": 73
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:13:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/fixtures/synthetic-example/expected.json"
+          },
+          "started_at_ms": 1786261900383,
+          "completed_at_ms": 1786261900430,
+          "duration_ms": 47
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:13:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/fixtures/synthetic-example/expected.json"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "{\n  \"schemaVersion\": \"1.0\",\n  \"rootCauseCategory\": \"upstream-timeout\",\n  \"affectedComponents\": [\"checkout-api\"],\n  \"triggerEntities\": [\"inventory-api\"],\n  \"acceptableDiagnoses\": [\n    {\n      \"id\": \"diagnosis-inventory-timeout\",\n      \"text\": \"checkout-api failed while waiting for inventory-api\",\n      \"deterministicTerms\": [\"checkout-api\", \"inventory-api\", \"timeout\"]\n    }\n  ],\n  \"requiredEvidence\": [\"ev-error-001\"],\n  \"acceptableRemediations\": [\"rollback-checkout-v184\", \"restore-inventory-capacity\"]\n}\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 16,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261900383,
+      "completed_at_ms": 1786261900430,
+      "duration_ms": 47
+    },
+    {
+      "role": "assistant",
+      "thinking": "The scorer logic is now clear.\n\nReading another unit test file for style reference."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:15:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/test/unit/canonical.test.ts"
+          },
+          "started_at_ms": 1786261901818,
+          "completed_at_ms": 1786261901910,
+          "duration_ms": 92
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:15:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/test/unit/canonical.test.ts"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "import { mkdtemp, readFile } from \"node:fs/promises\"\nimport { tmpdir } from \"node:os\"\nimport { join } from \"node:path\"\nimport { describe, expect, it } from \"vitest\"\nimport { Effect } from \"effect\"\nimport { atomicWrite, canonicalDigest, canonicalize } from \"../../src/context/Canonicalize.js\"\n\ndescribe(\"canonical artifacts\", () => {\n  it(\"serializes semantically equivalent key orders identically\", () => {\n    expect(canonicalize({ z: 1, a: { y: 2, x: 3 } })).toBe(canonicalize({ a: { x: 3, y: 2 }, z: 1 }))\n  })\n\n  it(\"produces stable digests\", () => {\n    expect(canonicalDigest({ b: true, a: [1, 2] })).toBe(canonicalDigest({ a: [1, 2], b: true }))\n  })\n\n  it(\"changes the digest when semantic data changes\", () => {\n    expect(canonicalDigest({ value: 1 })).not.toBe(canonicalDigest({ value: 2 }))\n  })\n\n  it(\"atomically writes stable UTF-8 bytes\", async () => {\n    const directory = await mkdtemp(join(tmpdir(), \"zeitgeist-canonical-\"))\n    const path = join(directory, \"artifact.json\")\n    await Effect.runPromise(atomicWrite(path, canonicalize({ text: \"Bali ✓\" })))\n    expect(await readFile(path, \"utf8\")).toBe(\"{\\\"text\\\":\\\"Bali ✓\\\"}\\n\")\n  })\n})\n",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 28,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261901818,
+      "completed_at_ms": 1786261901910,
+      "duration_ms": 92
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:16:tool",
+          "tool_name": "read_file",
+          "tool_args": {
+            "target_file": "/workspace/package.json"
+          },
+          "started_at_ms": 1786261901819,
+          "completed_at_ms": 1786261901908,
+          "duration_ms": 89
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:16:tool",
+      "tool_name": "read_file",
+      "tool_args": {
+        "target_file": "/workspace/package.json"
+      },
+      "tool_result": {
+        "resultType": "readFileResult",
+        "value": {
+          "contents": "{\n  \"name\": \"zeitgeist\",\n  \"version\": \"0.0.0-gate0a\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"engines\": {\n    \"node\": \">=24.0.0\"\n  },\n  \"bin\": {\n    \"zeitgeist\": \"./dist/src/cli/root.js\"\n  },\n  \"scripts\": {\n    \"build\": \"tsc -p tsconfig.json\",\n    \"typecheck\": \"tsc -p tsconfig.json --noEmit\",\n    \"test\": \"vitest run\",\n    \"research:exp-001\": \"tsx research/experiments/exp-001-agent-work-profile/runner.ts\",\n    \"research:exp-001:report\": \"tsx research/experiments/exp-001-agent-work-profile/report.ts\",\n    \"research:exp-002:ingest\": \"tsx research/experiments/exp-002-live-trace-validation/ingest.ts\",\n    \"research:exp-002:report\": \"tsx research/experiments/exp-002-live-trace-validation/report.ts\",\n    \"research:exp-003:prepare\": \"tsx research/experiments/exp-003-environment-warmth/prepare-all.ts\",\n    \"research:exp-003:ingest\": \"tsx research/experiments/exp-003-environment-warmth/ingest.ts\",\n    \"research:exp-003:report\": \"tsx research/experiments/exp-003-environment-warmth/report.ts\",\n    \"research:exp-004:ingest\": \"tsx research/experiments/exp-004-time-attribution/ingest.ts\",\n    \"research:exp-004:report\": \"tsx research/experiments/exp-004-time-attribution/report.ts\",\n    \"zeitgeist\": \"tsx src/cli/root.ts\"\n  },\n  \"dependencies\": {\n    \"@effect/cli\": \"0.77.0\",\n    \"@effect/platform\": \"0.97.1\",\n    \"@effect/platform-node\": \"0.108.1\",\n    \"effect\": \"3.22.1\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"24.13.3\",\n    \"@types/ws\": \"8.18.1\",\n    \"tsx\": \"4.23.10\",\n    \"typescript\": \"7.0.2\",\n    \"vitest\": \"4.1.10\"\n  },\n  \"packageManager\": \"pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee\"",
+          "didDowngradeToLineRange": false,
+          "didShortenLineRange": false,
+          "didSetDefaultLineRange": false,
+          "relativeWorkspacePath": "",
+          "didShortenCharRange": false,
+          "totalLines": 42,
+          "matchingCursorRules": []
+        }
+      },
+      "started_at_ms": 1786261901819,
+      "completed_at_ms": 1786261901908,
+      "duration_ms": 89
+    },
+    {
+      "role": "assistant",
+      "thinking": "Creating `test/unit/scorer.test.ts` with minimal inline fixtures for CORRECT, INCORRECT, and NEEDS_HUMAN_ADJUDICATION outcomes.\n\nThe scorer logic shows CORRECT needs all structured fields matched and a deterministic diagnosis. INCORRECT needs both matchedDiagnosis and diagnosis to be absent. The AgentRunResult schema requires finalDiagnosis to be NonEmptyString, which complicates the empty-diagnosis test case.\n\nTypeScript may reject empty strings for the NonEmptyString field. The scorer function accepts AgentRunResult without runtime validation, so the empty-diagnosis test case remains blocked by the schema.\n\nWhitespace-only strings likely still fail the NonEmptyString constraint, so they cannot satisfy the empty-diagnosis requirement for the INCORRECT outcome. The only viable path appears to be a genuine empty string, possibly via type assertion.\n\nThe empty diagnosis for the INCORRECT case will use a type assertion to bypass the NonEmptyString schema constraint. For NEEDS_HUMAN_ADJUDICATION, the plan covers partial diagnosis matches paired with incomplete structured fields, plus non-matching diagnoses with trimmed text. Minimal inline fixtures are being drafted, starting with an ExpectedOutcome object containing schemaVersion and rootCauseCategory.\n\nThe CORRECT fixture mirrors the existing evaluation.test.ts structure. The NEEDS_HUMAN_ADJUDICATION case will use plausible diagnosis text lacking deterministic terms, or a correct diagnosis paired with mismatched structured fields."
+    },
+    {
+      "role": "assistant",
+      "text": "Creating `test/unit/scorer.test.ts` with minimal inline fixtures for all three score outcomes.\n"
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:19:tool",
+          "tool_name": "search_replace",
+          "started_at_ms": 1786261907033,
+          "completed_at_ms": 1786261907097,
+          "duration_ms": 64
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:19:tool",
+      "tool_name": "search_replace",
+      "tool_result": {
+        "resultType": "editFileResult",
+        "value": {
+          "diff": {
+            "chunks": [
+              {
+                "diffString": "--- /dev/null\n+++ b//workspace/test/unit/scorer.test.ts\n@@ -1,0 +1,77 @@\n+import { describe, expect, it } from \"vitest\"\n+import type { AgentRunResult } from \"../../src/domain/EvaluationResult.js\"\n+import type { ExpectedOutcome } from \"../../src/domain/ExpectedOutcome.js\"\n+import { scoreAgentResult } from \"../../src/eval/Scorer.js\"\n+\n+const expected: ExpectedOutcome = {\n+  schemaVersion: \"1.0\",\n+  rootCauseCategory: \"upstream-timeout\",\n+  affectedComponents: [\"checkout-api\"],\n+  triggerEntities: [\"inventory-api\"],\n+  acceptableDiagnoses: [\n+    {\n+      id: \"diagnosis-inventory-timeout\",\n+      text: \"checkout-api failed while waiting for inventory-api\",\n+      deterministicTerms: [\"checkout-api\", \"inventory-api\", \"timeout\"]\n+    }\n+  ],\n+  requiredEvidence: [\"ev-error-001\"],\n+  acceptableRemediations: [\"rollback-checkout-v184\"]\n+}\n+\n+describe(\"scoreAgentResult\", () => {\n+  it(\"scores a fully matching structured result as CORRECT\", () => {\n+    const result: AgentRunResult = {\n+      finalDiagnosis: \"checkout-api experienced an inventory-api timeout\",\n+      rootCauseCategory: \"upstream-timeout\",\n+      affectedComponents: [\"checkout-api\"],\n+      triggerEntities: [\"inventory-api\"],\n+      citedEvidenceIds: [\"ev-error-001\"],\n+      remediationIds: [\"rollback-checkout-v184\"]\n+    }\n+\n+    const score = scoreAgentResult(result, expected)\n+\n+    expect(score.status).toBe(\"CORRECT\")\n+    expect(score.matchedDiagnosisId).toBe(\"diagnosis-inventory-timeout\")\n+    expect(score.rootCauseCategoryMatch).toBe(true)\n+    expect(score.affectedComponentsMatch).toBe(true)\n+    expect(score.triggerEntitiesMatch).toBe(true)\n+    expect(score.requiredEvidenceMatch).toBe(true)\n+    expect(score.remediationMatch).toBe(true)\n+  })\n+\n+  it(\"scores an empty diagnosis with no structured match as INCORRECT\", () => {\n+    const result = { finalDiagnosis: \"\" } as AgentRunResult\n+\n+    const score = scoreAgentResult(result, expected)\n+\n+    expect(score.status).toBe(\"INCORRECT\")\n+    expect(score.matchedDiagnosisId).toBeNull()\n+  })\n+\n+  it(\"requires human adjudication when diagnosis text is plausible but non-deterministic\", () => {\n+    const result: AgentRunResult = {\n+      finalDiagnosis: \"An upstream became slow\"\n+    }\n+\n+    const score = scoreAgentResult(result, expected)\n+\n+    expect(score.status).toBe(\"NEEDS_HUMAN_ADJUDICATION\")\n+    expect(score.matchedDiagnosisId).toBeNull()\n+    expect(score.rootCauseCategoryMatch).toBe(false)\n+  })\n+\n+  it(\"requires human adjudication when diagnosis matches but structured fields are incomplete\", () => {\n+    const result: AgentRunResult = {\n+      finalDiagnosis: \"checkout-api timeout waiting on inventory-api\",\n+      rootCauseCategory: \"upstream-timeout\"\n+    }\n+\n+    const score = scoreAgentResult(result, expected)\n+\n+    expect(score.status).toBe(\"NEEDS_HUMAN_ADJUDICATION\")\n+    expect(score.matchedDiagnosisId).toBe(\"diagnosis-inventory-timeout\")\n+    expect(score.affectedComponentsMatch).toBe(false)\n+  })\n+})",
+                "oldStart": 0,
+                "newStart": 0,
+                "oldLines": 0,
+                "newLines": 0,
+                "linesRemoved": 0,
+                "linesAdded": 77
+              }
+            ],
+            "editor": "EDITOR_AI",
+            "hitTimeout": false
+          },
+          "isApplied": true,
+          "applyFailed": false,
+          "linterErrors": []
+        }
+      },
+      "started_at_ms": 1786261907033,
+      "completed_at_ms": 1786261907097,
+      "duration_ms": 64
+    },
+    {
+      "role": "assistant",
+      "thinking": "Running pnpm test to verify the scorer unit tests."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:21:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && pnpm test",
+            "is_background": false
+          },
+          "started_at_ms": 1786261908386,
+          "completed_at_ms": 1786261914309,
+          "duration_ms": 5923
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:21:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && pnpm test",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "[WARN] Unsupported engine: wanted: {\"node\":\">=24.0.0\"} (current: {\"node\":\"v22.14.0\",\"pnpm\":\"11.20.0\"})\n? Verifying lockfile against supply-chain policies (170 entries)...\nLockfile is up to date, resolution step is skipped\nProgress: resolved 1, reused 0, downloaded 0, added 0\nPackages: +86\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nPackages are hard linked from the content-addressable store to the virtual store.\n  Content-addressable store is at: /home/ubuntu/.local/share/pnpm/store/v11\n  Virtual store is at:             node_modules/.pnpm\nProgress: resolved 86, reused 0, downloaded 85, added 20\nProgress: resolved 86, reused 0, downloaded 86, added 86, done\n✓ Lockfile passes supply-chain policies (170 entries in 1.5s)\n.../esbuild@0.28.1/node_modules/esbuild postinstall$ node install.js\n.../esbuild@0.28.1/node_modules/esbuild postinstall: Done\n\ndependencies:\n+ @effect/cli 0.77.0\n+ @effect/platform 0.97.1\n+ @effect/platform-node 0.108.1\n+ effect 3.22.1\n\ndevDependencies:\n+ @types/node 24.13.3\n+ @types/ws 8.18.1\n+ tsx 4.23.10\n+ typescript 7.0.2\n+ vitest 4.1.10\n\nDone in 2.1s using pnpm v11.20.0\n[WARN] Unsupported engine: wanted: {\"node\":\">=24.0.0\"} (current: {\"node\":\"v22.14.0\",\"pnpm\":\"11.20.0\"})\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  11 passed (11)\n      Tests  55 passed (55)\n   Start at  07:51:52\n   Duration  1.55s (transform 315ms, setup 0ms, import 3.11s, tests 252ms, environment 1ms)\n\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261908386,
+      "completed_at_ms": 1786261914309,
+      "duration_ms": 5923
+    },
+    {
+      "role": "assistant",
+      "thinking": "All tests passed. Committed the scorer tests under \"exp-004: real-alpha-scorer-tests\" and pushed."
+    },
+    {
+      "role": "assistant",
+      "text": "All tests passed. Committing and pushing.\n"
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:24:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && git add test/unit/scorer.test.ts && git commit -m \"exp-004: real-alpha-scorer-tests\" && git push -u origin cursor/exp-004-time-attribution-1db1",
+            "is_background": false
+          },
+          "started_at_ms": 1786261916293,
+          "completed_at_ms": 1786261916701,
+          "duration_ms": 408
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:24:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && git add test/unit/scorer.test.ts && git commit -m \"exp-004: real-alpha-scorer-tests\" && git push -u origin cursor/exp-004-time-attribution-1db1",
+        "is_background": false
+      },
+      "started_at_ms": 1786261916293,
+      "completed_at_ms": 1786261916701,
+      "duration_ms": 408
+    },
+    {
+      "role": "assistant",
+      "thinking": "Pulling and rebasing before pushing again."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:26:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && git pull --rebase origin cursor/exp-004-time-attribution-1db1 && git push -u origin cursor/exp-004-time-attribution-1db1",
+            "is_background": false
+          },
+          "started_at_ms": 1786261917925,
+          "completed_at_ms": 1786261920651,
+          "duration_ms": 2726
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:26:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && git pull --rebase origin cursor/exp-004-time-attribution-1db1 && git push -u origin cursor/exp-004-time-attribution-1db1",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "branch 'cursor/exp-004-time-attribution-1db1' set up to track 'origin/cursor/exp-004-time-attribution-1db1'.\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261917925,
+      "completed_at_ms": 1786261920651,
+      "duration_ms": 2726
+    },
+    {
+      "role": "assistant",
+      "thinking": "The commit hash may have changed because the branch was rebased."
+    },
+    {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "tool_call_id": "turn-0:step:28:tool",
+          "tool_name": "run_terminal_cmd",
+          "tool_args": {
+            "command": "cd /workspace && git rev-parse HEAD",
+            "is_background": false
+          },
+          "started_at_ms": 1786261922447,
+          "completed_at_ms": 1786261922583,
+          "duration_ms": 136
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "turn-0:step:28:tool",
+      "tool_name": "run_terminal_cmd",
+      "tool_args": {
+        "command": "cd /workspace && git rev-parse HEAD",
+        "is_background": false
+      },
+      "tool_result": {
+        "resultType": "runTerminalCommandV2Result",
+        "value": {
+          "output": "0c59999be9880168044ffba8c02e5db6e4c383a8\n",
+          "exitCode": 0,
+          "poppedOutIntoBackground": false,
+          "isRunningInBackground": false,
+          "notInterrupted": false,
+          "resultingWorkingDirectory": "",
+          "didUserChange": false,
+          "endedReason": "RUN_TERMINAL_COMMAND_ENDED_REASON_UNSPECIFIED",
+          "outputRaw": ""
+        }
+      },
+      "started_at_ms": 1786261922447,
+      "completed_at_ms": 1786261922583,
+      "duration_ms": 136
+    },
+    {
+      "role": "assistant",
+      "thinking": "All required information for the summary has been gathered."
+    },
+    {
+      "role": "assistant",
+      "text": "**Tests passed:** yes (55/55)\n\n**Commit:** `0c59999be9880168044ffba8c02e5db6e4c383a8`\n\n**Summary:** Added `test/unit/scorer.test.ts` with four unit tests for `scoreAgentResult` using minimal inline fixtures. They cover:\n- **CORRECT** — full structured match plus deterministic diagnosis terms\n- **INCORRECT** — empty diagnosis with no structured match\n- **NEEDS_HUMAN_ADJUDICATION** — plausible non-deterministic text, and diagnosis match with incomplete structured fields"
+    }
+  ]
+}

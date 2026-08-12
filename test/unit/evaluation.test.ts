@@ -10,7 +10,7 @@ import { makeExperimentInput, runSingleEvaluation } from "../../src/eval/Evaluat
 import { makeFakeRunner } from "../../src/eval/AgentRunner.js"
 import { createRunIdentity } from "../../src/eval/RunIdentity.js"
 import { scoreAgentResult } from "../../src/eval/Scorer.js"
-import { buildReport } from "../../src/eval/Report.js"
+import { buildReport, renderReportMarkdown, type EvaluationReport } from "../../src/eval/Report.js"
 
 const load = async <A, I>(name: string, schema: Schema.Schema<A, I>): Promise<A> => {
   const raw = JSON.parse(await readFile(new URL(`../../fixtures/synthetic-example/${name}`, import.meta.url), "utf8")) as unknown
@@ -78,6 +78,64 @@ describe("evaluation core", () => {
     const loaded = await dataset()
     const runner = makeFakeRunner("fake-v1", () => correctResult)
     const result = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
-    expect(buildReport([result])).toEqual(buildReport([result]))
+    const first = buildReport([result])
+    const second = buildReport([result])
+    expect({ ...first, generatedAt: null }).toEqual({ ...second, generatedAt: null })
+    expect(first.generatedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+  })
+
+  it("renders total evaluations as the sum of control and manual-context runs", async () => {
+    const loaded = await dataset()
+    const runner = makeFakeRunner("fake-v1", () => correctResult)
+    const control = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
+    const manualContext = await Effect.runPromise(runSingleEvaluation(loaded, "MANUAL_CONTEXT", 0, runner, {}))
+    const report = buildReport([control, manualContext])
+    const markdown = renderReportMarkdown(report)
+    expect(markdown).toContain(`Total evaluations: ${report.control.runCount + report.manualContext.runCount}`)
+  })
+
+  it("uses a configurable minimum incident count for completeness", async () => {
+    const loaded = await dataset()
+    const runner = makeFakeRunner("fake-v1", () => correctResult)
+    const result = await Effect.runPromise(runSingleEvaluation(loaded, "CONTROL", 0, runner, {}))
+    expect(buildReport([result]).completenessReasons).toContain("Fewer than 10 distinct real incident results")
+    expect(buildReport([result], { minIncidents: 0 }).completenessReasons).not.toContain(
+      "Fewer than 0 distinct real incident results"
+    )
+    expect(buildReport([result], { minIncidents: 1 }).completenessReasons).toContain(
+      "Fewer than 1 distinct real incident results"
+    )
+  })
+
+  it("shows needs human adjudication counts in report markdown", () => {
+    const emptyMetrics = {
+      runCount: 0,
+      correctCount: 0,
+      needsHumanAdjudicationCount: 0,
+      diagnosticAccuracy: null,
+      medianDurationMs: null,
+      medianTimeToCorrectHypothesisMs: null,
+      medianToolCalls: null,
+      medianTotalTokens: null,
+      medianHumanInterventions: null,
+      medianFalseHighConfidenceHypotheses: null,
+      missingMetrics: []
+    }
+    const report: EvaluationReport = {
+      schemaVersion: "1.0",
+      generatedFrom: "results.jsonl",
+      generatedAt: "2026-08-09T08:00:00.000Z",
+      experimentStatus: "INCOMPLETE",
+      completenessReasons: [],
+      distinctResearchIncidents: 0,
+      control: { ...emptyMetrics, runCount: 3, needsHumanAdjudicationCount: 2 },
+      manualContext: { ...emptyMetrics, runCount: 3, needsHumanAdjudicationCount: 1 },
+      comparisons: { medianToolCallReduction: null, medianTimeToCorrectHypothesisReduction: null }
+    }
+    const markdown = renderReportMarkdown(report)
+    expect(markdown).toContain("## Control")
+    expect(markdown).toContain("- Needs human adjudication: 2")
+    expect(markdown).toContain("## Manual context")
+    expect(markdown).toContain("- Needs human adjudication: 1")
   })
 })

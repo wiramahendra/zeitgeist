@@ -1,0 +1,38 @@
+{
+  "taskId": "fail-lambda-orphan-timeline-evidence",
+  "taskClass": "cross_module_miss",
+  "acceptanceCriteria": [
+    {
+      "id": "hidden_acceptance",
+      "description": "Hidden acceptance test file passes"
+    }
+  ],
+  "hiddenCheckCommand": [
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "test/research/exp-005-acceptance/fail-lambda-orphan-timeline-evidence.test.ts"
+  ],
+  "fullVerificationCommand": [
+    "pnpm",
+    "test",
+    "&&",
+    "pnpm",
+    "typecheck"
+  ],
+  "expectedComponents": [
+    "src/context/ContextValidator.ts"
+  ],
+  "forbiddenPathPatterns": [
+    "^research/results/exp-005/raw",
+    "^node_modules/"
+  ],
+  "scopeBoundaries": [
+    "Modify only repository source/tests required by the task"
+  ],
+  "repositoryInvariants": [
+    "pnpm test and pnpm typecheck must pass on success",
+    "No weakening of unrelated tests"
+  ]
+}

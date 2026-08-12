@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0",
+  "taskSetId": "exp-002-live-v1",
+  "taskSetVersion": "1.0.0",
+  "frozenAtCommit": "TO_BE_RECORDED_AT_RUN",
+  "tasks": [
+    {
+      "taskId": "live-alpha-ratio",
+      "taskClass": "bug_fix",
+      "title": "Fix zero denominator crash in computeRatio",
+      "description": "In research/workloads/exp-002-live/alpha, computeRatio throws when the denominator is zero. Fix it to return null instead of throwing, and make the existing tests pass.",
+      "workspacePath": "research/workloads/exp-002-live/alpha"
+    },
+    {
+      "taskId": "live-beta-label",
+      "taskClass": "feature_addition",
+      "title": "Implement formatLabel helper",
+      "description": "In research/workloads/exp-002-live/beta, implement formatLabel so it returns '[label]: value' for non-empty labels and only the value when the label is empty. The tests describe the expected behavior.",
+      "workspacePath": "research/workloads/exp-002-live/beta"
+    },
+    {
+      "taskId": "live-gamma-parser",
+      "taskClass": "refactor",
+      "title": "Extract parseLine helper",
+      "description": "In research/workloads/exp-002-live/gamma, extract line parsing into a dedicated parseLine helper without changing parseDocument output for any input.",
+      "workspacePath": "research/workloads/exp-002-live/gamma"
+    },
+    {
+      "taskId": "live-delta-slug",
+      "taskClass": "test_addition",
+      "title": "Add slugify edge-case tests",
+      "description": "In research/workloads/exp-002-live/delta, add unit tests for slugify covering empty input and consecutive separators. Do not change slugify behavior.",
+      "workspacePath": "research/workloads/exp-002-live/delta"
+    },
+    {
+      "taskId": "live-epsilon-name",
+      "taskClass": "validation_change",
+      "title": "Reject whitespace-only names",
+      "description": "In research/workloads/exp-002-live/epsilon, tighten validateName so whitespace-only strings are rejected. Update or add tests as needed.",
+      "workspacePath": "research/workloads/exp-002-live/epsilon"
+    }
+  ]
+}

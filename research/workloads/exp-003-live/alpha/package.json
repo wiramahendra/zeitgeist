@@ -1,0 +1,7 @@
+{
+  "name": "exp-003-live-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "vitest run" },
+  "devDependencies": { "typescript": "7.0.2", "vitest": "4.1.10" }
+}
